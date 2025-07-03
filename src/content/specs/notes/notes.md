@@ -236,7 +236,7 @@ Let’s look at an example: the following rules result in the placement of the n
 }
 ```
 
-![notes_margin-box](/images/25477334/81831445-a579fb80-953d-11ea-9a59-d9f00271cd9d.png)
+![notes_margin-box](/images/81831445-a579fb80-953d-11ea-9a59-d9f00271cd9d.png)
 
  **ISSUE 1**: In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), the default value of the second argument of the `element()` function is `first`. However, when notes are created from the `note()`function, this should be the value `all-once`by default. How do you indicate this? 
 
@@ -367,7 +367,7 @@ notes {
 }
 ```
 
-![notes_note-area-1](/images/25477334/81831585-d1957c80-953d-11ea-938d-9f6ce8ca6bd4.png "some images showing some locations for the notes")
+![notes_note-area-1](/images/81831585-d1957c80-953d-11ea-938d-9f6ce8ca6bd4.png)
 
 #### Example 4
 
@@ -389,7 +389,7 @@ notes {
 }
 
 ```
-![notes_note-area-2](/images/25477334/81831630-dfe39880-953d-11ea-89c4-4873cc7c72e9.png "this is a caption right") 
+![notes_note-area-2](/images/81831630-dfe39880-953d-11ea-89c4-4873cc7c72e9.png) 
 
 ### Multiple notes areas in a page
 
@@ -424,7 +424,7 @@ note.refs-catB {
     position: note(refsB);
 }
 ```
-![An example of CSS for multiple types of notes](/images/25477334/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "")
+![An example of CSS for multiple types of notes](/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "")
 
 
 
@@ -456,7 +456,7 @@ note.footnotes {
 }
 ```
 
-![notes_multiple-1](/images/25477334/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png)
+![notes_multiple-1](/images/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png)
 
 **ISSUE 3**: This requires the creation of a new algorithm to avoid the overlapping of notes.
 
@@ -512,7 +512,7 @@ note.footnote {
 }
 ```
 
-![notes_footnote](/images/25477334/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png)
+![notes_footnote](/images/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png)
 
 This would have the exact same behavior when using the following declarations:
 
