@@ -1,0 +1,25 @@
+{% extends "base.njk" %}
+{% block scripts %}
+    <script class="remove">
+      let respecConfig = {
+        editors: [{% for ed in editors  %} 
+          {name: "{{ed.name}}", 
+          url: "{{ed.url}}" }{%if not loop.last%},{%- endif -%}
+          {%- endfor %}],
+        authors: [{% for author in authors  %} 
+          {name: "{{author.name}}", 
+          url: "{{author.url}}" }{%if not loop.last%},{%- endif -%}
+          {%- endfor %}],
+        github: "{{github.url}}",
+        shortName: "{{shortname}}",
+        xref: "web-platform",
+        group: "{{workinggroup}}",
+        specStatus: "{{status}}",
+        shortName: "{{shortName}}"
+      };
+    </script>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+{% endblock scripts %}
+{% block content %}
+    {{ content | safe }}
+{% endblock content %}

@@ -1,0 +1,5 @@
+{
+  "permalink": "/specs/{{title | slug}}/",
+  "layout": "specs/specs-single.njk",
+  "status": "unofficial"
+}
