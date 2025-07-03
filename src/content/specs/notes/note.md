@@ -424,7 +424,7 @@ note.refs-catB {
     position: note(refsB);
 }
 ```
-![notes_multiple-2](/images/25477334/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png)
+![An example of CSS for multiple types of notes](/images/25477334/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "")
 
 
 

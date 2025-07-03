@@ -1,10 +1,8 @@
 ---
 permalink: /
 layout: "pages/home.njk"
-title: CSS print labs
+title: CSS Print Labs Specifications 
 ---
-
-Here are all the things
 
 
 

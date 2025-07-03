@@ -1,9 +1,9 @@
 {% block script %}
     <script src="https://www.w3.org/Tools/respec/respec-w3c"></script>
-    //config for the spec, load from the json
+    {# //config for the spec, load from the json #}
 {% endblock script %}
 {% block content %}
-    <h1>css prints labs specs</h1>
+    <h1>{{ title }}</h1>
     <ul>
         {% for spec in collections.specs %}
             <li>
