@@ -1,14 +1,2 @@
-
-
-- features:
-  figure: `![alt / caption?](https://imagelink)`
-
----aside{class, id, data-...}
-
----figure
-![img](image  url)
-caption
----
-
-
+The website with the specs from the css print lab folks. 
 
