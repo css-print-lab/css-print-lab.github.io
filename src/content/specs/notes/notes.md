@@ -100,7 +100,7 @@ This code also creates the special [footnote counter](https://www.w3.org/TR/css-
 
 In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), there is this issue:
 
-> Issue 2: Why is `float: bottom` used with the footnote area? Floating footnotes to the footnote area, and then floating the footnote area itself, seems overly complex, given that implementations don’t allow the footnote area to float anywhere else. Note that some implementations do allow the footnote area to be absolutely positioned. (https://www.w3.org/TR/css-gcpm-3/)
+> Issue: Why is `float: bottom` used with the footnote area? Floating footnotes to the footnote area, and then floating the footnote area itself, seems overly complex, given that implementations don’t allow the footnote area to float anywhere else. Note that some implementations do allow the footnote area to be absolutely positioned. (https://www.w3.org/TR/css-gcpm-3/)
 
 We agree that unsing double float declaration is complex. But a mechanism is needed to move the note element into a specific area of the page or the document. To do this, we can take inspiration from a mechanism already present in the draft of the paged media specifications, the [running element](https://www.w3.org/TR/css-gcpm-3/#running-elements): by adding the `position: running()` declaration, we can remove an element from the flow to reuse it in multiple places, perfect for the running heads of a book for example.
 
@@ -202,7 +202,7 @@ In addition to that, the `element()` function can be used not only in margin box
 #### Example 1: notes in page note area
 
 ```css
-.note {
+note.note {
     position: note(<custom-ident>);
 }
 
@@ -229,7 +229,7 @@ Let’s look at an example: the following rules result in the placement of the n
     }
 }
 
-.sidenote {
+note.sidenote {
     position: note(sidenote);
     margin-bottom: 10px;
     text-align: left;
@@ -238,9 +238,11 @@ Let’s look at an example: the following rules result in the placement of the n
 
 ![notes_margin-box](/images/81831445-a579fb80-953d-11ea-9a59-d9f00271cd9d.png)
 
- **ISSUE 1**: In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), the default value of the second argument of the `element()` function is `first`. However, when notes are created from the `note()`function, this should be the value `all-once`by default. How do you indicate this? 
+ **ISSUE**: In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), the default value of the second argument of the `element()` function is `first`. However, when notes are created from the `note()`function, this should be the value `all-once`by default. How do you indicate this? 
 
-**ISSUE 2**: If the other arguments of the function `element()` are declared (`first`, `first-except`, `last`, `start`), what does that do for the note elements? 
+**ISSUE**: If the other arguments of the function `element()` are declared (`first`, `first-except`, `last`, `start`), what does that do for the note elements? 
+
+**ISSUE**: If too complicated, why not simply remove `all-once` from `element()` when used with notes?
 
 
  ### The note counter
@@ -303,6 +305,8 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 
 ```
 
+**ISSUE** Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print... Thoughts?
+
 ### The ::note-callback pseudo element
 
 The `::note-callback` pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated `::note-call`.  It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link. 
@@ -362,7 +366,7 @@ Using float on the page and negative margins can be helpful in creating note are
     }
 }
 
-notes {
+note.sidenote {
     position: note(sidenotes)
 }
 ```
@@ -375,16 +379,16 @@ Since a note area is a box, it's possible to layout the area itself (with column
 
 ```css
 @page {
-    @note {
+    @note-area {
         content: element(notes, all-once)
         float: bottom right;
-        page-reference: float;
+        float-reference: page;
         width: 50%;
         columns: 2;
     }
 }
 
-notes {
+note.notes {
     position: note(notes);
 }
 
@@ -400,14 +404,14 @@ There are already a lot of use cases in critical editions where you can find mul
 
 ```css
 @page {
-    @note refsA {
+    @note-area refsA {
         content: element(refsA, all-once);
         float: bottom left;
         float-reference: page;
         width: 30mm;
         margin-left: -12mm;
     }
-    @note refsB {
+    @note-area refsB {
         content: element(refsB, all-once);
         float: bottom right;
         float-reference: page;
@@ -458,7 +462,7 @@ note.footnotes {
 
 ![notes_multiple-1](/images/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png)
 
-**ISSUE 3**: This requires the creation of a new algorithm to avoid the overlapping of notes.
+**ISSUE**: This requires the creation of a new algorithm to avoid the overlapping of notes.
 
 
 ### Notes for multi-column layout
@@ -551,7 +555,7 @@ note {
 }
 
 section::note-area {
-    content: note(chapterNotes);
+    content: element(chapterNotes);
 }
 ```
 
