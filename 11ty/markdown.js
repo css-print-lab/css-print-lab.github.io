@@ -5,6 +5,8 @@ import pluginTOC from "eleventy-plugin-nesting-toc";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import markdownItImplicitFigures from "markdown-it-implicit-figures";
 
+//markdown custom for specs
+
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight);
   const markdown = markdownIt({

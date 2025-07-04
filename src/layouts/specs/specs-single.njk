@@ -21,5 +21,7 @@
     <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
 {% endblock scripts %}
 {% block content %}
+    <h1 id="title">{{ title }}</h1>
+    {% if subtitle -%}<h2 id="subtitle">{{ subtitle }}</h2>{% endif %}
     {{ content | safe }}
 {% endblock content %}

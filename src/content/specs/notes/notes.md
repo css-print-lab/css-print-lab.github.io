@@ -1,6 +1,6 @@
 ---
 title: "Notes in css Print"
-subtile: nope
+subtitle: Handling footnotes and alike in CSS print
 status: unofficial 
 version: 0.1
 shortName: "printnotes"
