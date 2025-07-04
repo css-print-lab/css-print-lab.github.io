@@ -472,7 +472,8 @@ note.refs-catB {
 
 #### Example 6
 
-In this example, we add a new value `line` to the `float-reference` property. This allows creation of marginal notes, i.e., notes paced to one side of the text, with the first line at the same height of the flow that contains the note-call.
+In this example, we use `inline` value of the `float-reference` property. This allows the creation of marginal notes, i.e., notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.
+
 
 ```css
 @page {
@@ -488,7 +489,7 @@ In this example, we add a new value `line` to the `float-reference` property. Th
 
 note.refs {
     position: note(refs);
-    float-reference: line; 
+    float-reference: inline; 
     width: 50mm;
     padding-left: 50mm:
 }
