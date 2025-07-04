@@ -19,7 +19,7 @@ authors:
 
    - name: Julie Blanc
      url:
-     company: weasyprint
+     company: 
      mailto: 
      note: 
 
@@ -30,8 +30,8 @@ authors:
      note: 
 
 editors: 
-   - name: Lucie Anglade
-     company: weasyprint
+   - name: Julie Blanc
+     company: 
 ---
 
 
