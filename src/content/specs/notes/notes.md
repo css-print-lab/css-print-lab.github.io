@@ -5,32 +5,32 @@ status: unofficial
 version: 0.1
 shortName: "printnotes"
 authors: 
-   - name: Lucie Anglade
+   - name: Lucie Anglade (@grewn0uille)
      url:
      company: weasyprint
      mailto: 
      note: 
 
-   - name: Guillaume Ayoub
+   - name: Guillaume Ayoub (@liZe)
      url:
      company: weasyprint
      mailto: 
      note: 
 
-   - name: Julie Blanc
+   - name: Julie Blanc (@JulieBlanc)
      url:
      company: 
      mailto: 
      note: 
 
-   - name: Julien Taquet
+   - name: Julien Taquet (@julientaq)
      url:
      company: 
      mailto: 
      note: 
 
 editors: 
-   - name: Julie Blanc
+   - name: Julie Blanc (@JulieBlanc)
      company: 
 ---
 
@@ -38,7 +38,7 @@ editors:
 
 ## Abstract 
 
-This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. The initiative comes from the [Paged.js](https://pagedjs.org/) team (@julientaq, @JulieBlanc) and the [WeasyPrint](https://weasyprint.org/) team (@grewn0uille, @liZe), as part of the [CSS Print Lab](https://github.com/css-print-lab) project, supported by [NLnet](https://nlnet.nl/commonsfund/).
+This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. The initiative comes from the [Paged.js](https://pagedjs.org/) team ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)), as part of the [CSS Print Lab](https://github.com/css-print-lab) project, supported by [NLnet](https://nlnet.nl/commonsfund/).
 
 This draft is based on: 
 
