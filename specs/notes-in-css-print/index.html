@@ -289,7 +289,40 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <section id="positioning-schemes-of-note-area" tabindex="-1">
 <h3 tabindex="-1">Positioning schemes of note area</h3>
 <p>Any of the CSS layout facilities can be used to create, position and size note areas: float, absolute positioning, grid, exclusion, etc.</p>
-<p><a href="https://www.w3.org/TR/css-page-floats-3/">CSS Page float</a> add some values to the <code>float</code> property to positioning element in a page context and propose the <a href="https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference"> <code>float-reference</code> property</a> to indicate the &quot;reference container&quot; for a floated element. We will make extensive use of these properties in the following examples</p>
+<section id="about-float-and-float-reference" tabindex="-1">
+<h4 tabindex="-1">About <code>float</code> and <code>float-reference</code></h4>
+<p><a href="https://www.w3.org/TR/css-page-floats-3/">CSS Page float</a> add some values to the <code>float</code> property to positioning element in a page context and propose the <a href="https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference"> <code>float-reference</code> property</a> to indicate the &quot;reference container&quot; for a floated element. We will make extensive use of these properties in the following examples.</p>
+<section id="the-float-reference-property" tabindex="-1">
+<h5 tabindex="-1">The <code>float-reference</code> property</h5>
+<blockquote>
+<p>Name:	<code>float-reference</code><br>
+Value: inline | column | region | page<br>
+(...)</p>
+<p><code>inline</code><br>
+The float reference is the line box of the float anchor. (...)</p>
+<p><code>column</code><br>
+The float reference is the column in a multi column environment in which the float anchor is placed.</p>
+<p><code>region</code><br>
+The float reference is the region in a region-chain within which the float anchor is placed. (...)</p>
+<p><code>page</code><br>
+The float reference of the float is the page within which the float anchor is placed. (...)</p>
+</blockquote>
+</section>
+<section id="extentions-of-the-float-property" tabindex="-1">
+<h5 tabindex="-1">Extentions of the <code>float</code> property</h5>
+<blockquote>
+<p>Name:	<code>float</code><br>
+Value: left | right | top | bottom</p>
+</blockquote>
+<p>Values can be added together:</p>
+<pre><code>float: top right;
+</code></pre>
+<p><strong>ISSUE</strong>: Further definitions and examples are required to block-start | block-end | inline-start | inline-end | snap-block | snap-inline | none</p>
+<p><strong>ISSUE</strong>: Does the <code>clear</code> property can work with this propoal ?</p>
+</section>
+</section>
+<section id="default-values" tabindex="-1">
+<h4 tabindex="-1">Default values</h4>
 <p>Default values of properties for <code>@note-area</code>:</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
     <span class="token property">float</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
@@ -297,6 +330,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
     <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
     <span class="token property">max-height</span><span class="token punctuation">:</span> 80%<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
+</section>
 <section id="example-3" tabindex="-1">
 <h4 tabindex="-1">Example 3</h4>
 <p>Using float on the page and negative margins can be helpful in creating note area half on merge, half on text content.</p>
