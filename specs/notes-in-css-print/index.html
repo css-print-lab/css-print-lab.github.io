@@ -107,7 +107,7 @@ span.footnote {
 <p>This code also creates the special <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-counters">footnote counter</a> and special pseudo-elements for <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-call">footnote calls</a> (<code>::footnote-call</code>) and <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-marker">footnote markers</a> (<code>::footnote-marker</code>). The position, size and styles of the footnote area are defined by the <code>@footnote</code> declaration. The specification does not set precise limits, <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-area">only a couple of paragraphs and a lot of issues and unanswered questions</a>. The advantage is that <strong>we can do many proposals without conflicting with the current specifications.</strong></p>
 <p>In <a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a>, there is this issue:</p>
 <blockquote>
-<p>Issue 2: Why is <code>float: bottom</code> used with the footnote area? Floating footnotes to the footnote area, and then floating the footnote area itself, seems overly complex, given that implementations don’t allow the footnote area to float anywhere else. Note that some implementations do allow the footnote area to be absolutely positioned. (<a href="https://www.w3.org/TR/css-gcpm-3/">https://www.w3.org/TR/css-gcpm-3/</a>)</p>
+<p>Issue: Why is <code>float: bottom</code> used with the footnote area? Floating footnotes to the footnote area, and then floating the footnote area itself, seems overly complex, given that implementations don’t allow the footnote area to float anywhere else. Note that some implementations do allow the footnote area to be absolutely positioned. (<a href="https://www.w3.org/TR/css-gcpm-3/">https://www.w3.org/TR/css-gcpm-3/</a>)</p>
 </blockquote>
 <p>We agree that unsing double float declaration is complex. But a mechanism is needed to move the note element into a specific area of the page or the document. To do this, we can take inspiration from a mechanism already present in the draft of the paged media specifications, the <a href="https://www.w3.org/TR/css-gcpm-3/#running-elements">running element</a>: by adding the <code>position: running()</code> declaration, we can remove an element from the flow to reuse it in multiple places, perfect for the running heads of a book for example.</p>
 <p>For the notes, we’d like to propose a new way to create and place notes, based on new values (<code>notes()</code> and <code>element()</code>) for properties already in the CSS specifications (<code>position</code> and <code>content</code>).</p>
@@ -194,7 +194,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 </section>
 <section id="example-1%3A-notes-in-page-note-area" tabindex="-1">
 <h4 tabindex="-1">Example 1: notes in page note area</h4>
-<pre class="language-css"><code class="language-css"><span class="token selector">.note</span> <span class="token punctuation">{</span>
+<pre class="language-css"><code class="language-css"><span class="token selector">note.note</span> <span class="token punctuation">{</span>
     <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>&lt;custom-ident><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
@@ -216,14 +216,15 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-<span class="token selector">.sidenote</span> <span class="token punctuation">{</span>
+<span class="token selector">note.sidenote</span> <span class="token punctuation">{</span>
     <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenote<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
     <span class="token property">text-align</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831445-a579fb80-953d-11ea-9a59-d9f00271cd9d.png" alt="notes_margin-box"></figure>
-<p><strong>ISSUE 1</strong>: In <a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a>, the default value of the second argument of the <code>element()</code> function is <code>first</code>. However, when notes are created from the <code>note()</code>function, this should be the value <code>all-once</code>by default. How do you indicate this?</p>
-<p><strong>ISSUE 2</strong>: If the other arguments of the function <code>element()</code> are declared (<code>first</code>, <code>first-except</code>, <code>last</code>, <code>start</code>), what does that do for the note elements?</p>
+<p><strong>ISSUE</strong>: In <a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a>, the default value of the second argument of the <code>element()</code> function is <code>first</code>. However, when notes are created from the <code>note()</code>function, this should be the value <code>all-once</code>by default. How do you indicate this?</p>
+<p><strong>ISSUE</strong>: If the other arguments of the function <code>element()</code> are declared (<code>first</code>, <code>first-except</code>, <code>last</code>, <code>start</code>), what does that do for the note elements?</p>
+<p><strong>ISSUE</strong>: If too complicated, why not simply remove <code>all-once</code> from <code>element()</code> when used with notes?</p>
 </section>
 </section>
 <section id="the-note-counter" tabindex="-1">
@@ -263,6 +264,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
     <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>note<span class="token punctuation">)</span> <span class="token string">'. '</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<p><strong>ISSUE</strong> Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print... Thoughts?</p>
 </section>
 <section id="the-%3A%3Anote-callback-pseudo-element" tabindex="-1">
 <h3 tabindex="-1">The ::note-callback pseudo element</h3>
@@ -308,7 +310,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-<span class="token selector">notes</span> <span class="token punctuation">{</span>
+<span class="token selector">note.sidenote</span> <span class="token punctuation">{</span>
     <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831585-d1957c80-953d-11ea-938d-9f6ce8ca6bd4.png" alt="notes_note-area-1"></figure>
@@ -317,16 +319,16 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <h4 tabindex="-1">Example 4</h4>
 <p>Since a note area is a box, it's possible to layout the area itself (with columns for example).</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note</span></span> <span class="token punctuation">{</span>
+    <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
         <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>notes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span>
         <span class="token property">float</span><span class="token punctuation">:</span> bottom right<span class="token punctuation">;</span>
-        <span class="token property">page-reference</span><span class="token punctuation">:</span> float<span class="token punctuation">;</span>
+        <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
         <span class="token property">width</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
         <span class="token property">columns</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-<span class="token selector">notes</span> <span class="token punctuation">{</span>
+<span class="token selector">note.notes</span> <span class="token punctuation">{</span>
     <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>notes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -339,14 +341,14 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <section id="example-5" tabindex="-1">
 <h4 tabindex="-1">Example 5</h4>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note</span> refsA</span> <span class="token punctuation">{</span>
+    <span class="token atrule"><span class="token rule">@note-area</span> refsA</span> <span class="token punctuation">{</span>
         <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refsA<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token property">float</span><span class="token punctuation">:</span> bottom left<span class="token punctuation">;</span>
         <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
         <span class="token property">width</span><span class="token punctuation">:</span> 30mm<span class="token punctuation">;</span>
         <span class="token property">margin-left</span><span class="token punctuation">:</span> -12mm<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-    <span class="token atrule"><span class="token rule">@note</span> refsB</span> <span class="token punctuation">{</span>
+    <span class="token atrule"><span class="token rule">@note-area</span> refsB</span> <span class="token punctuation">{</span>
         <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refsB<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token property">float</span><span class="token punctuation">:</span> bottom right<span class="token punctuation">;</span>
         <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
@@ -389,7 +391,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
     <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png" alt="notes_multiple-1"></figure>
-<p><strong>ISSUE 3</strong>: This requires the creation of a new algorithm to avoid the overlapping of notes.</p>
+<p><strong>ISSUE</strong>: This requires the creation of a new algorithm to avoid the overlapping of notes.</p>
 </section>
 </section>
 <section id="notes-for-multi-column-layout" tabindex="-1">
@@ -466,7 +468,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <span class="token punctuation">}</span>
 
 <span class="token selector">section::note-area</span> <span class="token punctuation">{</span>
-    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>chapterNotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>chapterNotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 </section>
 </section>
