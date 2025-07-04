@@ -360,6 +360,7 @@ Any of the CSS layout facilities can be used to create, position and size note a
 > The float reference of the float is the page within which the float anchor is placed. (...)
 
 
+
 #####  Extentions of the `float` property
 
 > Name:	`float`
@@ -375,6 +376,23 @@ float: top right;
 
 **ISSUE**: Does the `clear` property can work with this propoal ? 
 
+#### Example 3: marginal notes on the left margin of the page
+
+```css
+.marginal-note.note {
+    position: note(marginal-note);
+    float-reference: inline;
+    padding-right: 10mm;
+}
+
+@page {
+    @left-top {
+        content: element(marginal-note, all-once);     
+    } 
+}
+```
+
+
 #### Default values
 
 Default values of properties for `@note-area`: 
@@ -389,7 +407,7 @@ Default values of properties for `@note-area`:
 ```
 
 
-#### Example 3
+#### Example 4
 
 Using float on the page and negative margins can be helpful in creating note area half on merge, half on text content.
 
@@ -411,7 +429,7 @@ note.sidenote {
 
 ![notes_note-area-1](/images/81831585-d1957c80-953d-11ea-938d-9f6ce8ca6bd4.png)
 
-#### Example 4
+#### Example 5
 
 Since a note area is a box, it's possible to layout the area itself (with columns for example).
 
@@ -438,7 +456,7 @@ note.notes {
 There are already a lot of use cases in critical editions where you can find multiple kinds of notes (bibliographical references, explanations, etc.) The `@note-area` at-rules declaration make multiple notes easier by mixing multiple note areas in the same page context.
 
 
-#### Example 5
+#### Example 6: multiple note area in the same page
 
 ```css
 @page {
@@ -470,7 +488,7 @@ note.refs-catB {
 
 
 
-#### Example 6
+#### Example 7: footnotes and marginal notes in the same page
 
 In this example, we use `inline` value of the `float-reference` property. This allows the creation of marginal notes, i.e., notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.
 
@@ -515,7 +533,7 @@ In a multi-column layout, note elements may have to be displayed at the bottom o
 
 We can use this reference to indicate the creation of note areas in the columns of the page where the note appears. As many boxes as necessary are created on each column. All the note areas have the same properties and can be target by one `@note-area` rule only.
 
-#### Example 7
+#### Example 8
 
 ```css
 @page {
@@ -541,7 +559,7 @@ We can use this reference to indicate the creation of note areas in the columns 
 
 [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/) define a special`@footnote` rule. This rule can be kept in this specification as a specific `@note-area` with predefined positioning scheme. It behaves like a floated bottom page element. No positioning scheme designed by the user is taken into account in this `@footnote` rule, and only one footnote box can be created on a page.
 
-#### Example 8
+#### Example 9
 
 ```css
 @page {
@@ -584,7 +602,7 @@ The `::note-area` is a new kind of pseudo-element intended to receive generated 
 
 The `::note-area` will only receive the notes included in its primary parent (it won’t get all the notes from other elements), and will be displayed via `note()` and `element()` values.
 
-#### Example 9
+#### Example 10
 
 The `::note-area` can be used to create end notes for all `section` elements. 
 
