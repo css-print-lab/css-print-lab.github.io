@@ -402,7 +402,7 @@ Value: left | right | top | bottom</p>
 </section>
 <section id="example-6" tabindex="-1">
 <h4 tabindex="-1">Example 6</h4>
-<p>In this example, we add a new value <code>line</code> to the <code>float-reference</code> property. This allows creation of marginal notes, i.e., notes paced to one side of the text, with the first line at the same height of the flow that contains the note-call.</p>
+<p>In this example, we use <code>inline</code> value of the <code>float-reference</code> property. This allows the creation of marginal notes, i.e., notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
     <span class="token atrule"><span class="token rule">@left-top</span></span> <span class="token punctuation">{</span>
         <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refs<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>      
@@ -416,7 +416,7 @@ Value: left | right | top | bottom</p>
 
 <span class="token selector">note.refs</span> <span class="token punctuation">{</span>
     <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refs<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token property">float-reference</span><span class="token punctuation">:</span> line<span class="token punctuation">;</span> 
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> inline<span class="token punctuation">;</span> 
     <span class="token property">width</span><span class="token punctuation">:</span> 50mm<span class="token punctuation">;</span>
     <span class="token property">padding-left</span><span class="token punctuation">:</span> 50mm<span class="token punctuation">:</span>
 <span class="token punctuation">}</span>
