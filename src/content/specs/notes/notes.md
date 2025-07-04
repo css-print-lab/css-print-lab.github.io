@@ -44,20 +44,20 @@ This draft is based on:
 
 - The `note()` value, that you can use in the content property to declare elements as notes;
 - An extention of the `element()` value to place the element removed from the flow (*ie* the note) in a specific place of the same document,
-- The `@note-area` at-rule that can be used to display notes in a page;
-- The `::note-area` pseudo-element to create end-notes for any block elements.
+- The `@note-area` at-rule that can be used to display notes in a page (for paged media only);
+- The `::note-area` pseudo-element to create end-notes for any block elements (paged media and continuous media).
 
 ## Types of notes
 
-For now, the W3C specifications only allow the creation of footnotes, as described in the [CSS Generated Content for Paged Media Module (css-gcpm-3)](https://www.w3.org/TR/css-gcpm-3/). But we know that designers and editors like to be able like to make use of all kinds of notes. You can find some examples here: [https://www.w3.org/XML/2015/02/footnote-examples/](https://www.w3.org/XML/2015/02/footnote-examples/). To name a few:
+For now, the W3C specifications only allow the creation of footnotes in paged media, as described in the [CSS Generated Content for Paged Media Module (css-gcpm-3)](https://www.w3.org/TR/css-gcpm-3/). But we know that designers and editors like to be able like to make use of all kinds of notes. You can find some examples here: [https://www.w3.org/XML/2015/02/footnote-examples/](https://www.w3.org/XML/2015/02/footnote-examples/). To name a few:
 
 
 | Types of notes      |                                                              |
 | ------------------- | ------------------------------------------------------------ |
-| Footnotes           | notes placed at the bottom of the pages                      |
-| Side notes          | notes related to the page content, grouped in the left or in the right of the page, alongside the text area |
+| Footnotes           | notes placed at the bottom of the pages (paged medai only)                      |
+| Side notes          | notes related to the page content, grouped in the left or in the right of the page or content, alongside the text area |
 | End notes           | notes grouped together in one place at the end of a document or at the end of a section of the document |
-| Marginal notes      | notes that are placed to one side of a page or both sides at the exact vertical position of the note reference number |
+| Marginal notes      | notes that are placed to one side of a page (or document) or both sides at the exact vertical position of the note reference number |
 | Column footnotes    | footnotes that can be placed according to the column in which they are located |
 | Multiple notes area | not for pages that share footnotes, margin notes, column footnote, etc. |
 
@@ -74,7 +74,7 @@ A part of the [CSS Generated Content for Paged Media Module](https://www.w3.org/
 >
 > **Note callout** (also known as note reference): A number or symbol, found in the main text, which points to the note body.
 >
-> **Note area**: The page area used to display notes.
+> **Note area**: The page or document area used to display notes.
 >
 > **Note rule**: (also known as note separator): A horizontal rule is often used to separate the note area from the rest of the page. The separator (and the entire note area) cannot be rendered on a page with no notes.
 >
@@ -121,7 +121,7 @@ For all types of notes, we can see a pattern to build them:
 3. Leave a note reference indicator in its place, which points to the moved note element - this is an explicit link from a location in the document to a note element. 
 4. Place the note element and its children in a special area with all the other notes of the page or the document, in the order of appearance in the flow.
 5. Create a marker before the note that matches the note call.
-6. Place the note area in the page with CSS layout facilities according to  a position scheme.
+6. Place the note area in the page or document with CSS layout facilities according to  a position scheme.
 7. (If paged media) If the note overflows the note area, move the items to the next page in the equivalent area, according to note policy.
 
 
@@ -245,7 +245,7 @@ note.sidenote {
 **ISSUE**: If too complicated, why not simply remove `all-once` from `element()` when used with notes?
 
 
- ### The note counter
+### The note counter
 
 *This section and follows contains some specifications of [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/).*
 
