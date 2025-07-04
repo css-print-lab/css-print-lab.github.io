@@ -36,7 +36,7 @@ editors:
 
 
 
-## Abstract 
+::: abstract  
 
 This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. The initiative comes from the [Paged.js](https://pagedjs.org/) team ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)), as part of the [CSS Print Lab](https://github.com/css-print-lab) project, supported by [NLnet](https://nlnet.nl/commonsfund/).
 
@@ -46,6 +46,12 @@ This draft is based on:
 - An extention of the `element()` value to place the element removed from the flow (*ie* the note) in a specific place of the same document,
 - The `@note-area` at-rule that can be used to display notes in a page (for paged media only);
 - The `::note-area` pseudo-element to create end-notes for any block elements (paged media and continuous media).
+
+
+*Originally published here : [https://github.com/w3c/css-print/issues/3](https://github.com/w3c/css-print/issues/3)*
+:::
+
+
 
 ## Types of notes
 
@@ -100,6 +106,8 @@ This code also creates the special [footnote counter](https://www.w3.org/TR/css-
 
 In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), there is this issue:
 
+
+<!-- TODO: generate the reference to the issue -->
 > Issue: Why is `float: bottom` used with the footnote area? Floating footnotes to the footnote area, and then floating the footnote area itself, seems overly complex, given that implementations don’t allow the footnote area to float anywhere else. Note that some implementations do allow the footnote area to be absolutely positioned. (https://www.w3.org/TR/css-gcpm-3/)
 
 We agree that unsing double float declaration is complex. But a mechanism is needed to move the note element into a specific area of the page or the document. To do this, we can take inspiration from a mechanism already present in the draft of the paged media specifications, the [running element](https://www.w3.org/TR/css-gcpm-3/#running-elements): by adding the `position: running()` declaration, we can remove an element from the flow to reuse it in multiple places, perfect for the running heads of a book for example.
@@ -199,12 +207,16 @@ With the keyword `all-once`, the value of all the assignment of the document or 
 
 In addition to that, the `element()` function can be used not only in margin boxes but also in new page area `@note-area` or a `::note-area` pseudo-element. 
 
-#### Example 1: notes in page note area
+
+::: example numbered
+
+Notes in page note area
 
 ```css
 note.note {
     position: note(<custom-ident>);
 }
+
 
 @page {
     @note-area { 
@@ -212,8 +224,11 @@ note.note {
     }
 }
 ```
+:::
 
-#### Example 2: notes in page margin box
+
+::: example numbered
+Notes in page margin box
 
 Using the `element()` function, the margin-boxes can now receive the content of the `note` elements.
 
@@ -236,14 +251,20 @@ note.sidenote {
 }
 ```
 
-![notes_margin-box](/images/81831445-a579fb80-953d-11ea-9a59-d9f00271cd9d.png)
+![an example of a layout with notes in the margin on the left side of the page](/images/81831445-a579fb80-953d-11ea-9a59-d9f00271cd9d.png "A classic use of side note in the margin of the page")
 
- **ISSUE**: In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), the default value of the second argument of the `element()` function is `first`. However, when notes are created from the `note()`function, this should be the value `all-once`by default. How do you indicate this? 
+:::
+
+
+::: issue
+
+**ISSUE**: In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), the default value of the second argument of the `element()` function is `first`. However, when notes are created from the `note()`function, this should be the value `all-once`by default. How do you indicate this? 
 
 **ISSUE**: If the other arguments of the function `element()` are declared (`first`, `first-except`, `last`, `start`), what does that do for the note elements? 
 
 **ISSUE**: If too complicated, why not simply remove `all-once` from `element()` when used with notes?
 
+:::
 
 ### The note counter
 
@@ -372,11 +393,18 @@ Values can be added together:
 float: top right;
 ```
 
+::: issue
+
 **ISSUE**: Further definitions and examples are required to block-start | block-end | inline-start | inline-end | snap-block | snap-inline | none
 
 **ISSUE**: Does the `clear` property can work with this propoal ? 
 
-#### Example 3: marginal notes on the left margin of the page
+:::
+
+
+::: example
+
+Marginal notes on the left margin of the page
 
 ```css
 .marginal-note.note {
@@ -407,7 +435,9 @@ Default values of properties for `@note-area`:
 ```
 
 
-#### Example 4
+::: 
+
+::: example
 
 Using float on the page and negative margins can be helpful in creating note area half on merge, half on text content.
 
@@ -427,9 +457,11 @@ note.sidenote {
 }
 ```
 
-![notes_note-area-1](/images/81831585-d1957c80-953d-11ea-938d-9f6ce8ca6bd4.png)
+![An image of a layout of a page where the margin note is wrapped in the text](/images/81831585-d1957c80-953d-11ea-938d-9f6ce8ca6bd4.png "Note wrapping using floating note area")
 
-#### Example 5
+:::
+
+::: example
 
 Since a note area is a box, it's possible to layout the area itself (with columns for example).
 
@@ -449,14 +481,18 @@ note.notes {
 }
 
 ```
-![notes_note-area-2](/images/81831630-dfe39880-953d-11ea-89c4-4873cc7c72e9.png) 
+![An image of a layout where the notes are wrapped at the bottom of the page, taking half the size of the full column](/images/81831630-dfe39880-953d-11ea-89c4-4873cc7c72e9.png "A bottom-right floating note area divided in columns") 
+
+:::
 
 ### Multiple notes areas in a page
 
 There are already a lot of use cases in critical editions where you can find multiple kinds of notes (bibliographical references, explanations, etc.) The `@note-area` at-rules declaration make multiple notes easier by mixing multiple note areas in the same page context.
 
 
-#### Example 6: multiple note area in the same page
+::: example
+
+Multiple note area in the same page
 
 ```css
 @page {
@@ -484,11 +520,17 @@ note.refs-catB {
     position: note(refsB);
 }
 ```
-![An example of CSS for multiple types of notes](/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "")
+
+![A layout where three different column of notes are wrapped around the content](/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "An example of the possible layout mixing multiple note areas and float")
+
+ 
+:::
 
 
 
-#### Example 7: footnotes and marginal notes in the same page
+::: example 
+
+Footnotes and marginal notes in the same page
 
 In this example, we use `inline` value of the `float-reference` property. This allows the creation of marginal notes, i.e., notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.
 
@@ -517,10 +559,17 @@ note.footnotes {
 }
 ```
 
-![notes_multiple-1](/images/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png)
+![A layout of a page where margin notes and footnotes are together on the page](/images/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png "Mixing margin notes and footnotes for semantics notes")
+
+
+<!-- ![A layout where three different column of notes are wrapped around the content](/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "An example of the possible layout mixing multiple note areas and float") -->
+::: 
+
+::: issue
 
 **ISSUE**: This requires the creation of a new algorithm to avoid the overlapping of notes.
 
+:::
 
 ### Notes for multi-column layout
 
@@ -533,7 +582,8 @@ In a multi-column layout, note elements may have to be displayed at the bottom o
 
 We can use this reference to indicate the creation of note areas in the columns of the page where the note appears. As many boxes as necessary are created on each column. All the note areas have the same properties and can be target by one `@note-area` rule only.
 
-#### Example 8
+
+::: example 
 
 ```css
 @page {
@@ -552,14 +602,15 @@ We can use this reference to indicate the creation of note areas in the columns 
     position: note(notes);
 }
 ```
-![notes_column](/images/81831785-128d9100-953e-11ea-8309-c4964154014a.png)
 
+
+:::
 
 ### @footnote special at-rule
 
 [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/) define a special`@footnote` rule. This rule can be kept in this specification as a specific `@note-area` with predefined positioning scheme. It behaves like a floated bottom page element. No positioning scheme designed by the user is taken into account in this `@footnote` rule, and only one footnote box can be created on a page.
 
-#### Example 9
+::: example
 
 ```css
 @page {
@@ -573,7 +624,7 @@ note.footnote {
 }
 ```
 
-![notes_footnote](/images/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png)
+![A layout showing the default setup for footnotes](/images/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png "Notes are footnotes by default with the special `@footnote` rule")
 
 This would have the exact same behavior when using the following declarations:
 
@@ -592,6 +643,8 @@ note.footnote {
 }
 ```
 
+:::
+
 ## The `::note-area` pseudo element
 
 We propose this specific pseudo-element to be able to create end notes for any block elements without having to create specific HTML markup. This pseudo-element can be use in both screen/continuous and paged media
@@ -602,7 +655,8 @@ The `::note-area` is a new kind of pseudo-element intended to receive generated 
 
 The `::note-area` will only receive the notes included in its primary parent (it won’t get all the notes from other elements), and will be displayed via `note()` and `element()` values.
 
-#### Example 10
+
+::: example 
 
 The `::note-area` can be used to create end notes for all `section` elements. 
 
@@ -615,6 +669,7 @@ section::note-area {
     content: element(chapterNotes);
 }
 ```
+:::
 
 ## Notes policy
 
@@ -640,4 +695,8 @@ Same for line, except that the forced page break is introduced before the paragr
 
 ---
 
-Originally published here : https://github.com/w3c/css-print/issues/3
+::: tof
+
+:::
+
+
