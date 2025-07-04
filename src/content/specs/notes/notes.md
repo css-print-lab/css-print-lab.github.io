@@ -337,7 +337,45 @@ If the content of a note area overflows from the box, it will go to the next pag
 
 Any of the CSS layout facilities can be used to create, position and size note areas: float, absolute positioning, grid, exclusion, etc. 
 
-[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) add some values to the `float` property to positioning element in a page context and propose the [ `float-reference` property](https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference) to indicate the "reference container" for a floated element. We will make extensive use of these properties in the following examples
+#### About `float` and `float-reference`
+
+[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) add some values to the `float` property to positioning element in a page context and propose the [ `float-reference` property](https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference) to indicate the "reference container" for a floated element. We will make extensive use of these properties in the following examples.
+
+#####  The `float-reference` property
+
+> Name:	`float-reference`
+> Value: inline | column | region | page
+> (...)
+>
+> `inline`
+> The float reference is the line box of the float anchor. (...)
+>
+> `column`
+> The float reference is the column in a multi column environment in which the float anchor is placed.
+>
+> `region`
+> The float reference is the region in a region-chain within which the float anchor is placed. (...)
+>
+> `page`
+> The float reference of the float is the page within which the float anchor is placed. (...)
+
+
+#####  Extentions of the `float` property
+
+> Name:	`float`
+> Value: left | right | top | bottom
+
+Values can be added together:
+
+```
+float: top right;
+```
+
+**ISSUE**: Further definitions and examples are required to block-start | block-end | inline-start | inline-end | snap-block | snap-inline | none
+
+**ISSUE**: Does the `clear` property can work with this propoal ? 
+
+#### Default values
 
 Default values of properties for `@note-area`: 
 
