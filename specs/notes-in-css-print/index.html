@@ -39,13 +39,13 @@
 <ul>
 <li>The <code>note()</code> value, that you can use in the content property to declare elements as notes;</li>
 <li>An extention of the <code>element()</code> value to place the element removed from the flow (<em>ie</em> the note) in a specific place of the same document,</li>
-<li>The <code>@note-area</code> at-rule that can be used to display notes in a page;</li>
-<li>The <code>::note-area</code> pseudo-element to create end-notes for any block elements.</li>
+<li>The <code>@note-area</code> at-rule that can be used to display notes in a page (for paged media only);</li>
+<li>The <code>::note-area</code> pseudo-element to create end-notes for any block elements (paged media and continuous media).</li>
 </ul>
 </section>
 <section id="types-of-notes" tabindex="-1">
 <h2 tabindex="-1">Types of notes</h2>
-<p>For now, the W3C specifications only allow the creation of footnotes, as described in the <a href="https://www.w3.org/TR/css-gcpm-3/">CSS Generated Content for Paged Media Module (css-gcpm-3)</a>. But we know that designers and editors like to be able like to make use of all kinds of notes. You can find some examples here: <a href="https://www.w3.org/XML/2015/02/footnote-examples/">https://www.w3.org/XML/2015/02/footnote-examples/</a>. To name a few:</p>
+<p>For now, the W3C specifications only allow the creation of footnotes in paged media, as described in the <a href="https://www.w3.org/TR/css-gcpm-3/">CSS Generated Content for Paged Media Module (css-gcpm-3)</a>. But we know that designers and editors like to be able like to make use of all kinds of notes. You can find some examples here: <a href="https://www.w3.org/XML/2015/02/footnote-examples/">https://www.w3.org/XML/2015/02/footnote-examples/</a>. To name a few:</p>
 <table>
 <thead>
 <tr>
@@ -56,11 +56,11 @@
 <tbody>
 <tr>
 <td>Footnotes</td>
-<td>notes placed at the bottom of the pages</td>
+<td>notes placed at the bottom of the pages (paged medai only)</td>
 </tr>
 <tr>
 <td>Side notes</td>
-<td>notes related to the page content, grouped in the left or in the right of the page, alongside the text area</td>
+<td>notes related to the page content, grouped in the left or in the right of the page or content, alongside the text area</td>
 </tr>
 <tr>
 <td>End notes</td>
@@ -68,7 +68,7 @@
 </tr>
 <tr>
 <td>Marginal notes</td>
-<td>notes that are placed to one side of a page or both sides at the exact vertical position of the note reference number</td>
+<td>notes that are placed to one side of a page (or document) or both sides at the exact vertical position of the note reference number</td>
 </tr>
 <tr>
 <td>Column footnotes</td>
@@ -89,7 +89,7 @@
 <p><strong>Note marker</strong>: (also known as note number): A number or symbol adjacent to the note body, identifying the particular note. The note marker should use the same number or symbol as the corresponding note call, although the marker may contain additional punctuation.</p>
 <p><strong>Note body</strong> : The note marker is placed before the note element, and together they represent the note body, which will be placed in the note area.</p>
 <p><strong>Note callout</strong> (also known as note reference): A number or symbol, found in the main text, which points to the note body.</p>
-<p><strong>Note area</strong>: The page area used to display notes.</p>
+<p><strong>Note area</strong>: The page or document area used to display notes.</p>
 <p><strong>Note rule</strong>: (also known as note separator): A horizontal rule is often used to separate the note area from the rest of the page. The separator (and the entire note area) cannot be rendered on a page with no notes.</p>
 </blockquote>
 <p>The specification also describes how to create footnotes in a page with the following code:</p>
@@ -124,7 +124,7 @@ span.footnote {
 <li>Leave a note reference indicator in its place, which points to the moved note element - this is an explicit link from a location in the document to a note element.</li>
 <li>Place the note element and its children in a special area with all the other notes of the page or the document, in the order of appearance in the flow.</li>
 <li>Create a marker before the note that matches the note call.</li>
-<li>Place the note area in the page with CSS layout facilities according to  a position scheme.</li>
+<li>Place the note area in the page or document with CSS layout facilities according to  a position scheme.</li>
 <li>(If paged media) If the note overflows the note area, move the items to the next page in the equivalent area, according to note policy.</li>
 </ol>
 </section>
