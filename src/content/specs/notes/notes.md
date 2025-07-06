@@ -163,7 +163,7 @@ A `note` element represents a note, e.g. a secondary content that is related to 
 
 The following example is a conforming HTML fragment:
 
-```HTML
+<!-- ```HTML
 <p>Gutenberg  in 1439 was the first European to use movable type.
 Among his many contributions to printing are: the invention of
 a process for mass-producing movable type; the use of oil-based
@@ -172,7 +172,9 @@ History of American Advertising By Juliann Sivulka, page 5</note>
 adjustable molds; mechanical movable type; and the use 
 of a wooden printing press similar to the agricultural 
 screw presses of the period.</p>
-```
+``` -->
+
+![](/images/example-html-note.png "HTML code with note tag")
 
 This potential new HTML element is easy to use and allows a note to be always attached to the content it adds details to. This proposal is aligned to the way HTML works (a node mechanism) without adding an HTML element that would depend on another one (to create note references for example).
 
