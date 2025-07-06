@@ -207,18 +207,20 @@ With the keyword `all-once`, the value of all the assignment of the document or 
 
 `element() = string(<custom-ident>, all-once)`
 
-In addition to that, the `element()` function can be used not only in margin boxes but also in new page area `@note-area` or a `::note-area` pseudo-element. 
+### Unsing in `@note-area`
+
+In addition to that, the `element()` function can be used not only in margin boxes but also in new page area `@note-area` (see [*Page note area*](#page-note-areas-(%40note-area))) or a `::note-area` pseudo-element (see [*Note area pseudo elements*](#the-%3A%3Anote-area-pseudo-element)). 
+
 
 
 ::: example numbered
 
-Notes in page note area
+**Notes in page note area**
 
 ```css
 note.note {
     position: note(<custom-ident>);
 }
-
 
 @page {
     @note-area { 
@@ -228,15 +230,17 @@ note.note {
 ```
 :::
 
-
-::: example numbered
-Notes in page margin box
+### Unsing in margin boxes
 
 Using the `element()` function, the margin-boxes can now receive the content of the `note` elements.
 
 The [dimensions](https://www.w3.org/TR/css-page-3/#margin-dimension) and (default) [properties](https://www.w3.org/TR/css-page-3/#page-margin-property) of a margin box works as described in [CSS-page-3](https://www.w3.org/TR/css-page-3/). The size of the note area does not affect the content page area. 
 
-Let’s look at an example: the following rules result in the placement of the note elements inside the left-top margin box. Margin and text alignment of the note elements are set to the note element itself and padding of the margin box is set in `@left-top` at-rule. 
+
+::: example numbered
+**Notes in page margin box**
+
+The following rules result in the placement of the note elements inside the left-top margin box. Margin and text alignment of the note elements are set to the note element itself and padding of the margin box is set in `@left-top` at-rule. 
 
 ```css
 @page {
@@ -263,8 +267,6 @@ note.sidenote {
 **ISSUE**: In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), the default value of the second argument of the `element()` function is `first`. However, when notes are created from the `note()`function, this should be the value `all-once`by default. How do you indicate this? 
 
 **ISSUE**: If the other arguments of the function `element()` are declared (`first`, `first-except`, `last`, `start`), what does that do for the note elements? 
-
-**ISSUE**: If too complicated, why not simply remove `all-once` from `element()` when used with notes?
 
 :::
 
@@ -340,7 +342,7 @@ The `::note-callback` pseudo-element represents the note element's call back, e.
 }
 ```
 
-##  Page note areas
+##  Page note areas (`@note-area`)
 
 The `@note-area` at-rule creates special [page areas](http://dev.w3.org/csswg/css-page/#page-area) that can be used to display notes elements via the `element()` function. Those areas, called "page note areas", are created within the [page context](https://www.w3.org/TR/css-page-3/#page-context), which is the [declaration block](https://www.w3.org/TR/CSS21/syndata.html#x14) of the [@page](https://www.w3.org/TR/css-page-3/#at-ruledef-page) rule. This rule defines a box that, if used, will contain the corresponding note elements that appear on that page and move by generated content properties for notes. Since note areas are in the context page, notes boxes are contained in the content area of a page box.
 
@@ -353,7 +355,7 @@ The properties of a note box are determined by properties declared in the `@note
 - Note policy
 - General styling of the note box (each note boxes has its own margin, border, padding and content areas.)
 
-If the content of a note area overflows from the box, it will go to the next page, in the same note area (see *6. Notes policy*).
+If the content of a note area overflows from the box, it will go to the next page, in the same note area (see [*Notes policy*](#notes-policy)).
 
 
 ### Positioning schemes of note area
@@ -383,10 +385,39 @@ Any of the CSS layout facilities can be used to create, position and size note a
 > The float reference of the float is the page within which the float anchor is placed. (...)
 
 
+::: example
+
+**Marginal notes on the left margin of the page**
+
+```css
+@page {
+    @left-top {
+        content: element(refs, all-once);  
+        float: left;
+        float-reference: inline;
+        margin-left: -50mm;
+        width: 50mm;   
+    } 
+}
+note.refs {
+    position: note(refs);
+}
+
+```
+:::
+
+Note: Using `clear: left` is a simple solution to avoid collisions.
+
+::: issue
+
+**ISSUE**: We need to specify the algorithm that avoids collisions. Also, what if the marginal note overflow the page, how do we indicate that it can be moved up?
+
+:::
 
 #####  Extentions of the `float` property
 
 > Name:	`float`
+>
 > Value: left | right | top | bottom
 
 Values can be added together:
@@ -404,23 +435,6 @@ float: top right;
 :::
 
 
-::: example
-
-Marginal notes on the left margin of the page
-
-```css
-.marginal-note.note {
-    position: note(marginal-note);
-    float-reference: inline;
-    padding-right: 10mm;
-}
-
-@page {
-    @left-top {
-        content: element(marginal-note, all-once);     
-    } 
-}
-```
 
 
 #### Default values
@@ -436,8 +450,6 @@ Default values of properties for `@note-area`:
 }
 ```
 
-
-::: 
 
 ::: example
 
@@ -539,8 +551,12 @@ In this example, we use `inline` value of the `float-reference` property. This a
 
 ```css
 @page {
-    @left-top {
-        content: element(refs, all-once);      
+    @note-area {
+        content: element(refs, all-once);
+        float: left;
+        float-reference: inline;
+        margin-left: -50mm;
+        width: 50mm;         
     }
     @bottom-left {
         content: element(footnotes, all-once);
@@ -551,9 +567,6 @@ In this example, we use `inline` value of the `float-reference` property. This a
 
 note.refs {
     position: note(refs);
-    float-reference: inline; 
-    width: 50mm;
-    padding-left: 50mm:
 }
 
 note.footnotes {
@@ -567,11 +580,7 @@ note.footnotes {
 <!-- ![A layout where three different column of notes are wrapped around the content](/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "An example of the possible layout mixing multiple note areas and float") -->
 ::: 
 
-::: issue
 
-**ISSUE**: This requires the creation of a new algorithm to avoid the overlapping of notes.
-
-:::
 
 ### Notes for multi-column layout
 
@@ -605,6 +614,7 @@ We can use this reference to indicate the creation of note areas in the columns 
 }
 ```
 
+![](/images/81831785-128d9100-953e-11ea-8309-c4964154014a.png "An example of notes for multi-column layout")
 
 :::
 
