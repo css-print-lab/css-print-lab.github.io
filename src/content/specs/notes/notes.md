@@ -38,7 +38,8 @@ editors:
 
 ::: abstract  
 
-This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the [Pushing Forward for CSS Print] project, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund/), established by [NLnet](https://nlnet.nl/). It’s a joint initiative from core contributors of [Paged.js](https://pagedjs.org/) ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)). The result of this work can be found on [CSS Print Lab’s github](https://github.com/css-print-lab) project.
+This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the [Pushing Forward for CSS Print] project, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund/), established by [NLnet](https://nlnet.nl/). It’s a joint initiative from core contributors of [Paged.js](https://pagedjs.org/) ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)). The result of this work can be found on [CSS Print Lab’s github](https://github.com/css-print-lab).
+
 This draft is based on: 
 
 - The `note()` value, that you can use in the content property to declare elements as notes;
