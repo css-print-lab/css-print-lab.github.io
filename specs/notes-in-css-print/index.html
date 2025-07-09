@@ -38,7 +38,7 @@
 <p>This draft is based on:</p>
 <ul>
 <li>The <code>note()</code> value, that you can use in the content property to declare elements as notes;</li>
-<li>An extention of the <code>element()</code> value to place the element removed from the flow (<em>ie</em> the note) in a specific place of the same document,</li>
+<li>An extension of the <code>element()</code> value to place the element removed from the flow (i.e. the note) in a specific place of the same document,</li>
 <li>The <code>@note-area</code> at-rule that can be used to display notes in a page (for paged media only);</li>
 <li>The <code>::note-area</code> pseudo-element to create end-notes for any block elements (paged media and continuous media).</li>
 </ul>
@@ -56,7 +56,7 @@
 <tbody>
 <tr>
 <td>Footnotes</td>
-<td>notes placed at the bottom of the pages (paged medai only)</td>
+<td>notes placed at the bottom of the pages (paged media only)</td>
 </tr>
 <tr>
 <td>Side notes</td>
@@ -81,7 +81,7 @@
 </tbody>
 </table>
 <h2 id="specifications-w3c" tabindex="-1">Specifications W3C</h2>
-<p>A part of the <a href="https://www.w3.org/TR/css-gcpm-3/#footnotes">CSS Generated Content for Paged Media Module</a> (css-gcpm-3) is dedicated to footnotes. The first section defines <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-terms">the terms</a> of the footnote objects. These definitions can be applied to all types of notes, thus we’ll keep the same terms but will while removing the prefix “foot”, for the rest of this issue discussion:</p>
+<p>A part of the <a href="https://www.w3.org/TR/css-gcpm-3/#footnotes">CSS Generated Content for Paged Media Module</a> (css-gcpm-3) is dedicated to footnotes. The first section defines <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-terms">the terms</a> of the footnote objects. These definitions can be applied to all types of notes, thus we’ll keep the same terms but removing the prefix “foot” for the rest of this issue discussion:</p>
 <blockquote>
 <p><strong>Note element</strong>: The element containing the content of the note, which will be removed from the flow and displayed as a note.</p>
 <p><strong>Note marker</strong>: (also known as note number): A number or symbol adjacent to the note body, identifying the particular note. The note marker should use the same number or symbol as the corresponding note call, although the marker may contain additional punctuation.</p>
@@ -91,17 +91,17 @@
 <p><strong>Note rule</strong>: (also known as note separator): A horizontal rule is often used to separate the note area from the rest of the page. The separator (and the entire note area) cannot be rendered on a page with no notes.</p>
 </blockquote>
 <p>The specification also describes how to create footnotes in a page with the following code:</p>
-<pre class="language-CSS"><code class="language-CSS">@page {
-  @footnote {
-    float: bottom;
-    /* style of footnote area */
-  }
-}
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
+  <span class="token atrule"><span class="token rule">@footnote</span></span> <span class="token punctuation">{</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
+    <span class="token comment">/* Style of footnote area */</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-span.footnote { 
-	/* Display span as footnote */
-	float: footnote; 
-}</code></pre>
+<span class="token selector">span.footnote</span> <span class="token punctuation">{</span>
+  <span class="token comment">/* Display span as footnote */</span>
+  <span class="token property">float</span><span class="token punctuation">:</span> footnote<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <p>This code also creates the special <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-counters">footnote counter</a> and special pseudo-elements for <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-call">footnote calls</a> (<code>::footnote-call</code>) and <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-marker">footnote markers</a> (<code>::footnote-marker</code>). The position, size and styles of the footnote area are defined by the <code>@footnote</code> declaration. The specification does not set precise limits, <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-area">only a couple of paragraphs and a lot of issues and unanswered questions</a>. The advantage is that <strong>we can do many proposals without conflicting with the current specifications.</strong></p>
 <p>In <a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a>, there is this issue:</p>
 <!-- TODO: generate the reference to the issue -->
@@ -115,7 +115,7 @@ span.footnote {
 <p>Notes are always dependent on a principal flow, but they are out-of-flow elements, such as an aside. This is ancillary content that may be moved to the bottom of the page, to its margins, or to another section of the document. A note is created when the content is moved to a specific area of the document, leaving a reference indicator behind.</p>
 <p>For all types of notes, we can see a pattern to build them:</p>
 <ol>
-<li>Declaring that an element of a flow is a note.</li>
+<li>Declare that an element of a flow is a note.</li>
 <li>Remove the item from the flow.</li>
 <li>Leave a note reference indicator in its place, which points to the moved note element - this is an explicit link from a location in the document to a note element.</li>
 <li>Place the note element and its children in a special area with all the other notes of the page or the document, in the order of appearance in the flow.</li>
@@ -124,12 +124,12 @@ span.footnote {
 <li>(If paged media) If the note overflows the note area, move the items to the next page in the equivalent area, according to note policy.</li>
 </ol>
 <h3 id="clarification-about-html-elements" tabindex="-1">Clarification about HTML elements</h3>
-<p>The W3C doesn't provide a dedicated way to tag notes in HTML. Some discussions in the mailing list of the W3C or whatwg, or in blog articles, suggest different ways but none of them seem to have unanimous agreement.</p>
+<p>The W3C doesn't provide a dedicated way to tag notes in HTML. Some discussions in the mailing list of the W3C or WHATWG, or in blog articles, suggest different ways but none of them seem to have unanimous agreement.</p>
 <h4 id="in-use" tabindex="-1">In use</h4>
 <p>In the meantime, there are two most commonly used methods of adding notes:</p>
 <ul>
 <li>It's common to see link elements with <code>href</code> attrbute pointing to sections of a page with fragmented URLs. This mechanism provides some issues pointed out by <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=13666">Greg Lowney</a> in terms of accessibility. This also poses problems with more complex layouts. If the notes elements are presented in a list, it becomes necessary to transform the DOM to place them in the manner of a side note, end notes or footnotes (both for continuous and/or paged media).</li>
-<li>Another way would be to use some <code>&lt;span&gt;</code> elements directly in paragraphs  to encapsulate note elements in the place where they appear. This is the method used in examples in the <a href="https://www.w3.org/TR/css-gcpm-3/#creating-footnotes">css-gcpm-3 draft</a>.</li>
+<li>Another way would be to use some <code>&lt;span&gt;</code> elements directly in paragraphs to encapsulate note elements in the place where they appear. This is the method used in examples in the <a href="https://www.w3.org/TR/css-gcpm-3/#creating-footnotes">css-gcpm-3 draft</a>.</li>
 </ul>
 <h4 id="in-unofficial-specifications" tabindex="-1">In unofficial specifications</h4>
 <p>David MacDonald and Shane McCarron propose specifics <code>&lt;note&gt; </code>, <code>&lt;notegroup&gt;</code>and <code>&lt;refnote&gt;</code> elements in some <a href="http://spec-ops.github.io/html-note/index.html">unofficial specifications</a>. One part of the document presents <a href="http://spec-ops.github.io/html-note/index.html#UCnR">uses cases and a lot of requirements</a> that are very useful. However, we believe that many of the HTML syntaxes proposed in the document can be best achieved through CSS mechanisms.</p>
@@ -151,63 +151,63 @@ Among his many contributions to printing are: the invention of
 a process for mass-producing movable type; the use of oil-based
 ink for printing books; <note>Soap, Sex, and Cigarettes: A Cultural
 History of American Advertising By Juliann Sivulka, page 5</note>
-adjustable molds; mechanical movable type; and the use 
-of a wooden printing press similar to the agricultural 
+adjustable molds; mechanical movable type; and the use
+of a wooden printing press similar to the agricultural
 screw presses of the period.</p>
 ``` -->
 <figure><img src="/images/example-html-note.png" alt=""><figcaption>HTML code with note tag</figcaption></figure>
 <p>This potential new HTML element is easy to use and allows a note to be always attached to the content it adds details to. This proposal is aligned to the way HTML works (a node mechanism) without adding an HTML element that would depend on another one (to create note references for example).</p>
-<p>Until this element exists in HTML, a span element will be used with a class named “note” for illustrative purposes.</p>
+<p>Until this element exists in HTML, a <code>span</code> element will be used with a class named “note” for illustrative purposes.</p>
 <h2 id="create-notes-with-css" tabindex="-1">Create notes with CSS</h2>
-<p>A mechanism is needed to move the note element into a specific area of the page or of the document, and leaving a reference indicator in its place.  To do this, we add the <code>note()</code> value to the position property and the <code>element()</code> value to the content property.</p>
+<p>A mechanism is needed to move the note element into a specific area of the page or of the document, and leaving a reference indicator in its place. To do this, we add the <code>note()</code> value to the position property and the <code>element()</code> value to the content property.</p>
 <h3 id="the-'note()'-value" tabindex="-1">The 'note()' value</h3>
 <p>The <code>note()</code> function removes the element (and associated <code>::before</code> and <code>::after</code> pseudo-elements) from the principal flow, and makes it available to place in a page margin-box, a page note-area <code>@note-area</code> or a <code>::note-area</code> pseudo element using <code>element()</code>. The element inherits from its original position in the document, but is not rendered there, instead a <code>::note-call</code> pseudo-element is created and inserted in the original position of the note. The elements keep their defined styles.
 A custom identifier is required: <code>note(&lt;custom-ident&gt;)</code>. If there is no <code>element()</code> value corresponding to the custom identifier of the <code>note()</code> value, the elements are not removed from the flow and are shown as inline <code>note</code> elements.</p>
 <h3 id="the-'element()'-value" tabindex="-1">The 'element()' value</h3>
-<p>To place the elements removed from the flow in a specific place on the document or page, we can use the function <code>element()</code> already present in the specifications and usable in a <code>content</code>property.</p>
+<p>To place the elements removed from the flow in a specific place on the document or page, we can use the function <code>element()</code> already present in the specifications and usable in a <code>content</code> property.</p>
 <blockquote>
 <p>The <code>element()</code> value of the content property places an element (which has been removed from the normal flow via <code>running()</code>) in a page margin box. Whenever the value of the element changes, the value of <code>element()</code> is updated. <br>
 Just as with <code>string()</code>, <code>element()</code> takes an optional keyword to describe which value should be used in the case of multiple assignments on a page. User agents must be able to recall many values, as <code>element()</code> can return past, current, or future values of the assignment.</p>
 </blockquote>
 <p>A custom identifier is required (same as the corresponding <code>note()</code> function): <code>element(&lt;custom-ident&gt;)</code>.</p>
 <h4 id="the-keyword-all-once" tabindex="-1">The keyword <code>all-once</code></h4>
-<p>To make <code>element()</code> work with <code>note()</code>, a specific behaviour needs to be added that can be declared via an optional keyword all-once.</p>
-<p>With the keyword <code>all-once</code>, the value of all the assignment of the document or the page are used. ie - all the note elements (which have been removed from the normal flow via <code>note()</code>) are display in the new area where they're assigned. Each element from <code>note()</code> value is displayed in the same order of the flow and has only one assignment in the document or in the page (the elements are not repeated). The value may be empty if there is no note element on the page.</p>
+<p>To make <code>element()</code> work with <code>note()</code>, a specific behaviour needs to be added that can be declared via an optional keyword <code>all-once</code>.</p>
+<p>With the keyword <code>all-once</code>, the value of all the assignments of the document or the page are used; i.e. all the note elements (which have been removed from the normal flow via <code>note()</code>) are displayed in the new area where they're assigned. Each element from <code>note()</code> value is displayed in the same order of the flow and has only one assignment in the document or in the page (the elements are not repeated). The value may be empty if there is no note element on the page.</p>
 <p><code>element() = string(&lt;custom-ident&gt;, all-once)</code></p>
 <h3 id="using-in-%40note-area" tabindex="-1">Using in <code>@note-area</code></h3>
 <p>In addition to that, the <code>element()</code> function can be used not only in margin boxes but also in new page area <code>@note-area</code> (see <a href="#page-note-areas-(%40note-area)"><em>Page note area</em></a>) or a <code>::note-area</code> pseudo-element (see <a href="#the-%3A%3Anote-area-pseudo-element"><em>Note area pseudo elements</em></a>).</p>
 <aside class="example numbered"><p><strong>Notes in page note area</strong></p>
 <pre class="language-css"><code class="language-css"><span class="token selector">note.note</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>&lt;custom-ident><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>&lt;custom-ident><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 <span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span> 
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>&lt;custom-ident><span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>&lt;custom-ident><span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 </aside>
 <h3 id="using-in-margin-boxes" tabindex="-1">Using in margin boxes</h3>
 <p>Using the <code>element()</code> function, the margin-boxes can now receive the content of the <code>note</code> elements.</p>
-<p>The <a href="https://www.w3.org/TR/css-page-3/#margin-dimension">dimensions</a> and (default) <a href="https://www.w3.org/TR/css-page-3/#page-margin-property">properties</a> of a margin box works as described in <a href="https://www.w3.org/TR/css-page-3/">CSS-page-3</a>. The size of the note area does not affect the content page area.</p>
+<p>The <a href="https://www.w3.org/TR/css-page-3/#margin-dimension">dimensions</a> and (default) <a href="https://www.w3.org/TR/css-page-3/#page-margin-property">properties</a> of a margin box work as described in <a href="https://www.w3.org/TR/css-page-3/">CSS-page-3</a>. The size of the note area does not affect the content page area.</p>
 <aside class="example numbered"><p><strong>Notes in page margin box</strong></p>
 <p>The following rules result in the placement of the note elements inside the left-top margin box. Margin and text alignment of the note elements are set to the note element itself and padding of the margin box is set in <code>@left-top</code> at-rule.</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@left-top</span></span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenote<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">padding</span><span class="token punctuation">:</span> 5mm<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@left-top</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenote<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">padding</span><span class="token punctuation">:</span> 5mm<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.sidenote</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenote<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
-    <span class="token property">text-align</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+  <span class="token property">text-align</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831445-a579fb80-953d-11ea-9a59-d9f00271cd9d.png" alt="an example of a layout with notes in the margin on the left side of the page"><figcaption>A classic use of side note in the margin of the page</figcaption></figure>
 </aside>
 <div class="advisement ">
-<p><strong>ISSUE</strong>: In <a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a>, the default value of the second argument of the <code>element()</code> function is <code>first</code>. However, when notes are created from the <code>note()</code>function, this should be the value <code>all-once</code>by default. How do you indicate this?</p>
+<p><strong>ISSUE</strong>: In <a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a>, the default value of the second argument of the <code>element()</code> function is <code>first</code>. However, when notes are created from the <code>note()</code>function, this should be the value <code>all-once</code> by default. How do you indicate this?</p>
 <p><strong>ISSUE</strong>: If the other arguments of the function <code>element()</code> are declared (<code>first</code>, <code>first-except</code>, <code>last</code>, <code>start</code>), what does that do for the note elements?</p>
 </div>
 <h3 id="the-note-counter" tabindex="-1">The note counter</h3>
@@ -226,43 +226,43 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <pre class="language-css"><code class="language-css"><span class="token selector">section</span> <span class="token punctuation">{</span>
   <span class="token property">counter-reset</span><span class="token punctuation">:</span> note<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<p>Note that the value of the note counter should depend on the position of the note element in the document tree, not where it is eventually placed. A note element may sometimes be placed on the  page after the note call, but the same counter value must be used for both.</p>
+<p>Note that the value of the note counter should depend on the position of the note element in the document tree, not where it is eventually placed. A note element may sometimes be placed on the page after the note call, but the same counter value must be used for both.</p>
 <h3 id="the-%3A%3Anote-call-pseudo-element" tabindex="-1">The <code>::note-call</code> pseudo element</h3>
 <p>A <code>::note-call</code> pseudo-element is inserted in place of the <code>note</code> element when the latter is removed from the flow. By default, the content of this pseudo-element is the value of the note counter, styled as a superscripted number. It must act like an anchor.</p>
 <pre class="language-css"><code class="language-css"><span class="token selector">::note-call</span> <span class="token punctuation">{</span>
-    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>note<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token property">vertical-align</span><span class="token punctuation">:</span> baseline<span class="token punctuation">;</span>
-    <span class="token property">font-size</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-    <span class="token property">line-height</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
-    <span class="token property">font-variant-position</span><span class="token punctuation">:</span> super<span class="token punctuation">;</span>
+  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>note<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">vertical-align</span><span class="token punctuation">:</span> baseline<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">line-height</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
+  <span class="token property">font-variant-position</span><span class="token punctuation">:</span> super<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <h3 id="the-%3A%3Anote-marker-pseudo-element" tabindex="-1">The <code>::note-marker</code> pseudo element</h3>
 <p>The <code>::note-marker</code> pseudo-element represents the note element’s marker, the number or symbol that identifies each note. This pseudo-element behaves like a <code>::marker</code> pseudo-element, as defined in [<a href="https://www.w3.org/TR/css-gcpm-3/#css3list">CSS3LIST]</a>. It is placed at the beginning of the parent’s content, and is inline by default. The <code>::note-marker</code> can be styled just as other <code>::marker</code> elements can be. The default style should include <code>list-style-position: inside</code>, or be set as any other list.</p>
 <pre class="language-css"><code class="language-css"><span class="token selector">::note-marker</span> <span class="token punctuation">{</span>
-    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>note<span class="token punctuation">)</span> <span class="token string">'. '</span><span class="token punctuation">;</span>
+  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>note<span class="token punctuation">)</span> <span class="token string">'. '</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p><strong>ISSUE</strong> Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print... Thoughts?</p>
+<p><strong>ISSUE</strong> Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?</p>
 <h3 id="the-%3A%3Anote-callback-pseudo-element" tabindex="-1">The ::note-callback pseudo element</h3>
-<p>The <code>::note-callback</code> pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated <code>::note-call</code>.  It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.</p>
+<p>The <code>::note-callback</code> pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated <code>::note-call</code>. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.</p>
 <pre class="language-css"><code class="language-css"><span class="token selector">::note-callback</span> <span class="token punctuation">{</span>
-    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'↩'</span><span class="token punctuation">;</span>
+  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'↩'</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <h2 id="page-note-areas-(%40note-area)" tabindex="-1">Page note areas (<code>@note-area</code>)</h2>
-<p>The <code>@note-area</code> at-rule creates special <a href="http://dev.w3.org/csswg/css-page/#page-area">page areas</a> that can be used to display notes elements via the <code>element()</code> function. Those areas, called &quot;page note areas&quot;, are created within the <a href="https://www.w3.org/TR/css-page-3/#page-context">page context</a>, which is the <a href="https://www.w3.org/TR/CSS21/syndata.html#x14">declaration block</a> of the <a href="https://www.w3.org/TR/css-page-3/#at-ruledef-page">@page</a> rule. This rule defines a box that, if used, will contain the corresponding note elements that appear on that page and move by generated content properties for notes. Since note areas are in the context page, notes boxes are contained in the content area of a page box.</p>
+<p>The <code>@note-area</code> at-rule creates special <a href="http://dev.w3.org/csswg/css-page/#page-area">page areas</a> that can be used to display notes elements via the <code>element()</code> function. Those areas, called “page note areas”, are created within the <a href="https://www.w3.org/TR/css-page-3/#page-context">page context</a>, which is the <a href="https://www.w3.org/TR/CSS21/syndata.html#x14">declaration block</a> of the <a href="https://www.w3.org/TR/css-page-3/#at-ruledef-page">@page</a> rule. This rule defines a box that, if used, will contain the corresponding note elements that appear on that page and move by generated content properties for notes. Since note areas are in the context page, note boxes are contained in the content area of a page box.</p>
 <p>The <code>@note-area</code> may be following by a custom identifier.</p>
-<p>The properties of a note box are determined by properties declared in the <code>@note</code> rules. These properties can be used to define:</p>
+<p>The properties of a note box are determined by properties declared in the note rules. These properties can be used to define:</p>
 <ul>
-<li>Positioning scheme of the note box</li>
-<li>Size of the note box</li>
-<li>Note policy</li>
+<li>positioning scheme of the note box,</li>
+<li>size of the note box,</li>
+<li>note policy,</li>
 <li>General styling of the note box (each note boxes has its own margin, border, padding and content areas.)</li>
 </ul>
 <p>If the content of a note area overflows from the box, it will go to the next page, in the same note area (see <a href="#notes-policy"><em>Notes policy</em></a>).</p>
 <h3 id="positioning-schemes-of-note-area" tabindex="-1">Positioning schemes of note area</h3>
 <p>Any of the CSS layout facilities can be used to create, position and size note areas: float, absolute positioning, grid, exclusion, etc.</p>
 <h4 id="about-float-and-float-reference" tabindex="-1">About <code>float</code> and <code>float-reference</code></h4>
-<p><a href="https://www.w3.org/TR/css-page-floats-3/">CSS Page float</a> add some values to the <code>float</code> property to positioning element in a page context and propose the <a href="https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference"> <code>float-reference</code> property</a> to indicate the &quot;reference container&quot; for a floated element. We will make extensive use of these properties in the following examples.</p>
+<p><a href="https://www.w3.org/TR/css-page-floats-3/">CSS Page float</a> adds some values to the <code>float</code> property to position elements in a page context, and proposes <a href="https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference"> <code>float-reference</code> property</a> to indicate the “reference container” for a floated element. We will make extensive use of these properties in the following examples.</p>
 <h5 id="the-float-reference-property" tabindex="-1">The <code>float-reference</code> property</h5>
 <blockquote>
 <p>Name:	<code>float-reference</code>
@@ -279,22 +279,22 @@ The float reference of the float is the page within which the float anchor is pl
 </blockquote>
 <aside class="example "><p><strong>Marginal notes on the left margin of the page</strong></p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@left-top</span></span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refs<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-        <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
-        <span class="token property">float-reference</span><span class="token punctuation">:</span> inline<span class="token punctuation">;</span>
-        <span class="token property">margin-left</span><span class="token punctuation">:</span> -50mm<span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 50mm<span class="token punctuation">;</span>   
-    <span class="token punctuation">}</span> 
+  <span class="token atrule"><span class="token rule">@left-top</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refs<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> inline<span class="token punctuation">;</span>
+    <span class="token property">margin-left</span><span class="token punctuation">:</span> -50mm<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 50mm<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span class="token selector">note.refs</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refs<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 </aside>
-<p>Note: Using <code>clear: left</code> is a simple solution to avoid collisions.</p>
+<p>Note: Using <code>clear: left</code> is a simple solution to avoid collisions.</p>
 <div class="advisement ">
-<p><strong>ISSUE</strong>: We need to specify the algorithm that avoids collisions. Also, what if the marginal note overflow the page, how do we indicate that it can be moved up?</p>
+<p><strong>ISSUE</strong>: We need to specify the algorithm that avoids collisions. Also, what if the marginal note overflows the page, how do we indicate that it can be moved up?</p>
 </div>
 <h5 id="extentions-of-the-float-property" tabindex="-1">Extentions of the <code>float</code> property</h5>
 <blockquote>
@@ -306,101 +306,101 @@ The float reference of the float is the page within which the float anchor is pl
 </code></pre>
 <div class="advisement ">
 <p><strong>ISSUE</strong>: Further definitions and examples are required to block-start | block-end | inline-start | inline-end | snap-block | snap-inline | none</p>
-<p><strong>ISSUE</strong>: Does the <code>clear</code> property can work with this propoal ?</p>
+<p><strong>ISSUE</strong>: Does the <code>clear</code> property can work with this proposal?</p>
 </div>
 <h4 id="default-values" tabindex="-1">Default values</h4>
 <p>Default values of properties for <code>@note-area</code>:</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
-    <span class="token property">float</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
-    <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
-    <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-    <span class="token property">max-height</span><span class="token punctuation">:</span> 80%<span class="token punctuation">;</span>
+  <span class="token property">float</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
+  <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">max-height</span><span class="token punctuation">:</span> 80%<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<aside class="example "><p>Using float on the page and negative margins can be helpful in creating note area half on merge, half on text content.</p>
+<aside class="example "><p>Using float on the page and negative margins can be helpful in creating a note area half on margin, half on text content.</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">float</span><span class="token punctuation">:</span> top right<span class="token punctuation">;</span>
-        <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 42mm<span class="token punctuation">;</span>
-        <span class="token property">margin-right</span><span class="token punctuation">:</span> -30mm<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> top right<span class="token punctuation">;</span>
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 42mm<span class="token punctuation">;</span>
+    <span class="token property">margin-right</span><span class="token punctuation">:</span> -30mm<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.sidenote</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831585-d1957c80-953d-11ea-938d-9f6ce8ca6bd4.png" alt="An image of a layout of a page where the margin note is wrapped in the text"><figcaption>Note wrapping using floating note area</figcaption></figure>
 </aside>
-<aside class="example "><p>Since a note area is a box, it's possible to layout the area itself (with columns for example).</p>
+<aside class="example "><p>Since a note area is a box, it’s possible to layout the area itself (with columns for example).</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>notes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span>
-        <span class="token property">float</span><span class="token punctuation">:</span> bottom right<span class="token punctuation">;</span>
-        <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
-        <span class="token property">columns</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>notes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> bottom right<span class="token punctuation">;</span>
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+    <span class="token property">columns</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.notes</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>notes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>notes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
 <figure><img src="/images/81831630-dfe39880-953d-11ea-89c4-4873cc7c72e9.png" alt="An image of a layout where the notes are wrapped at the bottom of the page, taking half the size of the full column"><figcaption>A bottom-right floating note area divided in columns</figcaption></figure>
 </aside>
 <h3 id="multiple-notes-areas-in-a-page" tabindex="-1">Multiple notes areas in a page</h3>
-<p>There are already a lot of use cases in critical editions where you can find multiple kinds of notes (bibliographical references, explanations, etc.) The <code>@note-area</code> at-rules declaration make multiple notes easier by mixing multiple note areas in the same page context.</p>
-<aside class="example "><p>Multiple note area in the same page</p>
+<p>There are already a lot of use cases in critical editions where you can find multiple kinds of notes (bibliographical references, explanations, etc.) The <code>@note-area</code> at-rule declaration make multiple notes easier by mixing multiple note areas in the same page context.</p>
+<aside class="example "><p>Multiple note areas in the same page</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note-area</span> refsA</span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refsA<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">float</span><span class="token punctuation">:</span> bottom left<span class="token punctuation">;</span>
-        <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 30mm<span class="token punctuation">;</span>
-        <span class="token property">margin-left</span><span class="token punctuation">:</span> -12mm<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token atrule"><span class="token rule">@note-area</span> refsB</span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refsB<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">float</span><span class="token punctuation">:</span> bottom right<span class="token punctuation">;</span>
-        <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 60mm<span class="token punctuation">;</span>
-        <span class="token property">columns</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@note-area</span> refsA</span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refsA<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> bottom left<span class="token punctuation">;</span>
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 30mm<span class="token punctuation">;</span>
+    <span class="token property">margin-left</span><span class="token punctuation">:</span> -12mm<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@note-area</span> refsB</span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refsB<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> bottom right<span class="token punctuation">;</span>
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 60mm<span class="token punctuation">;</span>
+    <span class="token property">columns</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.refs-catA</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refsA<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refsA<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.refs-catB</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refsB<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refsB<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png" alt="A layout where three different column of notes are wrapped around the content"><figcaption>An example of the possible layout mixing multiple note areas and float</figcaption></figure>
 </aside>
 <aside class="example "><p>Footnotes and marginal notes in the same page</p>
-<p>In this example, we use <code>inline</code> value of the <code>float-reference</code> property. This allows the creation of marginal notes, i.e., notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.</p>
+<p>In this example, we use the <code>inline</code> value of the <code>float-reference</code> property. This allows the creation of marginal notes, i.e. notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refs<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
-        <span class="token property">float-reference</span><span class="token punctuation">:</span> inline<span class="token punctuation">;</span>
-        <span class="token property">margin-left</span><span class="token punctuation">:</span> -50mm<span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 50mm<span class="token punctuation">;</span>         
-    <span class="token punctuation">}</span>
-    <span class="token atrule"><span class="token rule">@bottom-left</span></span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-        <span class="token property">vertical-align</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>refs<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> inline<span class="token punctuation">;</span>
+    <span class="token property">margin-left</span><span class="token punctuation">:</span> -50mm<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 50mm<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@bottom-left</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+    <span class="token property">vertical-align</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.refs</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>refs<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.footnotes</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png" alt="A layout of a page where margin notes and footnotes are together on the page"><figcaption>Mixing margin notes and footnotes for semantics notes</figcaption></figure>
 <!-- ![A layout where three different column of notes are wrapped around the content](/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "An example of the possible layout mixing multiple note areas and float") -->
@@ -411,76 +411,76 @@ The float reference of the float is the page within which the float anchor is pl
 <li>The (foot)notes are not in a page context since the column properties are applied on an element contained in the page area and not to the page area itself.</li>
 <li>Because a column is an anonymous box, there is currently no way in CSS to target a particular column of a multi-column element.</li>
 </ul>
-<p><a href="https://www.w3.org/TR/css-page-floats-3/">CSS Page float</a> proposes the <a href="https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference"> <code>float-reference</code> property</a> to indicate the &quot;reference container&quot; for a floated element. The value <code>column</code> indicates that the float reference is the column in which the floated element is placed in a multi column environment.</p>
-<p>We can use this reference to indicate the creation of note areas in the columns of the page where the note appears. As many boxes as necessary are created on each column. All the note areas have the same properties and can be target by one <code>@note-area</code> rule only.</p>
+<p><a href="https://www.w3.org/TR/css-page-floats-3/">CSS Page float</a> proposes the <a href="https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference"> <code>float-reference</code> property</a> to indicate the “reference container” for a floated element. The value <code>column</code> indicates that the float reference is the column in which the floated element is placed in a multi column environment.</p>
+<p>We can use this reference to indicate the creation of note areas in the columns of the page where the note appears. As many boxes as necessary are created on each column. All the note areas have the same properties and can be targeted by one <code>@note-area</code> rule only.</p>
 <aside class="example "><pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
-      	<span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>notes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">float</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
-        <span class="token property">float-reference</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>notes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">#content</span> <span class="token punctuation">{</span>
-    <span class="token property">columns</span><span class="token punctuation">:</span> 3<span class="token punctuation">;</span>
+  <span class="token property">columns</span><span class="token punctuation">:</span> 3<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">#content note.notes</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>notes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>notes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831785-128d9100-953e-11ea-8309-c4964154014a.png" alt=""><figcaption>An example of notes for multi-column layout</figcaption></figure>
 </aside>
 <h3 id="%40footnote-special-at-rule" tabindex="-1">@footnote special at-rule</h3>
-<p><a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a> define a special<code>@footnote</code> rule. This rule can be kept in this specification as a specific <code>@note-area</code> with predefined positioning scheme. It behaves like a floated bottom page element. No positioning scheme designed by the user is taken into account in this <code>@footnote</code> rule, and only one footnote box can be created on a page.</p>
+<p><a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a> defines a special<code>@footnote</code> rule. This rule can be kept in this specification as a specific <code>@note-area</code> with predefined positioning scheme. It behaves like a floated bottom page element. No positioning scheme designed by the user is taken into account in this <code>@footnote</code> rule, and only one footnote box can be created on a page.</p>
 <aside class="example "><pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@footnote</span></span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@footnote</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.footnote</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <figure><img src="/images/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png" alt="A layout showing the default setup for footnotes"><figcaption>Notes are footnotes by default with the special <code>@footnote</code> rule</figcaption></figure>
 <p>This would have the exact same behavior when using the following declarations:</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
-    <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
-        <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token property">float</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
-        <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
-        <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+  <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>footnotes<span class="token punctuation">,</span> all-once<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">float</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
+    <span class="token property">float-reference</span><span class="token punctuation">:</span> page<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">note.footnote</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 </aside>
 <h2 id="the-%3A%3Anote-area-pseudo-element" tabindex="-1">The <code>::note-area</code> pseudo element</h2>
-<p>We propose this specific pseudo-element to be able to create end notes for any block elements without having to create specific HTML markup. This pseudo-element can be use in both screen/continuous and paged media</p>
-<p>The <code>::note-area</code> is a new kind of pseudo-element intended to receive generated content created from <code>notes()</code> value. The only value authorised in the <code>content</code> property of <code>::note-area</code>  is the <code>element()</code> function.</p>
-<p><code>::note-area</code> create a pseudo-element that is the last-child of the selected element or the penultimate if <code>::after</code> pseudo-element is displayed. It’s a block level element by default.</p>
+<p>We propose this specific pseudo-element to be able to create end notes for any block elements without having to create specific HTML markup. This pseudo-element can be used in both screen/continuous and paged media.</p>
+<p>The <code>::note-area</code> is a new kind of pseudo-element intended to receive generated content created from <code>notes()</code> value. The only value authorised in the <code>content</code> property of <code>::note-area</code> is the <code>element()</code> function.</p>
+<p><code>::note-area</code> creates a pseudo-element that is the last-child of the selected element or the penultimate if an <code>::after</code> pseudo-element is displayed. It’s a block level element by default.</p>
 <p>The <code>::note-area</code> will only receive the notes included in its primary parent (it won’t get all the notes from other elements), and will be displayed via <code>note()</code> and <code>element()</code> values.</p>
 <aside class="example "><p>The <code>::note-area</code> can be used to create end notes for all <code>section</code> elements.</p>
 <pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
-    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>chapterNotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>chapterNotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">section::note-area</span> <span class="token punctuation">{</span>
-    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>chapterNotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>chapterNotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 </aside>
 <h2 id="notes-policy" tabindex="-1">Notes policy</h2>
-<p>In paged media, it can happen at the end of the page that the last note overflows from the note area. As a general rule, overflow content can be moved to the next page in the note area or the margin box that corresponds to the previous one. However, rendering notes can be complex. Like the <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-policy"><code>footnote-policy</code></a> property in the css-gcpm-3, we need a <code>note-policy</code> that gives authors some controls over the rendering. We propose to update the current specifications.</p>
+<p>In paged media, it can happen at the end of the page that the last note overflows from the note area. As a general rule, overflow content can be moved to the next page in the note area or the margin box that corresponds to the previous one. However, rendering notes can be complex. Like the <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-policy"><code>footnote-policy</code></a> property in the css-gcpm-3, we need a <code>note-policy</code> that gives authors some control over the rendering. We propose to update the current specifications.</p>
 <p>The <code>note-policy</code> must be declared in the global context of the note area or the margin box.</p>
 <p>The values accepted in <code>note-policy</code> are <code>auto</code>, <code>line</code> or <code>block</code>.</p>
 <h3 id="note-policy%3A-auto" tabindex="-1"><code>note-policy: auto</code></h3>
 <p>The user agent chooses how to render notes, and may place some of the note body on a later page than the note reference. A note body must never be placed on a page before the note reference.</p>
-<p>If the entire note doesn't fit in the note area or the margin box, due to the lack of space, the user agent displays the note line by line. If the addition of a new line implies the disappearance in the page of the line of text containing the note call, the user agent stops the rendering of the note and passes the content of the remaining note in the corresponding note area on the next page. Note that the user agent must honor <a href="http://dev.w3.org/csswg/css-break/#widows-orphans">widow and orphans</a> settings when doing this, and may need to apply <code>line</code> value on certain notes to do so.</p>
+<p>If the entire note doesn’t fit in the note area or the margin box, due to the lack of space, the user agent displays the note line by line. If the addition of a new line implies the disappearance in the page of the line of text containing the note call, the user agent stops the rendering of the note and passes the content of the remaining note in the corresponding note area on the next page. Note that the user agent must honor <a href="http://dev.w3.org/csswg/css-break/#widows-orphans">widows and orphans</a> settings when doing this, and may need to apply <code>line</code> value on certain notes to do so.</p>
 <h3 id="note-policy%3A-line" tabindex="-1"><code>note-policy: line</code></h3>
-<p>If a given note body cannot be placed on the current page due to lack of space, the user agent introduces a forced page break before the line containing the note reference, so that both the reference and the note body end up on the next page. Note that the user agent must honor <a href="http://dev.w3.org/csswg/css-break/#widows-orphans">widow and orphans</a> settings when doing this, and may need to insert the page break on an earlier line.</p>
+<p>If a given note body cannot be placed on the current page due to lack of space, the user agent introduces a forced page break before the line containing the note reference, so that both the reference and the note body end up on the next page. Note that the user agent must honor <a href="http://dev.w3.org/csswg/css-break/#widows-orphans">widows and orphans</a> settings when doing this, and may need to insert the page break on an earlier line.</p>
 <h3 id="note-policy%3A-block" tabindex="-1"><code>note-policy: block</code></h3>
-<p>Same for line, except that the forced page break is introduced before the paragraph that contains the note.</p>
+<p>As with line, except that the forced page break is introduced before the paragraph that contains the note.</p>
 <hr>
 <section id="tof"></section>
 
