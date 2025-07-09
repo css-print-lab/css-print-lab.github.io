@@ -110,7 +110,7 @@ In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), there is this issue:
 <!-- TODO: generate the reference to the issue -->
 > Issue: Why is `float: bottom` used with the footnote area? Floating footnotes to the footnote area, and then floating the footnote area itself, seems overly complex, given that implementations don’t allow the footnote area to float anywhere else. Note that some implementations do allow the footnote area to be absolutely positioned. (https://www.w3.org/TR/css-gcpm-3/)
 
-We agree that unsing double float declaration is complex. But a mechanism is needed to move the note element into a specific area of the page or the document. To do this, we can take inspiration from a mechanism already present in the draft of the paged media specifications, the [running element](https://www.w3.org/TR/css-gcpm-3/#running-elements): by adding the `position: running()` declaration, we can remove an element from the flow to reuse it in multiple places, perfect for the running heads of a book for example.
+We agree that using double float declaration is complex. But a mechanism is needed to move the note element into a specific area of the page or the document. To do this, we can take inspiration from a mechanism already present in the draft of the paged media specifications, the [running element](https://www.w3.org/TR/css-gcpm-3/#running-elements): by adding the `position: running()` declaration, we can remove an element from the flow to reuse it in multiple places, perfect for the running heads of a book for example.
 
 For the notes, we’d like to propose a new way to create and place notes, based on new values (`notes()` and `element()`) for properties already in the CSS specifications (`position` and `content`).
 
@@ -207,7 +207,7 @@ With the keyword `all-once`, the value of all the assignment of the document or 
 
 `element() = string(<custom-ident>, all-once)`
 
-### Unsing in `@note-area`
+### Using in `@note-area`
 
 In addition to that, the `element()` function can be used not only in margin boxes but also in new page area `@note-area` (see [*Page note area*](#page-note-areas-(%40note-area))) or a `::note-area` pseudo-element (see [*Note area pseudo elements*](#the-%3A%3Anote-area-pseudo-element)). 
 
@@ -230,7 +230,7 @@ note.note {
 ```
 :::
 
-### Unsing in margin boxes
+### Using in margin boxes
 
 Using the `element()` function, the margin-boxes can now receive the content of the `note` elements.
 
