@@ -26,7 +26,7 @@ export default function (eleventyConfig) {
         const info = tokens[idx].info.trim();
         const m = info.match(/^example\s+(.*)$/);
         const classes = m ? md.utils.escapeHtml(m[1]) : "";
-        console.log(classes);
+        // console.log(classes);
 
         if (tokens[idx].nesting === 1) {
           // opening tag
