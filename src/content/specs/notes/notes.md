@@ -45,7 +45,7 @@ This draft is based on:
 - The `note()` value, that you can use in the content property to declare elements as notes;
 - An extension of the `element()` value to place the element removed from the flow (i.e. the note) in a specific place of the same document,
 - The `@note-area` at-rule that can be used to display notes in a page (for paged media only);
-- The `::note-area` pseudo-element to create end-notes for any block elements (paged media and continuous media).
+- Three syntactic proposals currently under discussion  to handle notes in continuous media
 
 *Originally published here : [https://github.com/w3c/css-print/issues/3](https://github.com/w3c/css-print/issues/3)*
 :::
@@ -659,7 +659,7 @@ note.footnote {
 
 Notes in continuous media can follow the same general model as notes in paged media. The section *Create notes with CSS* applies to both types of media.
 
-HHowever, in continuous media, an explicit mechanism is needed to define where notes should appear, since there is no implicit page structure to anchor note areas. This requires associating a parent element with the note container.
+However, in continuous media, an explicit mechanism is needed to define where notes should appear, since there is no implicit page structure to anchor note areas. This requires associating a parent element with the note container.
 
 We outline three syntactic proposals currently under discussion. All aim to allow *endnotes*, *margin notes*, or *sidenotes* for any block-level element, without requiring additional HTML markup.
 
