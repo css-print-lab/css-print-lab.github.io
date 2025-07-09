@@ -108,7 +108,7 @@ span.footnote {
 <blockquote>
 <p>Issue: Why is <code>float: bottom</code> used with the footnote area? Floating footnotes to the footnote area, and then floating the footnote area itself, seems overly complex, given that implementations don’t allow the footnote area to float anywhere else. Note that some implementations do allow the footnote area to be absolutely positioned. (<a href="https://www.w3.org/TR/css-gcpm-3/">https://www.w3.org/TR/css-gcpm-3/</a>)</p>
 </blockquote>
-<p>We agree that unsing double float declaration is complex. But a mechanism is needed to move the note element into a specific area of the page or the document. To do this, we can take inspiration from a mechanism already present in the draft of the paged media specifications, the <a href="https://www.w3.org/TR/css-gcpm-3/#running-elements">running element</a>: by adding the <code>position: running()</code> declaration, we can remove an element from the flow to reuse it in multiple places, perfect for the running heads of a book for example.</p>
+<p>We agree that using double float declaration is complex. But a mechanism is needed to move the note element into a specific area of the page or the document. To do this, we can take inspiration from a mechanism already present in the draft of the paged media specifications, the <a href="https://www.w3.org/TR/css-gcpm-3/#running-elements">running element</a>: by adding the <code>position: running()</code> declaration, we can remove an element from the flow to reuse it in multiple places, perfect for the running heads of a book for example.</p>
 <p>For the notes, we’d like to propose a new way to create and place notes, based on new values (<code>notes()</code> and <code>element()</code>) for properties already in the CSS specifications (<code>position</code> and <code>content</code>).</p>
 <h2 id="proposal%3A-pattern-to-create-notes" tabindex="-1">Proposal: pattern to create notes</h2>
 <h3 id="global-pattern" tabindex="-1">Global pattern</h3>
@@ -174,7 +174,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <p>To make <code>element()</code> work with <code>note()</code>, a specific behaviour needs to be added that can be declared via an optional keyword all-once.</p>
 <p>With the keyword <code>all-once</code>, the value of all the assignment of the document or the page are used. ie - all the note elements (which have been removed from the normal flow via <code>note()</code>) are display in the new area where they're assigned. Each element from <code>note()</code> value is displayed in the same order of the flow and has only one assignment in the document or in the page (the elements are not repeated). The value may be empty if there is no note element on the page.</p>
 <p><code>element() = string(&lt;custom-ident&gt;, all-once)</code></p>
-<h3 id="unsing-in-%40note-area" tabindex="-1">Unsing in <code>@note-area</code></h3>
+<h3 id="using-in-%40note-area" tabindex="-1">Using in <code>@note-area</code></h3>
 <p>In addition to that, the <code>element()</code> function can be used not only in margin boxes but also in new page area <code>@note-area</code> (see <a href="#page-note-areas-(%40note-area)"><em>Page note area</em></a>) or a <code>::note-area</code> pseudo-element (see <a href="#the-%3A%3Anote-area-pseudo-element"><em>Note area pseudo elements</em></a>).</p>
 <aside class="example numbered"><p><strong>Notes in page note area</strong></p>
 <pre class="language-css"><code class="language-css"><span class="token selector">note.note</span> <span class="token punctuation">{</span>
@@ -187,7 +187,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 </aside>
-<h3 id="unsing-in-margin-boxes" tabindex="-1">Unsing in margin boxes</h3>
+<h3 id="using-in-margin-boxes" tabindex="-1">Using in margin boxes</h3>
 <p>Using the <code>element()</code> function, the margin-boxes can now receive the content of the <code>note</code> elements.</p>
 <p>The <a href="https://www.w3.org/TR/css-page-3/#margin-dimension">dimensions</a> and (default) <a href="https://www.w3.org/TR/css-page-3/#page-margin-property">properties</a> of a margin box works as described in <a href="https://www.w3.org/TR/css-page-3/">CSS-page-3</a>. The size of the note area does not affect the content page area.</p>
 <aside class="example numbered"><p><strong>Notes in page margin box</strong></p>
