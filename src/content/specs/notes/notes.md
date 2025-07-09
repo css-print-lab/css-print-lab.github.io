@@ -1,6 +1,6 @@
 ---
-title: "Notes in css Print"
-subtitle: Handling footnotes and alike in CSS print
+slug: "notes-in-css-print"
+title: "CSS Notes"
 status: unofficial
 version: 0.1
 shortName: "printnotes"
@@ -38,7 +38,7 @@ editors:
 
 ::: abstract
 
-This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. The initiative comes from the [Paged.js](https://pagedjs.org/) team ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)), as part of the [CSS Print Lab](https://github.com/css-print-lab) project, supported by [NLnet](https://nlnet.nl/commonsfund/).
+This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the [Pushing Forward for CSS Print] project, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund/), established by [NLnet](https://nlnet.nl/). It’s a joint initiative from core contributors of [Paged.js](https://pagedjs.org/) ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)). The result of this work can be found on [CSS Print Lab’s github](https://github.com/css-print-lab).
 
 This draft is based on:
 
