@@ -768,7 +768,7 @@ section {
 
 
 
-#### Further Examples and Use Cases
+### Further Examples and Use Cases
 
 In all three proposals, once the note is mapped to its container, authors can use existing CSS layout mechanisms to position and size the note content, such as: float, absolute positioning, grid, exclusion, etc.
 
