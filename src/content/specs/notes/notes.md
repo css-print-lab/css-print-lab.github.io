@@ -1,6 +1,6 @@
 ---
-title: "Notes in css Print"
-subtitle: Handling footnotes and alike in CSS print
+slug: "notes-in-css-print"
+title: "CSS Notes"
 status: unofficial 
 version: 0.1
 shortName: "printnotes"
