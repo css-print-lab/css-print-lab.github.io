@@ -228,6 +228,22 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
   <span class="token property">counter-reset</span><span class="token punctuation">:</span> note<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>Note that the value of the note counter should depend on the position of the note element in the document tree, not where it is eventually placed. A note element may sometimes be placed on the page after the note call, but the same counter value must be used for both.</p>
+<p>By default, note counters use a predefined <a href="http://dev.w3.org/csswg/css-lists/#counter">counter</a> with the same name (<code>&lt;custom-ident&gt;</code>) as the one used in <code>note()</code>. You don’t need to declare <code>counter-reset</code> or <code>counter-increment</code> unless you want to customize their behavior.</p>
+<aside class="example numbered"><pre><code>section{
+	counter-reset: sidenote 0;
+}
+note.sidenote{
+    position: note(sidenote);
+}
+</code></pre>
+<p>In the example above, sidenotes are reset at the beginning of each section.</p>
+<pre><code>note.footnote{
+    position: note(footnote);
+    counter-increment: 2;
+}
+</code></pre>
+<p>In the example above, footnotes increment by 2 instead of the default value of 1.</p>
+</aside>
 <h3 id="the-%3A%3Anote-call-pseudo-element" tabindex="-1">The <code>::note-call</code> pseudo element</h3>
 <p>A <code>::note-call</code> pseudo-element is inserted in place of the <code>note</code> element when the latter is removed from the flow. By default, the content of this pseudo-element is the value of the note counter, styled as a superscripted number. It must act like an anchor.</p>
 <pre class="language-css"><code class="language-css"><span class="token selector">::note-call</span> <span class="token punctuation">{</span>
@@ -244,8 +260,31 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <span class="token punctuation">}</span>
 </code></pre>
 <div class="advisement ">
+<p><strong>ISSUE</strong> Counters for <code>::note-marker</code> and <code>::note-call</code> must match. If a user removes one of those from the tree (using <code>display: none</code> for one of them for example), it will affect the <code>::note-call</code> and the <code>::note-marker</code>: they will not appear on the page, and should be skipped by the counter. (It would be interesting to look at an option to only show the <code>::note-marker</code> or the <code>::note-call</code>, but we haven’t found a use case for it).
+Also, it’s important to note <a href="">https://www.w3.org/TR/css-gcpm-3/#footnote-types</a> propose the <code>footnote-display</code> property, but it doesnt include a <code>none</code>.</p>
 <p><strong>ISSUE</strong> Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?</p>
 </div>
+<h3 id="support-for-multiple-note-types" tabindex="-1">Support for multiple note types</h3>
+<p>Notes call and maker can be used either at the parent element level or at the note element level, allowing different types of notes within the same section.</p>
+<aside class="example numbered"><pre><code>```
+note.sidenote{
+    position: note(sidenote);
+}
+
+note.footnote{
+    position: note(footnote);
+}
+
+note.sidenote::note-call {
+    /* will affect all the note with a class  `sidenote`*/
+}
+
+note.footnote::note-call {
+    /* will affect all the note with a class  `sidenote`*/
+}
+```
+</code></pre>
+</aside>
 <h3 id="the-%3A%3Anote-callback-pseudo-element" tabindex="-1">The ::note-callback pseudo element</h3>
 <p>The <code>::note-callback</code> pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated <code>::note-call</code>. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.</p>
 <pre class="language-css"><code class="language-css"><span class="token selector">::note-callback</span> <span class="token punctuation">{</span>
