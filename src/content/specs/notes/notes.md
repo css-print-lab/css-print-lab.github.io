@@ -311,7 +311,7 @@ Note that the value of the note counter should depend on the position of the not
 A `::note-call` pseudo-element is inserted in place of the `note` element when the latter is removed from the flow. By default, the content of this pseudo-element is the value of the note counter, styled as a superscripted number. It must act like an anchor.
 
 ```css
-::note-call {
+p.example ::note-call {
   content: counter(note);
   vertical-align: baseline;
   font-size: 100%;
@@ -325,13 +325,15 @@ A `::note-call` pseudo-element is inserted in place of the `note` element when t
 The `::note-marker` pseudo-element represents the note element’s marker, the number or symbol that identifies each note. This pseudo-element behaves like a `::marker` pseudo-element, as defined in [[CSS3LIST\]](https://www.w3.org/TR/css-gcpm-3/#css3list). It is placed at the beginning of the parent’s content, and is inline by default. The `::note-marker` can be styled just as other `::marker` elements can be. The default style should include `list-style-position: inside`, or be set as any other list.
 
 ```css
-::note-marker {
+p.example ::note-marker {
   content: counter(note) '. ';
 }
 
 ```
-
 ::: issue 
+
+**ISSUE** Counters for `::note-marker` and `::note-call` must match. If a user removes one of those from the tree (using `display: none` for one of them for example), it will affect the `::note-call` and the `::note-marker`: they will not appear on the page, and should be skipped by the counter. (It would be interesting to look at an option to only show the `::note-marker` or the `::note-call`, but we haven’t found a use case for it).
+Also, it’s important to note [https://www.w3.org/TR/css-gcpm-3/#footnote-types]() propose the `footnote-display` property, but it doesnt include a `none`.  
 
 **ISSUE** Counters for `::note-marker` and `::note-call` must match. If a user removes one of those from the tree (using `display: none` for one of them for example), it will affect the `::note-call` and the `::note-marker`: they will not appear on the page, and will be skipped by the counter.  
 
