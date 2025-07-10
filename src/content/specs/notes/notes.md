@@ -13,8 +13,7 @@ This draft is based on:
 - The `note()` value, that you can use in the content property to declare elements as notes;
 - An extension of the `element()` value to place the element removed from the flow (i.e. the note) in a specific place of the same document,
 - The `@note-area` at-rule that can be used to display notes in a page (for paged media only);
-- The `::note-area` pseudo-element to create end-notes for any block elements (paged media and continuous media).
-
+- Three syntactic proposals currently under discussion  to handle notes in continuous media
 
 *Originally published here : [https://github.com/w3c/css-print/issues/3](https://github.com/w3c/css-print/issues/3)*
 :::
@@ -243,6 +242,9 @@ note.sidenote {
 
 The note counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) associated with the note element. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.
 
+
+
+
 The note counter, like other counters, may use any [counter style](http://dev.w3.org/csswg/css-counter-styles-3/#counter-style). Notes often use a sequence of symbols.
 
 ```css
@@ -297,7 +299,15 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 
 ```
 
+::: issue 
+
 **ISSUE** Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?
+
+:::
+
+
+
+
 
 ### The ::note-callback pseudo element
 
@@ -624,31 +634,159 @@ note.footnote {
 
 :::
 
-## The `::note-area` pseudo element
+## Notes in continuous media
 
-We propose this specific pseudo-element to be able to create end notes for any block elements without having to create specific HTML markup. This pseudo-element can be used in both screen/continuous and paged media.
+Notes in continuous media can follow the same general model as notes in paged media. The section *Create notes with CSS* applies to both types of media.
 
-The `::note-area` is a new kind of pseudo-element intended to receive generated content created from `notes()` value. The only value authorised in the `content` property of `::note-area` is the `element()` function.
+However, in continuous media, an explicit mechanism is needed to define where notes should appear, since there is no implicit page structure to anchor note areas. This requires associating a parent element with the note container.
 
-`::note-area` creates a pseudo-element that is the last-child of the selected element or the penultimate if an `::after` pseudo-element is displayed. It’s a block level element by default.
+We outline three syntactic proposals currently under discussion. All aim to allow *endnotes*, *margin notes*, or *sidenotes* for any block-level element, without requiring additional HTML markup.
 
-The `::note-area` will only receive the notes included in its primary parent (it won’t get all the notes from other elements), and will be displayed via `note()` and `element()` values.
+
+
+### Proposal 1: Use `element()` with `::after`
+
+This approach uses the standard `::after` pseudo-element and the `element()` function to insert the content of the note. 
+
+::: example
+
+```css
+note {
+  position: note(sidenotes);
+}
+
+section::after {
+  content: element(sidenotes);
+}
+```
+
+:::
+
+
+
+**Considerations**
+
+- Simple and uses existing CSS.
+
+- `::after` is already widely used by authors and cannot be duplicated, which may conflict with other content or styles.
+
+- The `::after` pseudo-element is inline by default and only supports textual `content` in most current implementations.
+
+- Only one `::after` declaration is allowed, making it impossible to define multiple note areas.
+
+  
+
+  
+
+### Proposal 2 : Introduce a new `::note-area` pseudo element
+
+The `::note-area` pseudo-element represents a dedicated block-level container for notes generated via the `note()` / `element()` mechanism. It dynamically inserts note content at the end of the selected element.
+
+`::note-area` creates a pseudo-element that is the last-child of the selected element or the penultimate if an `::after` pseudo-element is displayed. It only accepts `content: element(<ident>)` values and is block-level by default.
+
+The `::note-area` only receives notes originating from its parent, it does not aggregate notes from elsewhere in the document.
 
 
 ::: example
 
-The `::note-area` can be used to create end notes for all `section` elements.
-
 ```css
 note {
-  position: note(chapterNotes);
+  position: note(sidenotes);
 }
 
 section::note-area {
-  content: element(chapterNotes);
+  content: element(sidenotes);
 }
 ```
+
 :::
+
+
+
+**Considerations**
+
+- Pseudo-elements are not accessible in the DOM and may be harder to script or interact with.
+- Pseudo-elements default to `inline`, though that can be overridden (`display: block` can be assumed here).
+- Only one `::note-area` pseudo-element is possible per element; multiple note streams require more complex handling or alternative syntax.
+
+### Proposal 3 : Use `@note-area` 
+
+This approach introduces `@note-area` at-rule nested inside the CSS rule of the parent element. It provides explicit mapping between the element and the note stream.
+
+::: example
+
+
+
+```css
+note {
+  position: note(sidenotes);
+}
+
+section {
+  @note-area {
+  	content: element(sidenotes);
+	}
+}
+```
+
+:::
+
+
+
+**Considerations**
+
+- Advantage: multiple `@note-area` block can be defined within a single element, supporting multiple note streams.
+
+- Keeps the note container within the DOM context, unlike pseudo-elements.
+
+- Is the at-rule model too divergent from traditional CSS syntax?
+
+- May align well with future CSS features such as container queries or scoped styles.
+
+  
+
+
+
+### Further Examples and Use Cases
+
+In all three proposals, once the note is mapped to its container, authors can use existing CSS layout mechanisms to position and size the note content, such as: float, absolute positioning, grid, exclusion, etc.
+
+Note styling is defined in the note element and applies identically across all three models.
+
+All three proposals also support inheritance: nested elements can override or inherit note behavior from their parents.
+
+For example, marginal notes can be achieved in all three models using similar layout logic. Here’s an example using `::note-area`:
+
+
+
+::: example
+
+```
+note {
+  position: note(margin-notes);
+}
+
+section::note-area {
+  content: element(margin-notes);
+  float-reference: inline;
+  float: left;
+  clear: both;
+  width: 180px;
+  margin-left: -180px;
+}
+```
+
+This creates margin notes aligned with the note reference, placed in the left of the parent section.
+
+:::
+
+::: issue
+
+**ISSUE** A dedicated issue is open to track these discussions and ensure a clear path forward for note handling in continuous media: https://github.com/css-print-lab/css-print-lab.github.io/issues/10
+
+:::
+
+
 
 ## Notes policy
 
@@ -677,5 +815,4 @@ As with line, except that the forced page break is introduced before the paragra
 ::: tof
 
 :::
-
 
