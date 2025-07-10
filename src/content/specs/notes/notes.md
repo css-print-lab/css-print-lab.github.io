@@ -1,6 +1,6 @@
 ::: abstract
 
-This document is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the *Pushing Forward for CSS Print* project, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund/), established by [NLnet](https://nlnet.nl/). It’s a joint initiative from core contributors of [Paged.js](https://pagedjs.org/) ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)). The result of this work can be found on [CSS Print Lab’s github](https://github.com/css-print-lab).
+This document is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the [*Pushing Forward for CSS Print*](https://nlnet.nl/project/CSS-Print/) project, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund/), established by [NLnet](https://nlnet.nl/). It’s a joint initiative from core contributors of [Paged.js](https://pagedjs.org/) ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)). The result of this work can be found on [CSS Print Lab’s github](https://github.com/css-print-lab).
 
 This draft is based on:
 
@@ -157,7 +157,7 @@ A custom identifier is required: `note(<custom-ident>)`. If there is no `element
 To place the elements removed from the flow in a specific place on the document or page, we can use the function `element()` already present in the specifications and usable in a `content` property.
 
 > The `element()` value of the content property places an element (which has been removed from the normal flow via `running()`) in a page margin box. Whenever the value of the element changes, the value of `element()` is updated. \
-> Just as with `string()`, `element()` takes an optional keyword to describe which value should be used in the case of multiple assignments on a page. User agents must be able to recall many values, as `element()` can return past, current, or future values of the assignment. [add link]
+> Just as with `string()`, `element()` takes an optional keyword to describe which value should be used in the case of multiple assignments on a page. User agents must be able to recall many values, as `element()` can return past, current, or future values of the assignment. [https://www.w3.org/TR/css-gcpm-3/#element-syntax](https://www.w3.org/TR/css-gcpm-3/#element-syntax)
 
 A custom identifier is required (same as the corresponding `note()` function): `element(<custom-ident>)`.
 
