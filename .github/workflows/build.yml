@@ -1,4 +1,4 @@
-name: Build PR
+name: main
 
 on:
   pull_request:
@@ -10,7 +10,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ["20"]
+        node-version: ["22"]
+
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -26,3 +29,8 @@ jobs:
 
       - name: Run npm build
         run: npm run build
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
