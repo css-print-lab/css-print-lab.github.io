@@ -260,8 +260,6 @@ note.sidenote{
 <span class="token punctuation">}</span>
 </code></pre>
 <div class="advisement ">
-<p><strong>ISSUE</strong> Counters for <code>::note-marker</code> and <code>::note-call</code> must match. If a user removes one of those from the tree (using <code>display: none</code> for one of them for example), it will affect the <code>::note-call</code> and the <code>::note-marker</code>: they will not appear on the page, and should be skipped by the counter. (It would be interesting to look at an option to only show the <code>::note-marker</code> or the <code>::note-call</code>, but we haven’t found a use case for it).
-Also, it’s important to note <a href="">https://www.w3.org/TR/css-gcpm-3/#footnote-types</a> propose the <code>footnote-display</code> property, but it doesnt include a <code>none</code>.</p>
 <p><strong>ISSUE</strong> Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?</p>
 </div>
 <h3 id="support-for-multiple-note-types" tabindex="-1">Support for multiple note types</h3>
