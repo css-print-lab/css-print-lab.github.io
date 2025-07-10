@@ -1,9 +1,3 @@
----
-title: "CSS Notes"
----
-
-
-
 ::: abstract
 
 This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the [Pushing Forward for CSS Print] project, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund/), established by [NLnet](https://nlnet.nl/). It’s a joint initiative from core contributors of [Paged.js](https://pagedjs.org/) ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)). The result of this work can be found on [CSS Print Lab’s github](https://github.com/css-print-lab).
@@ -175,7 +169,7 @@ With the keyword `all-once`, the value of all the assignments of the document or
 
 ### Using in `@note-area`
 
-In addition to that, the `element()` function can be used not only in margin boxes but also in new page area `@note-area` (see [*Page note area*](#page-note-areas-(%40note-area))) or a `::note-area` pseudo-element (see [*Note area pseudo elements*](#the-%3A%3Anote-area-pseudo-element)).
+In addition to that, the `element()` function can be used not only in margin boxes but also in new page area `@note-area` (see [*Page note area*](#page-note-areas-(%40note-area))) or a `::note-area` pseudo-element (see [*Note area pseudo elements*](#proposal-2-%3A-introduce-a-new-%3A%3Anote-area-pseudo-element)).
 
 
 
