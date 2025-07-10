@@ -322,9 +322,6 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 ```
 ::: issue 
 
-**ISSUE** Counters for `::note-marker` and `::note-call` must match. If a user removes one of those from the tree (using `display: none` for one of them for example), it will affect the `::note-call` and the `::note-marker`: they will not appear on the page, and should be skipped by the counter. (It would be interesting to look at an option to only show the `::note-marker` or the `::note-call`, but we haven’t found a use case for it).
-Also, it’s important to note [https://www.w3.org/TR/css-gcpm-3/#footnote-types]() propose the `footnote-display` property, but it doesnt include a `none`.  
-
 
 **ISSUE** Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?
 
