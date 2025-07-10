@@ -237,8 +237,6 @@ note.sidenote {
 The note counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) associated with the note element. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.
 
 
-
-
 The note counter, like other counters, may use any [counter style](http://dev.w3.org/csswg/css-counter-styles-3/#counter-style). Notes often use a sequence of symbols.
 
 ```css
@@ -266,6 +264,34 @@ section {
 
 Note that the value of the note counter should depend on the position of the note element in the document tree, not where it is eventually placed. A note element may sometimes be placed on the page after the note call, but the same counter value must be used for both.
 
+By default, note counters use a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) with the same name (`<custom-ident>`) as the one used in `note()`. You don’t need to declare `counter-reset` or `counter-increment` unless you want to customize their behavior.
+
+
+
+::: example numbered
+
+```
+section{
+	counter-reset: sidenote 0;
+}
+note.sidenote{
+    position: note(sidenote);
+}
+```
+
+In the example above, sidenotes are reset at the beginning of each section.
+
+```
+note.footnote{
+    position: note(footnote);
+    counter-increment: 2;
+}
+```
+
+In the example above, footnotes increment by 2 instead of the default value of 1.
+
+:::
+
 
 
 ### The `::note-call` pseudo element
@@ -282,6 +308,8 @@ A `::note-call` pseudo-element is inserted in place of the `note` element when t
 }
 ```
 
+
+
 ### The `::note-marker` pseudo element
 
 The `::note-marker` pseudo-element represents the note element’s marker, the number or symbol that identifies each note. This pseudo-element behaves like a `::marker` pseudo-element, as defined in [[CSS3LIST\]](https://www.w3.org/TR/css-gcpm-3/#css3list). It is placed at the beginning of the parent’s content, and is inline by default. The `::note-marker` can be styled just as other `::marker` elements can be. The default style should include `list-style-position: inside`, or be set as any other list.
@@ -292,10 +320,40 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 }
 
 ```
-
 ::: issue 
 
+
 **ISSUE** Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?
+
+:::
+
+
+
+### Support for multiple note types
+
+Notes call and maker can be used either at the parent element level or at the note element level, allowing different types of notes within the same section.
+
+::: example numbered
+
+````
+```
+note.sidenote{
+    position: note(sidenote);
+}
+
+note.footnote{
+    position: note(footnote);
+}
+
+note.sidenote::note-call {
+    /* will affect all the note with a class  `sidenote`*/
+}
+
+note.footnote::note-call {
+    /* will affect all the note with a class  `sidenote`*/
+}
+```
+````
 
 :::
 
