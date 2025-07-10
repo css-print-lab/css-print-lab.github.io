@@ -1,6 +1,6 @@
 ::: abstract
 
-This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the [Pushing Forward for CSS Print] project, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund/), established by [NLnet](https://nlnet.nl/). It’s a joint initiative from core contributors of [Paged.js](https://pagedjs.org/) ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)). The result of this work can be found on [CSS Print Lab’s github](https://github.com/css-print-lab).
+This document is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the *Pushing Forward for CSS Print* project, funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund/), established by [NLnet](https://nlnet.nl/). It’s a joint initiative from core contributors of [Paged.js](https://pagedjs.org/) ([@julientaq](https://github.com/julientaq), [@JulieBlanc](https://github.com/JulieBlanc)) and the [WeasyPrint](https://weasyprint.org/) team ([@grewn0uille](https://github.com/grewn0uille), [@liZe](https://github.com/liZe)). The result of this work can be found on [CSS Print Lab’s github](https://github.com/css-print-lab).
 
 This draft is based on:
 
@@ -123,7 +123,8 @@ A `note` element represents a note, e.g. a secondary content that is related to 
 
 The following example is a conforming HTML fragment:
 
-<!-- ```HTML
+<!-- 
+```HTML
 <p>Gutenberg  in 1439 was the first European to use movable type.
 Among his many contributions to printing are: the invention of
 a process for mass-producing movable type; the use of oil-based
@@ -132,7 +133,8 @@ History of American Advertising By Juliann Sivulka, page 5</note>
 adjustable molds; mechanical movable type; and the use
 of a wooden printing press similar to the agricultural
 screw presses of the period.</p>
-``` -->
+```
+-->
 
 ![](/images/example-html-note.png "HTML code with note tag")
 
@@ -155,7 +157,7 @@ A custom identifier is required: `note(<custom-ident>)`. If there is no `element
 To place the elements removed from the flow in a specific place on the document or page, we can use the function `element()` already present in the specifications and usable in a `content` property.
 
 > The `element()` value of the content property places an element (which has been removed from the normal flow via `running()`) in a page margin box. Whenever the value of the element changes, the value of `element()` is updated. \
-> Just as with `string()`, `element()` takes an optional keyword to describe which value should be used in the case of multiple assignments on a page. User agents must be able to recall many values, as `element()` can return past, current, or future values of the assignment.
+> Just as with `string()`, `element()` takes an optional keyword to describe which value should be used in the case of multiple assignments on a page. User agents must be able to recall many values, as `element()` can return past, current, or future values of the assignment. [add link]
 
 A custom identifier is required (same as the corresponding `note()` function): `element(<custom-ident>)`.
 
@@ -167,11 +169,11 @@ With the keyword `all-once`, the value of all the assignments of the document or
 
 `element() = string(<custom-ident>, all-once)`
 
+
+
 ### Using in `@note-area`
 
-In addition to that, the `element()` function can be used not only in margin boxes but also in new page area `@note-area` (see [*Page note area*](#page-note-areas-(%40note-area))) or a `::note-area` pseudo-element (see [*Note area pseudo elements*](#proposal-2-%3A-introduce-a-new-%3A%3Anote-area-pseudo-element)).
-
-
+The `element()` function can be used  in new page area `@note-area` (see [*Page note area*](#page-note-areas-(%40note-area))).
 
 ::: example numbered
 
@@ -224,7 +226,7 @@ note.sidenote {
 
 ::: issue
 
-**ISSUE**: In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), the default value of the second argument of the `element()` function is `first`. However, when notes are created from the `note()`function, this should be the value `all-once` by default. How do you indicate this?
+**ISSUE**: In [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/), the default value of the second argument of the `element()` function is `first`. However, when notes are created from the `note()` function, this should be the value `all-once` by default. How do you indicate this?
 
 **ISSUE**: If the other arguments of the function `element()` are declared (`first`, `first-except`, `last`, `start`), what does that do for the note elements?
 
@@ -236,6 +238,31 @@ note.sidenote {
 
 The note counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) associated with the note element. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.
 
+By default, note counters use a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) with the same name (`<custom-ident>`) as the one used in `note()`. You don’t need to declare `counter-reset` or `counter-increment` unless you want to customize their behavior.
+
+::: example numbered
+
+In the example below, sidenotes are reset at the beginning of each section.
+
+```
+section{
+    counter-reset: sidenote 0;
+}
+note.sidenote{
+    position: note(sidenote);
+}
+```
+
+In the example below, footnotes increment by 2 instead of the default value of 1.
+
+```
+note.footnote{
+    position: note(footnote);
+    counter-increment: 2;
+}
+```
+
+:::
 
 The note counter, like other counters, may use any [counter style](http://dev.w3.org/csswg/css-counter-styles-3/#counter-style). Notes often use a sequence of symbols.
 
@@ -254,43 +281,7 @@ The note counter can be reset on each page:
 }
 ```
 
-Or it can be reset per element:
-
-```css
-section {
-  counter-reset: note;
-}
-```
-
 Note that the value of the note counter should depend on the position of the note element in the document tree, not where it is eventually placed. A note element may sometimes be placed on the page after the note call, but the same counter value must be used for both.
-
-By default, note counters use a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) with the same name (`<custom-ident>`) as the one used in `note()`. You don’t need to declare `counter-reset` or `counter-increment` unless you want to customize their behavior.
-
-
-
-::: example numbered
-
-```
-section{
-	counter-reset: sidenote 0;
-}
-note.sidenote{
-    position: note(sidenote);
-}
-```
-
-In the example above, sidenotes are reset at the beginning of each section.
-
-```
-note.footnote{
-    position: note(footnote);
-    counter-increment: 2;
-}
-```
-
-In the example above, footnotes increment by 2 instead of the default value of 1.
-
-:::
 
 
 
@@ -320,14 +311,22 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 }
 
 ```
+### The ::note-callback pseudo element
+
+The `::note-callback` pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated `::note-call`. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.
+
+```css
+::note-callback {
+  content: '↩';
+}
+```
+
 ::: issue 
 
 
 **ISSUE** Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?
 
 :::
-
-
 
 ### Support for multiple note types
 
@@ -346,11 +345,11 @@ note.footnote{
 }
 
 note.sidenote::note-call {
-    /* will affect all the note with a class  `sidenote`*/
+    /* will affect all the note with a class `sidenote`*/
 }
 
 note.footnote::note-call {
-    /* will affect all the note with a class  `sidenote`*/
+    /* will affect all the note with a class `footnote`*/
 }
 ```
 ````
@@ -361,15 +360,7 @@ note.footnote::note-call {
 
 
 
-### The ::note-callback pseudo element
 
-The `::note-callback` pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated `::note-call`. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.
-
-```css
-::note-callback {
-  content: '↩';
-}
-```
 
 ## Page note areas (`@note-area`)
 
@@ -391,96 +382,7 @@ If the content of a note area overflows from the box, it will go to the next pag
 
 Any of the CSS layout facilities can be used to create, position and size note areas: float, absolute positioning, grid, exclusion, etc.
 
-#### About `float` and `float-reference`
-
-[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) adds some values to the `float` property to position elements in a page context, and proposes [ `float-reference` property](https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference) to indicate the “reference container” for a floated element. We will make extensive use of these properties in the following examples.
-
-#####  The `float-reference` property
-
-> Name:	`float-reference`
-> Value: inline | column | region | page
-> (...)
->
-> `inline`
-> The float reference is the line box of the float anchor. (...)
->
-> `column`
-> The float reference is the column in a multi column environment in which the float anchor is placed.
->
-> `region`
-> The float reference is the region in a region-chain within which the float anchor is placed. (...)
->
-> `page`
-> The float reference of the float is the page within which the float anchor is placed. (...)
-
-
-::: example
-
-**Marginal notes on the left margin of the page**
-
-```css
-@page {
-  @left-top {
-    content: element(refs, all-once);
-    float: left;
-    float-reference: inline;
-    margin-left: -50mm;
-    width: 50mm;
-  }
-}
-note.refs {
-  position: note(refs);
-}
-
-```
-:::
-
-Note: Using `clear: left` is a simple solution to avoid collisions.
-
-::: issue
-
-**ISSUE**: We need to specify the algorithm that avoids collisions. Also, what if the marginal note overflows the page, how do we indicate that it can be moved up?
-
-:::
-
-#####  Extentions of the `float` property
-
-> Name:	`float`
->
-> Value: left | right | top | bottom
-
-Values can be added together:
-
-```
-float: top right;
-```
-
-::: issue
-
-**ISSUE**: Further definitions and examples are required to block-start | block-end | inline-start | inline-end | snap-block | snap-inline | none
-
-**ISSUE**: Does the `clear` property can work with this proposal?
-
-:::
-
-
-
-
-#### Default values
-
-Default values of properties for `@note-area`:
-
-```css
-@note-area {
-  float: bottom;
-  float-reference: page;
-  width: 100%;
-  max-height: 80%;
-}
-```
-
-
-::: example
+::: example numbered
 
 Using float on the page and negative margins can be helpful in creating a note area half on margin, half on text content.
 
@@ -504,7 +406,7 @@ note.sidenote {
 
 :::
 
-::: example
+::: example numbered
 
 Since a note area is a box, it’s possible to layout the area itself (with columns for example).
 
@@ -524,18 +426,154 @@ note.notes {
 }
 
 ```
+
 ![An image of a layout where the notes are wrapped at the bottom of the page, taking half the size of the full column](/images/81831630-dfe39880-953d-11ea-89c4-4873cc7c72e9.png "A bottom-right floating note area divided in columns")
 
 :::
+
+
+
+Default values of properties for `@note-area`:
+
+```css
+@note-area {
+  float: bottom;
+  float-reference: page;
+  width: 100%;
+  max-height: 80%;
+}
+```
+
+
+
+### Float notes (`float` and `float-reference`)
+
+[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) adds some values to the `float` property to position elements in a page context, and proposes [ `float-reference` property](https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference) to indicate the “reference container” for a floated element. We will make extensive use of these properties in the following examples.
+
+####  The `float-reference` property
+
+> Name:	`float-reference`
+> Value: inline | column | region | page
+> (...)
+>
+> `inline`
+> The float reference is the line box of the float anchor. (...)
+>
+> `column`
+> The float reference is the column in a multi column environment in which the float anchor is placed.
+>
+> `region`
+> The float reference is the region in a region-chain within which the float anchor is placed. (...)
+>
+> `page`
+> The float reference of the float is the page within which the float anchor is placed. (...)
+
+
+::: example numbered
+
+**Marginal notes on the left margin of the page**
+
+In this example, we use the `inline` value of the `float-reference` property. This allows the creation of marginal notes, i.e. notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.
+
+```css
+@page {
+  @left-top {
+    content: element(refs, all-once);
+    float: left;
+    float-reference: inline;
+    margin-left: -50mm;
+    width: 50mm;
+  }
+}
+note.refs {
+  position: note(refs);
+}
+
+```
+With float, using `clear: left` is a simple solution to avoid collisions of marginal notes.
+
+:::
+
+
+
+::: issue
+
+**ISSUE**: We need to specify the algorithm that avoids collisions. Also, what if the marginal note overflows the page, how do we indicate that it can be moved up?
+
+:::
+
+####  Extentions of the `float` property
+
+[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) propose some extentions of the `float` property.
+
+> Name:	`float`
+>
+> Value: left | right | top | bottom
+
+Values can be added together:
+
+```
+float: top right;
+```
+
+::: issue
+
+**ISSUE**: Further definitions and examples are required to block-start | block-end | inline-start | inline-end | snap-block | snap-inline | none
+
+**ISSUE**: Does the `clear` property can work with this proposal?
+
+:::
+
+
+
+
+
+### Notes for multi-column layout
+
+In a multi-column layout, note elements may have to be displayed at the bottom of each column. This means that multiple note areas might have to be created for the same fragmented flow. This layout creates some issues:
+
+- The (foot)notes are not in a page context since the column properties are applied on an element contained in the page area and not to the page area itself.
+- Because a column is an anonymous box, there is currently no way in CSS to target a particular column of a multi-column element.
+
+[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) proposes the [ `float-reference` property](https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference) to indicate the “reference container” for a floated element. The value `column` indicates that the float reference is the column in which the floated element is placed in a multi column environment.
+
+We can use this reference to indicate the creation of note areas in the columns of the page where the note appears. As many boxes as necessary are created on each column. All the note areas have the same properties and can be targeted by one `@note-area` rule only.
+
+
+::: example numbered
+
+```css
+@page {
+  @note-area {
+    content: element(notes, all-once);
+    float: bottom;
+    float-reference: column;
+  }
+}
+
+#content {
+  columns: 3;
+}
+
+#content note.notes {
+  position: note(notes);
+}
+```
+
+![](/images/81831785-128d9100-953e-11ea-8309-c4964154014a.png "An example of notes for multi-column layout")
+
+:::
+
+
 
 ### Multiple notes areas in a page
 
 There are already a lot of use cases in critical editions where you can find multiple kinds of notes (bibliographical references, explanations, etc.) The `@note-area` at-rule declaration make multiple notes easier by mixing multiple note areas in the same page context.
 
 
-::: example
+::: example numbered
 
-Multiple note areas in the same page
+**Multiple note areas in the same page**
 
 ```css
 @page {
@@ -555,11 +593,11 @@ Multiple note areas in the same page
   }
 }
 
-note.refs-catA {
+note.refsA {
   position: note(refsA);
 }
 
-note.refs-catB {
+note.refsB {
   position: note(refsB);
 }
 ```
@@ -571,11 +609,9 @@ note.refs-catB {
 
 
 
-::: example
+::: example numbered
 
-Footnotes and marginal notes in the same page
-
-In this example, we use the `inline` value of the `float-reference` property. This allows the creation of marginal notes, i.e. notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.
+**Footnotes and marginal notes in the same page**
 
 
 ```css
@@ -604,54 +640,15 @@ note.footnotes {
 ```
 
 ![A layout of a page where margin notes and footnotes are together on the page](/images/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png "Mixing margin notes and footnotes for semantics notes")
-
-
-<!-- ![A layout where three different column of notes are wrapped around the content](/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "An example of the possible layout mixing multiple note areas and float") -->
 :::
 
 
-
-### Notes for multi-column layout
-
-In a multi-column layout, note elements may have to be displayed at the bottom of each column. This means that multiple note areas might have to be created for the same fragmented flow. This layout creates some issues:
-
-- The (foot)notes are not in a page context since the column properties are applied on an element contained in the page area and not to the page area itself.
-- Because a column is an anonymous box, there is currently no way in CSS to target a particular column of a multi-column element.
-
-[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) proposes the [ `float-reference` property](https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference) to indicate the “reference container” for a floated element. The value `column` indicates that the float reference is the column in which the floated element is placed in a multi column environment.
-
-We can use this reference to indicate the creation of note areas in the columns of the page where the note appears. As many boxes as necessary are created on each column. All the note areas have the same properties and can be targeted by one `@note-area` rule only.
-
-
-::: example
-
-```css
-@page {
-  @note-area {
-    content: element(notes, all-once);
-    float: bottom;
-    float-reference: column;
-  }
-}
-
-#content {
-  columns: 3;
-}
-
-#content note.notes {
-  position: note(notes);
-}
-```
-
-![](/images/81831785-128d9100-953e-11ea-8309-c4964154014a.png "An example of notes for multi-column layout")
-
-:::
 
 ### @footnote special at-rule
 
 [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/) defines a special`@footnote` rule. This rule can be kept in this specification as a specific `@note-area` with predefined positioning scheme. It behaves like a floated bottom page element. No positioning scheme designed by the user is taken into account in this `@footnote` rule, and only one footnote box can be created on a page.
 
-::: example
+::: example numbered
 
 ```css
 @page {
@@ -700,7 +697,7 @@ We outline three syntactic proposals currently under discussion. All aim to allo
 
 This approach uses the standard `::after` pseudo-element and the `element()` function to insert the content of the note. 
 
-::: example
+::: example numbered
 
 ```css
 note {
@@ -739,7 +736,7 @@ The `::note-area` pseudo-element represents a dedicated block-level container fo
 The `::note-area` only receives notes originating from its parent, it does not aggregate notes from elsewhere in the document.
 
 
-::: example
+::: example numbered
 
 ```css
 note {
@@ -765,9 +762,7 @@ section::note-area {
 
 This approach introduces `@note-area` at-rule nested inside the CSS rule of the parent element. It provides explicit mapping between the element and the note stream.
 
-::: example
-
-
+::: example numbered
 
 ```css
 note {
@@ -807,11 +802,11 @@ Note styling is defined in the note element and applies identically across all t
 
 All three proposals also support inheritance: nested elements can override or inherit note behavior from their parents.
 
-For example, marginal notes can be achieved in all three models using similar layout logic. Here’s an example using `::note-area`:
+For example, marginal notes can be achieved in all three models using similar layout logic. Here’s an example using `::note-area`.
 
 
 
-::: example
+::: example numbered
 
 ```
 note {
