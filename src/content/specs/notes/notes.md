@@ -302,9 +302,33 @@ section {
 
 Note that the value of the note counter should depend on the position of the note element in the document tree, not where it is eventually placed. A note element may sometimes be placed on the page after the note call, but the same counter value must be used for both.
 
+By default, note counters use a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) with the same name (`<custom-ident>`) as the one used in `note()`. You don’t need to declare `counter-reset` or `counter-increment` unless you want to customize their behavior.
 
 
 
+::: example numbered
+
+```
+section{
+	counter-reset: sidenote 0;
+}
+note.sidenote{
+    position: note(sidenote);
+}
+```
+
+In the example above, sidenotes are reset at the beginning of each section.
+
+```
+note.footnote{
+    position: note(footnote);
+    counter-increment: 2;
+}
+```
+
+In the example above, footnotes increment by 2 instead of the default value of 1.
+
+:::
 
 
 
