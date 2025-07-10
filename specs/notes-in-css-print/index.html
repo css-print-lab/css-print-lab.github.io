@@ -40,7 +40,7 @@
 <li>The <code>note()</code> value, that you can use in the content property to declare elements as notes;</li>
 <li>An extension of the <code>element()</code> value to place the element removed from the flow (i.e. the note) in a specific place of the same document,</li>
 <li>The <code>@note-area</code> at-rule that can be used to display notes in a page (for paged media only);</li>
-<li>The <code>::note-area</code> pseudo-element to create end-notes for any block elements (paged media and continuous media).</li>
+<li>Three syntactic proposals currently under discussion  to handle notes in continuous media</li>
 </ul>
 <p><em>Originally published here : <a href="https://github.com/w3c/css-print/issues/3">https://github.com/w3c/css-print/issues/3</a></em></p>
 </section>
@@ -242,7 +242,9 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
   <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>note<span class="token punctuation">)</span> <span class="token string">'. '</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<div class="advisement ">
 <p><strong>ISSUE</strong> Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?</p>
+</div>
 <h3 id="the-%3A%3Anote-callback-pseudo-element" tabindex="-1">The ::note-callback pseudo element</h3>
 <p>The <code>::note-callback</code> pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated <code>::note-call</code>. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.</p>
 <pre class="language-css"><code class="language-css"><span class="token selector">::note-callback</span> <span class="token punctuation">{</span>
@@ -456,20 +458,103 @@ The float reference of the float is the page within which the float anchor is pl
   <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 </aside>
-<h2 id="the-%3A%3Anote-area-pseudo-element" tabindex="-1">The <code>::note-area</code> pseudo element</h2>
-<p>We propose this specific pseudo-element to be able to create end notes for any block elements without having to create specific HTML markup. This pseudo-element can be used in both screen/continuous and paged media.</p>
-<p>The <code>::note-area</code> is a new kind of pseudo-element intended to receive generated content created from <code>notes()</code> value. The only value authorised in the <code>content</code> property of <code>::note-area</code> is the <code>element()</code> function.</p>
-<p><code>::note-area</code> creates a pseudo-element that is the last-child of the selected element or the penultimate if an <code>::after</code> pseudo-element is displayed. It’s a block level element by default.</p>
-<p>The <code>::note-area</code> will only receive the notes included in its primary parent (it won’t get all the notes from other elements), and will be displayed via <code>note()</code> and <code>element()</code> values.</p>
-<aside class="example "><p>The <code>::note-area</code> can be used to create end notes for all <code>section</code> elements.</p>
-<pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
-  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>chapterNotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h2 id="notes-in-continuous-media" tabindex="-1">Notes in continuous media</h2>
+<p>Notes in continuous media can follow the same general model as notes in paged media. The section <em>Create notes with CSS</em> applies to both types of media.</p>
+<p>However, in continuous media, an explicit mechanism is needed to define where notes should appear, since there is no implicit page structure to anchor note areas. This requires associating a parent element with the note container.</p>
+<p>We outline three syntactic proposals currently under discussion. All aim to allow <em>endnotes</em>, <em>margin notes</em>, or <em>sidenotes</em> for any block-level element, without requiring additional HTML markup.</p>
+<h3 id="proposal-1%3A-use-element()-with-%3A%3Aafter" tabindex="-1">Proposal 1: Use <code>element()</code> with <code>::after</code></h3>
+<p>This approach uses the standard <code>::after</code> pseudo-element and the <code>element()</code> function to insert the content of the note.</p>
+<aside class="example "><pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">section::after</span> <span class="token punctuation">{</span>
+  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</aside>
+<p><strong>Considerations</strong></p>
+<ul>
+<li>
+<p>Simple and uses existing CSS.</p>
+</li>
+<li>
+<p><code>::after</code> is already widely used by authors and cannot be duplicated, which may conflict with other content or styles.</p>
+</li>
+<li>
+<p>The <code>::after</code> pseudo-element is inline by default and only supports textual <code>content</code> in most current implementations.</p>
+</li>
+<li>
+<p>Only one <code>::after</code> declaration is allowed, making it impossible to define multiple note areas.</p>
+</li>
+</ul>
+<h3 id="proposal-2-%3A-introduce-a-new-%3A%3Anote-area-pseudo-element" tabindex="-1">Proposal 2 : Introduce a new <code>::note-area</code> pseudo element</h3>
+<p>The <code>::note-area</code> pseudo-element represents a dedicated block-level container for notes generated via the <code>note()</code> / <code>element()</code> mechanism. It dynamically inserts note content at the end of the selected element.</p>
+<p><code>::note-area</code> creates a pseudo-element that is the last-child of the selected element or the penultimate if an <code>::after</code> pseudo-element is displayed. It only accepts <code>content: element(&lt;ident&gt;)</code> values and is block-level by default.</p>
+<p>The <code>::note-area</code> only receives notes originating from its parent, it does not aggregate notes from elsewhere in the document.</p>
+<aside class="example "><pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">section::note-area</span> <span class="token punctuation">{</span>
-  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>chapterNotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 </aside>
+<p><strong>Considerations</strong></p>
+<ul>
+<li>Pseudo-elements are not accessible in the DOM and may be harder to script or interact with.</li>
+<li>Pseudo-elements default to <code>inline</code>, though that can be overridden (<code>display: block</code> can be assumed here).</li>
+<li>Only one <code>::note-area</code> pseudo-element is possible per element; multiple note streams require more complex handling or alternative syntax.</li>
+</ul>
+<h3 id="proposal-3-%3A-use-%40note-area" tabindex="-1">Proposal 3 : Use <code>@note-area</code></h3>
+<p>This approach introduces <code>@note-area</code> at-rule nested inside the CSS rule of the parent element. It provides explicit mapping between the element and the note stream.</p>
+<aside class="example "><pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">section</span> <span class="token punctuation">{</span>
+  <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
+  	<span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+</aside>
+<p><strong>Considerations</strong></p>
+<ul>
+<li>
+<p>Advantage: multiple <code>@note-area</code> block can be defined within a single element, supporting multiple note streams.</p>
+</li>
+<li>
+<p>Keeps the note container within the DOM context, unlike pseudo-elements.</p>
+</li>
+<li>
+<p>Is the at-rule model too divergent from traditional CSS syntax?</p>
+</li>
+<li>
+<p>May align well with future CSS features such as container queries or scoped styles.</p>
+</li>
+</ul>
+<h3 id="further-examples-and-use-cases" tabindex="-1">Further Examples and Use Cases</h3>
+<p>In all three proposals, once the note is mapped to its container, authors can use existing CSS layout mechanisms to position and size the note content, such as: float, absolute positioning, grid, exclusion, etc.</p>
+<p>Note styling is defined in the note element and applies identically across all three models.</p>
+<p>All three proposals also support inheritance: nested elements can override or inherit note behavior from their parents.</p>
+<p>For example, marginal notes can be achieved in all three models using similar layout logic. Here’s an example using <code>::note-area</code>:</p>
+<aside class="example "><pre><code>note {
+  position: note(margin-notes);
+}
+
+section::note-area {
+  content: element(margin-notes);
+  float-reference: inline;
+  float: left;
+  clear: both;
+  width: 180px;
+  margin-left: -180px;
+}
+</code></pre>
+<p>This creates margin notes aligned with the note reference, placed in the left of the parent section.</p>
+</aside>
+<div class="advisement ">
+<p><strong>ISSUE</strong> A dedicated issue is open to track these discussions and ensure a clear path forward for note handling in continuous media: <a href="https://github.com/css-print-lab/css-print-lab.github.io/issues/10">https://github.com/css-print-lab/css-print-lab.github.io/issues/10</a></p>
+</div>
 <h2 id="notes-policy" tabindex="-1">Notes policy</h2>
 <p>In paged media, it can happen at the end of the page that the last note overflows from the note area. As a general rule, overflow content can be moved to the next page in the note area or the margin box that corresponds to the previous one. However, rendering notes can be complex. Like the <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-policy"><code>footnote-policy</code></a> property in the css-gcpm-3, we need a <code>note-policy</code> that gives authors some control over the rendering. We propose to update the current specifications.</p>
 <p>The <code>note-policy</code> must be declared in the global context of the note area or the margin box.</p>
