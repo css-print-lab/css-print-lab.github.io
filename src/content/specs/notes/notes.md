@@ -1,37 +1,5 @@
 ---
-slug: "notes-in-css-print"
 title: "CSS Notes"
-status: unofficial
-version: 0.1
-shortName: "printnotes"
-authors:
-   - name: Lucie Anglade (@grewn0uille)
-     url:
-     company: weasyprint
-     mailto:
-     note:
-
-   - name: Guillaume Ayoub (@liZe)
-     url:
-     company: weasyprint
-     mailto:
-     note:
-
-   - name: Julie Blanc (@JulieBlanc)
-     url:
-     company:
-     mailto:
-     note:
-
-   - name: Julien Taquet (@julientaq)
-     url:
-     company:
-     mailto:
-     note:
-
-editors:
-   - name: Julie Blanc (@JulieBlanc)
-     company:
 ---
 
 
