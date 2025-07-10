@@ -333,6 +333,9 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 
 ::: issue 
 
+**ISSUE** Counters for `::note-marker` and `::note-call` must match. If a user removes one of those from the tree (using `display: none` for one of them for example), it will affect the `::note-call` and the `::note-marker`: they will not appear on the page, and will be skipped by the counter.  
+
+
 **ISSUE** Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?
 
 :::
