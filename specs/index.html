@@ -3,28 +3,29 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CSS Notes</title>
+        <title>Notes in css Print</title>
         
     <script class="remove">
       let respecConfig = {
         editors: [ 
-          {name: "Julie Blanc (@JulieBlanc)", 
+          {name: "Julie Blanc", 
           url: "" }],
         authors: [ 
-          {name: "Lucie Anglade (@grewn0uille)", 
+          {name: "Lucie Anglade", 
           url: "" }, 
-          {name: "Guillaume Ayoub (@liZe)", 
+          {name: "Guillaume Ayoub", 
           url: "" }, 
-          {name: "Julie Blanc (@JulieBlanc)", 
+          {name: "Julie Blanc", 
           url: "" }, 
-          {name: "Julien Taquet (@julientaq)", 
+          {name: "Julien Taquet", 
           url: "" }],
         github: "",
         shortName: "",
         xref: "web-platform",
         group: "",
         specStatus: "unofficial",
-        shortName: "printnotes"
+        shortName: "printnotes",
+        latestVersion: ""
       };
     </script>
     <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
@@ -32,7 +33,7 @@
     </head>
     <body>
         
-    <h1 id="title">CSS Notes</h1>
+    <h1 id="title">Notes in css Print</h1>
     
     <section id="abstract"><p>This extensive issue is a draft specification for the creation and positioning of notes in both continuous and paged media. This specification was written as part of the [Pushing Forward for CSS Print] project, funded through the <a href="https://nlnet.nl/commonsfund/">NGI0 Commons Fund</a>, established by <a href="https://nlnet.nl/">NLnet</a>. It’s a joint initiative from core contributors of <a href="https://pagedjs.org/">Paged.js</a> (<a href="https://github.com/julientaq">@julientaq</a>, <a href="https://github.com/JulieBlanc">@JulieBlanc</a>) and the <a href="https://weasyprint.org/">WeasyPrint</a> team (<a href="https://github.com/grewn0uille">@grewn0uille</a>, <a href="https://github.com/liZe">@liZe</a>). The result of this work can be found on <a href="https://github.com/css-print-lab">CSS Print Lab’s github</a>.</p>
 <p>This draft is based on:</p>
@@ -175,7 +176,7 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <p>With the keyword <code>all-once</code>, the value of all the assignments of the document or the page are used; i.e. all the note elements (which have been removed from the normal flow via <code>note()</code>) are displayed in the new area where they're assigned. Each element from <code>note()</code> value is displayed in the same order of the flow and has only one assignment in the document or in the page (the elements are not repeated). The value may be empty if there is no note element on the page.</p>
 <p><code>element() = string(&lt;custom-ident&gt;, all-once)</code></p>
 <h3 id="using-in-%40note-area" tabindex="-1">Using in <code>@note-area</code></h3>
-<p>In addition to that, the <code>element()</code> function can be used not only in margin boxes but also in new page area <code>@note-area</code> (see <a href="#page-note-areas-(%40note-area)"><em>Page note area</em></a>) or a <code>::note-area</code> pseudo-element (see <a href="#the-%3A%3Anote-area-pseudo-element"><em>Note area pseudo elements</em></a>).</p>
+<p>In addition to that, the <code>element()</code> function can be used not only in margin boxes but also in new page area <code>@note-area</code> (see <a href="#page-note-areas-(%40note-area)"><em>Page note area</em></a>) or a <code>::note-area</code> pseudo-element (see <a href="#proposal-2-%3A-introduce-a-new-%3A%3Anote-area-pseudo-element"><em>Note area pseudo elements</em></a>).</p>
 <aside class="example numbered"><p><strong>Notes in page note area</strong></p>
 <pre class="language-css"><code class="language-css"><span class="token selector">note.note</span> <span class="token punctuation">{</span>
   <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>&lt;custom-ident><span class="token punctuation">)</span><span class="token punctuation">;</span>
