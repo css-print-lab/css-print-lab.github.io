@@ -274,6 +274,9 @@ note.sidenote {
 
 The note counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) associated with the note element. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.
 
+
+
+
 The note counter, like other counters, may use any [counter style](http://dev.w3.org/csswg/css-counter-styles-3/#counter-style). Notes often use a sequence of symbols.
 
 ```css
@@ -328,7 +331,15 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 
 ```
 
+::: issue 
+
 **ISSUE** Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?
+
+:::
+
+
+
+
 
 ### The ::note-callback pseudo element
 
