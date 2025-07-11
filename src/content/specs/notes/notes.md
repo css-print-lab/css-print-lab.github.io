@@ -12,6 +12,7 @@ This draft is based on:
 *Originally published here : [https://github.com/w3c/css-print/issues/3](https://github.com/w3c/css-print/issues/3)*
 :::
 
+*Discussed in the W3C CSS Working Group repository: [https://github.com/w3c/csswg-drafts/issues/12472](https://github.com/w3c/csswg-drafts/issues/12472)*
 
 
 ## Types of notes
@@ -31,7 +32,7 @@ For now, the W3C specifications only allow the creation of footnotes in paged me
 
 ## Specifications W3C
 
-A part of the [CSS Generated Content for Paged Media Module](https://www.w3.org/TR/css-gcpm-3/#footnotes) (css-gcpm-3) is dedicated to footnotes. The first section defines [the terms](https://www.w3.org/TR/css-gcpm-3/#footnote-terms) of the footnote objects. These definitions can be applied to all types of notes, thus we’ll keep the same terms but removing the prefix “foot” for the rest of this issue discussion:
+[A part](https://www.w3.org/TR/css-gcpm-3/#footnotes) of the CSS Generated Content for Paged Media Module (css-gcpm-3) is dedicated to footnotes. The first section defines [the terms](https://www.w3.org/TR/css-gcpm-3/#footnote-terms) of the footnote objects. These definitions can be applied to all types of notes, thus we’ll keep the same terms but removing the prefix “foot” for the rest of this issue discussion:
 
 > **Note element**: The element containing the content of the note, which will be removed from the flow and displayed as a note.
 >
@@ -244,7 +245,7 @@ By default, note counters use a predefined [counter](http://dev.w3.org/csswg/css
 
 In the example below, sidenotes are reset at the beginning of each section.
 
-```
+```css
 section{
     counter-reset: sidenote 0;
 }
@@ -255,7 +256,7 @@ note.sidenote{
 
 In the example below, footnotes increment by 2 instead of the default value of 1.
 
-```
+```css
 note.footnote{
     position: note(footnote);
     counter-increment: 2;
@@ -334,8 +335,8 @@ Notes call and maker can be used either at the parent element level or at the no
 
 ::: example numbered
 
-````
-```
+
+```css
 note.sidenote{
     position: note(sidenote);
 }
@@ -352,14 +353,9 @@ note.footnote::note-call {
     /* will affect all the note with a class `footnote`*/
 }
 ```
-````
+
 
 :::
-
-
-
-
-
 
 
 ## Page note areas (`@note-area`)
@@ -502,7 +498,7 @@ With float, using `clear: left` is a simple solution to avoid collisions of marg
 
 :::
 
-####  Extentions of the `float` property
+#### Extentions of the `float` property
 
 [CSS Page float](https://www.w3.org/TR/css-page-floats-3/) propose some extentions of the `float` property.
 
@@ -523,9 +519,6 @@ float: top right;
 **ISSUE**: Does the `clear` property can work with this proposal?
 
 :::
-
-
-
 
 
 ### Notes for multi-column layout
@@ -662,7 +655,7 @@ note.footnote {
 }
 ```
 
-![A layout showing the default setup for footnotes](/images/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png "Notes are footnotes by default with the special `@footnote` rule")
+![Two layouts showing the default setup for footnotes](/images/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png "Notes are footnotes by default with the special `@footnote` rule (Two layout showing the default setup for footnotes)")
 
 This would have the exact same behavior when using the following declarations:
 
@@ -697,7 +690,6 @@ We outline three syntactic proposals currently under discussion. All aim to allo
 
 This approach uses the standard `::after` pseudo-element and the `element()` function to insert the content of the note. 
 
-::: example numbered
 
 ```css
 note {
@@ -709,21 +701,13 @@ section::after {
 }
 ```
 
-:::
-
-
 
 **Considerations**
 
 - Simple and uses existing CSS.
-
 - `::after` is already widely used by authors and cannot be duplicated, which may conflict with other content or styles.
-
 - The `::after` pseudo-element is inline by default and only supports textual `content` in most current implementations.
-
 - Only one `::after` declaration is allowed, making it impossible to define multiple note areas.
-
-  
 
   
 
@@ -736,8 +720,6 @@ The `::note-area` pseudo-element represents a dedicated block-level container fo
 The `::note-area` only receives notes originating from its parent, it does not aggregate notes from elsewhere in the document.
 
 
-::: example numbered
-
 ```css
 note {
   position: note(sidenotes);
@@ -747,10 +729,6 @@ section::note-area {
   content: element(sidenotes);
 }
 ```
-
-:::
-
-
 
 **Considerations**
 
@@ -762,7 +740,6 @@ section::note-area {
 
 This approach introduces `@note-area` at-rule nested inside the CSS rule of the parent element. It provides explicit mapping between the element and the note stream.
 
-::: example numbered
 
 ```css
 note {
@@ -776,24 +753,14 @@ section {
 }
 ```
 
-:::
-
-
-
 **Considerations**
 
 - Advantage: multiple `@note-area` block can be defined within a single element, supporting multiple note streams.
-
 - Keeps the note container within the DOM context, unlike pseudo-elements.
-
 - Is the at-rule model too divergent from traditional CSS syntax?
-
 - May align well with future CSS features such as container queries or scoped styles.
 
   
-
-
-
 ### Further Examples and Use Cases
 
 In all three proposals, once the note is mapped to its container, authors can use existing CSS layout mechanisms to position and size the note content, such as: float, absolute positioning, grid, exclusion, etc.
@@ -808,7 +775,7 @@ For example, marginal notes can be achieved in all three models using similar la
 
 ::: example numbered
 
-```
+```css
 note {
   position: note(margin-notes);
 }
