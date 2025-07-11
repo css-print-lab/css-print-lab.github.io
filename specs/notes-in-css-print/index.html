@@ -45,6 +45,7 @@
 </ul>
 <p><em>Originally published here : <a href="https://github.com/w3c/css-print/issues/3">https://github.com/w3c/css-print/issues/3</a></em></p>
 </section>
+<p><em>Discussed in the W3C CSS Working Group repository: <a href="https://github.com/w3c/csswg-drafts/issues/12472">https://github.com/w3c/csswg-drafts/issues/12472</a></em></p>
 <h2 id="types-of-notes" tabindex="-1">Types of notes</h2>
 <p>For now, the W3C specifications only allow the creation of footnotes in paged media, as described in the <a href="https://www.w3.org/TR/css-gcpm-3/">CSS Generated Content for Paged Media Module (css-gcpm-3)</a>. But we know that designers and editors like to be able like to make use of all kinds of notes. You can find some examples here: <a href="https://www.w3.org/XML/2015/02/footnote-examples/">https://www.w3.org/XML/2015/02/footnote-examples/</a>. To name a few:</p>
 <table>
@@ -82,7 +83,7 @@
 </tbody>
 </table>
 <h2 id="specifications-w3c" tabindex="-1">Specifications W3C</h2>
-<p>A part of the <a href="https://www.w3.org/TR/css-gcpm-3/#footnotes">CSS Generated Content for Paged Media Module</a> (css-gcpm-3) is dedicated to footnotes. The first section defines <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-terms">the terms</a> of the footnote objects. These definitions can be applied to all types of notes, thus we’ll keep the same terms but removing the prefix “foot” for the rest of this issue discussion:</p>
+<p><a href="https://www.w3.org/TR/css-gcpm-3/#footnotes">A part</a> of the CSS Generated Content for Paged Media Module (css-gcpm-3) is dedicated to footnotes. The first section defines <a href="https://www.w3.org/TR/css-gcpm-3/#footnote-terms">the terms</a> of the footnote objects. These definitions can be applied to all types of notes, thus we’ll keep the same terms but removing the prefix “foot” for the rest of this issue discussion:</p>
 <blockquote>
 <p><strong>Note element</strong>: The element containing the content of the note, which will be removed from the flow and displayed as a note.</p>
 <p><strong>Note marker</strong>: (also known as note number): A number or symbol adjacent to the note body, identifying the particular note. The note marker should use the same number or symbol as the corresponding note call, although the marker may contain additional punctuation.</p>
@@ -218,19 +219,17 @@ Just as with <code>string()</code>, <code>element()</code> takes an optional key
 <p>The note counter is a predefined <a href="http://dev.w3.org/csswg/css-lists/#counter">counter</a> associated with the note element. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.</p>
 <p>By default, note counters use a predefined <a href="http://dev.w3.org/csswg/css-lists/#counter">counter</a> with the same name (<code>&lt;custom-ident&gt;</code>) as the one used in <code>note()</code>. You don’t need to declare <code>counter-reset</code> or <code>counter-increment</code> unless you want to customize their behavior.</p>
 <aside class="example numbered"><p>In the example below, sidenotes are reset at the beginning of each section.</p>
-<pre><code>section{
-    counter-reset: sidenote 0;
-}
-note.sidenote{
-    position: note(sidenote);
-}
-</code></pre>
+<pre class="language-css"><code class="language-css"><span class="token selector">section</span><span class="token punctuation">{</span>
+    <span class="token property">counter-reset</span><span class="token punctuation">:</span> sidenote 0<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector">note.sidenote</span><span class="token punctuation">{</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <p>In the example below, footnotes increment by 2 instead of the default value of 1.</p>
-<pre><code>note.footnote{
-    position: note(footnote);
-    counter-increment: 2;
-}
-</code></pre>
+<pre class="language-css"><code class="language-css"><span class="token selector">note.footnote</span><span class="token punctuation">{</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">counter-increment</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 </aside>
 <p>The note counter, like other counters, may use any <a href="http://dev.w3.org/csswg/css-counter-styles-3/#counter-style">counter style</a>. Notes often use a sequence of symbols.</p>
 <pre class="language-css"><code class="language-css"><span class="token selector">::note-call</span> <span class="token punctuation">{</span> <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>footnote<span class="token punctuation">,</span> <span class="token function">symbols</span><span class="token punctuation">(</span><span class="token string">'*'</span><span class="token punctuation">,</span> <span class="token string">'†'</span><span class="token punctuation">,</span> <span class="token string">'‡'</span><span class="token punctuation">,</span> <span class="token string">'§'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
@@ -267,24 +266,21 @@ note.sidenote{
 </div>
 <h3 id="support-for-multiple-note-types" tabindex="-1">Support for multiple note types</h3>
 <p>Notes call and maker can be used either at the parent element level or at the note element level, allowing different types of notes within the same section.</p>
-<aside class="example numbered"><pre><code>```
-note.sidenote{
-    position: note(sidenote);
-}
+<aside class="example numbered"><pre class="language-css"><code class="language-css"><span class="token selector">note.sidenote</span><span class="token punctuation">{</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-note.footnote{
-    position: note(footnote);
-}
+<span class="token selector">note.footnote</span><span class="token punctuation">{</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-note.sidenote::note-call {
-    /* will affect all the note with a class `sidenote`*/
-}
+<span class="token selector">note.sidenote::note-call</span> <span class="token punctuation">{</span>
+    <span class="token comment">/* will affect all the note with a class `sidenote`*/</span>
+<span class="token punctuation">}</span>
 
-note.footnote::note-call {
-    /* will affect all the note with a class `footnote`*/
-}
-```
-</code></pre>
+<span class="token selector">note.footnote::note-call</span> <span class="token punctuation">{</span>
+    <span class="token comment">/* will affect all the note with a class `footnote`*/</span>
+<span class="token punctuation">}</span></code></pre>
 </aside>
 <h2 id="page-note-areas-(%40note-area)" tabindex="-1">Page note areas (<code>@note-area</code>)</h2>
 <p>The <code>@note-area</code> at-rule creates special <a href="http://dev.w3.org/csswg/css-page/#page-area">page areas</a> that can be used to display notes elements via the <code>element()</code> function. Those areas, called “page note areas”, are created within the <a href="https://www.w3.org/TR/css-page-3/#page-context">page context</a>, which is the <a href="https://www.w3.org/TR/CSS21/syndata.html#x14">declaration block</a> of the <a href="https://www.w3.org/TR/css-page-3/#at-ruledef-page">@page</a> rule. This rule defines a box that, if used, will contain the corresponding note elements that appear on that page and move by generated content properties for notes. Since note areas are in the context page, note boxes are contained in the content area of a page box.</p>
@@ -478,7 +474,7 @@ The float reference of the float is the page within which the float anchor is pl
 <span class="token selector">note.footnote</span> <span class="token punctuation">{</span>
   <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>footnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<figure><img src="/images/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png" alt="A layout showing the default setup for footnotes"><figcaption>Notes are footnotes by default with the special <code>@footnote</code> rule</figcaption></figure>
+<figure><img src="/images/81831829-20431680-953e-11ea-9df9-f7e85b6a067b.png" alt="Two layouts showing the default setup for footnotes"><figcaption>Notes are footnotes by default with the special <code>@footnote</code> rule (Two layout showing the default setup for footnotes)</figcaption></figure>
 <p>This would have the exact same behavior when using the following declarations:</p>
 <pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
   <span class="token atrule"><span class="token rule">@note-area</span></span> <span class="token punctuation">{</span>
@@ -499,41 +495,31 @@ The float reference of the float is the page within which the float anchor is pl
 <p>We outline three syntactic proposals currently under discussion. All aim to allow <em>endnotes</em>, <em>margin notes</em>, or <em>sidenotes</em> for any block-level element, without requiring additional HTML markup.</p>
 <h3 id="proposal-1%3A-use-element()-with-%3A%3Aafter" tabindex="-1">Proposal 1: Use <code>element()</code> with <code>::after</code></h3>
 <p>This approach uses the standard <code>::after</code> pseudo-element and the <code>element()</code> function to insert the content of the note.</p>
-<aside class="example numbered"><pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
+<pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
   <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">section::after</span> <span class="token punctuation">{</span>
   <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-</aside>
 <p><strong>Considerations</strong></p>
 <ul>
-<li>
-<p>Simple and uses existing CSS.</p>
-</li>
-<li>
-<p><code>::after</code> is already widely used by authors and cannot be duplicated, which may conflict with other content or styles.</p>
-</li>
-<li>
-<p>The <code>::after</code> pseudo-element is inline by default and only supports textual <code>content</code> in most current implementations.</p>
-</li>
-<li>
-<p>Only one <code>::after</code> declaration is allowed, making it impossible to define multiple note areas.</p>
-</li>
+<li>Simple and uses existing CSS.</li>
+<li><code>::after</code> is already widely used by authors and cannot be duplicated, which may conflict with other content or styles.</li>
+<li>The <code>::after</code> pseudo-element is inline by default and only supports textual <code>content</code> in most current implementations.</li>
+<li>Only one <code>::after</code> declaration is allowed, making it impossible to define multiple note areas.</li>
 </ul>
 <h3 id="proposal-2-%3A-introduce-a-new-%3A%3Anote-area-pseudo-element" tabindex="-1">Proposal 2 : Introduce a new <code>::note-area</code> pseudo element</h3>
 <p>The <code>::note-area</code> pseudo-element represents a dedicated block-level container for notes generated via the <code>note()</code> / <code>element()</code> mechanism. It dynamically inserts note content at the end of the selected element.</p>
 <p><code>::note-area</code> creates a pseudo-element that is the last-child of the selected element or the penultimate if an <code>::after</code> pseudo-element is displayed. It only accepts <code>content: element(&lt;ident&gt;)</code> values and is block-level by default.</p>
 <p>The <code>::note-area</code> only receives notes originating from its parent, it does not aggregate notes from elsewhere in the document.</p>
-<aside class="example numbered"><pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
+<pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
   <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
 <span class="token selector">section::note-area</span> <span class="token punctuation">{</span>
   <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-</aside>
 <p><strong>Considerations</strong></p>
 <ul>
 <li>Pseudo-elements are not accessible in the DOM and may be harder to script or interact with.</li>
@@ -542,7 +528,7 @@ The float reference of the float is the page within which the float anchor is pl
 </ul>
 <h3 id="proposal-3-%3A-use-%40note-area" tabindex="-1">Proposal 3 : Use <code>@note-area</code></h3>
 <p>This approach introduces <code>@note-area</code> at-rule nested inside the CSS rule of the parent element. It provides explicit mapping between the element and the note stream.</p>
-<aside class="example numbered"><pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
+<pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
   <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 
@@ -551,40 +537,30 @@ The float reference of the float is the page within which the float anchor is pl
   	<span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>sidenotes<span class="token punctuation">)</span><span class="token punctuation">;</span>
 	<span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-</aside>
 <p><strong>Considerations</strong></p>
 <ul>
-<li>
-<p>Advantage: multiple <code>@note-area</code> block can be defined within a single element, supporting multiple note streams.</p>
-</li>
-<li>
-<p>Keeps the note container within the DOM context, unlike pseudo-elements.</p>
-</li>
-<li>
-<p>Is the at-rule model too divergent from traditional CSS syntax?</p>
-</li>
-<li>
-<p>May align well with future CSS features such as container queries or scoped styles.</p>
-</li>
+<li>Advantage: multiple <code>@note-area</code> block can be defined within a single element, supporting multiple note streams.</li>
+<li>Keeps the note container within the DOM context, unlike pseudo-elements.</li>
+<li>Is the at-rule model too divergent from traditional CSS syntax?</li>
+<li>May align well with future CSS features such as container queries or scoped styles.</li>
 </ul>
 <h3 id="further-examples-and-use-cases" tabindex="-1">Further Examples and Use Cases</h3>
 <p>In all three proposals, once the note is mapped to its container, authors can use existing CSS layout mechanisms to position and size the note content, such as: float, absolute positioning, grid, exclusion, etc.</p>
 <p>Note styling is defined in the note element and applies identically across all three models.</p>
 <p>All three proposals also support inheritance: nested elements can override or inherit note behavior from their parents.</p>
 <p>For example, marginal notes can be achieved in all three models using similar layout logic. Here’s an example using <code>::note-area</code>.</p>
-<aside class="example numbered"><pre><code>note {
-  position: note(margin-notes);
-}
+<aside class="example numbered"><pre class="language-css"><code class="language-css"><span class="token selector">note</span> <span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> <span class="token function">note</span><span class="token punctuation">(</span>margin-notes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-section::note-area {
-  content: element(margin-notes);
-  float-reference: inline;
-  float: left;
-  clear: both;
-  width: 180px;
-  margin-left: -180px;
-}
-</code></pre>
+<span class="token selector">section::note-area</span> <span class="token punctuation">{</span>
+  <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">element</span><span class="token punctuation">(</span>margin-notes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">float-reference</span><span class="token punctuation">:</span> inline<span class="token punctuation">;</span>
+  <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+  <span class="token property">clear</span><span class="token punctuation">:</span> both<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 180px<span class="token punctuation">;</span>
+  <span class="token property">margin-left</span><span class="token punctuation">:</span> -180px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <p>This creates margin notes aligned with the note reference, placed in the left of the parent section.</p>
 </aside>
 <div class="advisement ">
