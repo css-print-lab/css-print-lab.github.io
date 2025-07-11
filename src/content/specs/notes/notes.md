@@ -12,6 +12,7 @@ This draft is based on:
 *Originally published here : [https://github.com/w3c/css-print/issues/3](https://github.com/w3c/css-print/issues/3)*
 :::
 
+*Discussed in the W3C CSS Working Group repository: [https://github.com/w3c/csswg-drafts/issues/12472](https://github.com/w3c/csswg-drafts/issues/12472)*
 
 
 ## Types of notes
