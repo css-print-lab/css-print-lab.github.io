@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Parallel-flows for CSS print</title>
+        
+    <script class="remove">
+      let respecConfig = {
+        editors: [ 
+          {name: "Julien Taquet (@ulientaq)", 
+          url: "" }],
+        authors: [ 
+          {name: "Julien Taquet (@julientaq)", 
+          url: "" }],
+        github: "",
+        shortName: "",
+        xref: "web-platform",
+        group: "",
+        specStatus: "unofficial",
+        shortName: "print-parallel-flows",
+        latestVersion: "https://css-print-lab.github.io/specs/parallel-flows-in-css-print/"
+      };
+    </script>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+
+    </head>
+    <body>
+        
+    <h1 id="title">Parallel-flows for CSS print</h1>
+    
+    <section id="abstract"><p>This document is a draft specification for the manipulation of multiple flows of content in paged-media, and was written as part of the <a href="https://epe.esad-gv.fr">Écran Papier Éditer</a> project. This specification and paged.js implemtantion is made by @julientaq and the result can be found on <a href="https://github.com/css-print-lab">CSS Print Lab’s github</a>. Paged.js implentation is show on pagedjs.website: <a href="">https://pagedjs.org/posts/en/parallel-flows-within-paged.js</a>.</p>
+<p>This specification defines new CSS properties and concepts to enable parallel content flows within paged or multi-column layouts, primarily in the context of paged media. Parallel flows allow multiple independent streams of content (e.g., different languages, versions, or perspectives) to occupy the same or adjacent pages in a synchronized, visually parallel manner.</p>
+<p>These properties are designed for integration with Paged.js and similar layout engines, and extend the traditional single-flow CSS model toward multi-stream page composition.</p>
+<p>While CSS-grid or flex can offer some of the features needed, having the possibility to go beyond the grid is an important need for paged-media and print.</p>
+<p><em>Originally published here : <a href="https://github.com/w3c/css-print/issues/4">https://github.com/w3c/css-print/issues/4</a></em></p>
+</section>
+<h2 id="introduction" tabindex="-1">Introduction</h2>
+<p>CSS has traditionally represented content as a <strong>single, continuous flow</strong>—a downward, linear progression of elements within a scrollable or paginated environment. While CSS Grid and Flexbox introduced two-dimensional layout capabilities, they remain limited to positioning and cannot fragment content across multiple, independent streams.</p>
+<p>The <em>CSS Parallel Flows Module</em> introduces a mechanism for defining <strong>multiple coordinated flows</strong>, each representing an independent content stream, that may coexist within a shared page or spread.</p>
+<p>This feature was initially explored through the now-deprecated <strong>CSS Regions</strong> specification. The Parallel Flows model revisits these ideas with modern layout paradigms, building on concepts from Paged.js, print CSS, and experimental digital book layout.</p>
+<figure><img src="/images/theriddle.png" alt="a photo of the layout of the Riddle book"></figure>
+<blockquote>
+<p><em>The Riddle</em>, a good use case for parallel-flows, a book designed by the people of Open Source Publishing</p>
+</blockquote>
+<figure><img src="/images/onlyrevolutions.png" alt="a photo of the Only Revolutions book"></figure>
+<blockquote>
+<p>Only Revolution, by Mark Z. Danielewsky, using different flows of text, even turning texts upside down.</p>
+</blockquote>
+<h2 id="terminology" tabindex="-1">Terminology</h2>
+<p><strong>Parallel Flow:</strong><br>
+A named group of elements that are laid out concurrently with other flows within a shared page or spread.</p>
+<p><strong>Main Flow:</strong><br>
+The longest or primary flow in a set of parallel flows; determines pagination and synchronizes subordinate flows.</p>
+<p><strong>Secondary Flow:</strong><br>
+A flow that aligns with a main flow but is positioned independently, typically within the same page or adjacent page.</p>
+<p><strong>Spread:</strong><br>
+A pair of facing pages displayed together (as in printed books or magazines).</p>
+<div class="advisement ">
+<p>right now, the <strong>Main Flow</strong> is defined by the system, but it would make sense if the author could in the CSS directly.</p>
+</div>
+<h2 id="css-properties" tabindex="-1">CSS Properties</h2>
+<h3 id="parallel-flow" tabindex="-1"><code>parallel-flow</code></h3>
+<p><strong>Name:</strong> <code>parallel-flow</code><br>
+<strong>Value:</strong> <code>&lt;identifier&gt;</code><br>
+<strong>Initial:</strong> <code>none</code><br>
+<strong>Applies to:</strong> all elements<br>
+<strong>Inherited:</strong> no</p>
+<p>Defines the name of the parallel flow to which the element belongs.<br>
+All elements with the same <code>parallel-flow</code> value are treated as part of the same flow group and are laid out concurrently.</p>
+<p>In this example, the <code>section#alpha</code> and the <code>section#beta</code> will share the same parallel flow.</p>
+<p><strong>Example:</strong></p>
+<pre><code>css
+
+#alpha {
+    /* setting the named flow for the selector */
+    parallel-flow: hand;
+
+    /* the localisation of the content on the page */
+    width: 30%;
+
+} 
+
+#beta {   
+
+    /* setting the named flow for the selector */
+    parallel-flow: hand;  
+
+      /* the localisation of the content on the page*/
+    width: 65%;   
+    margin-left: auto; 
+} 
+
+
+#epsilon {   
+    parallel-flow: else;  
+    width: 45%; 
+}  
+
+#delta {   
+    parallel-flow: else;   
+    width: 45%;   
+    margin-left: auto; 
+}`
+</code></pre>
+<p>In the above example, the flows <code>hand</code> and <code>else</code> are defined.<br>
+Elements within each group (<code>#alpha</code> with <code>#beta</code>, and <code>#epsilon</code> with <code>#delta</code>) share synchronized pagination.</p>
+<h3 id="parallel-impact" tabindex="-1"><code>parallel-impact</code></h3>
+<p><strong>Name:</strong> <code>parallel-impact</code><br>
+<strong>Value:</strong> <code>none | all</code><br>
+<strong>Initial:</strong> <code>none</code><br>
+<strong>Inherited:</strong> no</p>
+<p>Specifies whether an element within a main flow can influence the layout of secondary flows.<br>
+When set to <code>all</code>, spatial elements (e.g., images or floats) may cause corresponding layout adjustments in secondary flows.</p>
+<p><strong>Example:</strong></p>
+<pre><code>css
+
+#porco {   
+    parallel-impact: all; 
+}  
+
+#alpha #porco-overlap {   
+    width: 350px !important; 
+}
+
+
+
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong><br>
+The <code>parallel-impact</code> property only applies when the impacting element exists in the main flow. Secondary flows are positioned after the main flow layout is determined.</p>
+</blockquote>
+<h3 id="parallel-sync" tabindex="-1"><code>parallel-sync</code></h3>
+<p><strong>Name:</strong> <code>parallel-sync</code><br>
+<strong>Value:</strong> <code>&lt;identifier&gt;</code><br>
+<strong>Initial:</strong> <code>none</code><br>
+<strong>Inherited:</strong> no</p>
+<p>Defines synchronization points between flows. Elements with matching sync identifiers in different flows will begin on the same page (or spread), aligning their start positions.</p>
+<p><strong>Example:</strong></p>
+<pre><code>css
+
+
+.en, .fr {   
+     parallel-flow: alpha; 
+}  
+
+h3 {   
+     parallel-sync: alpha; 
+}
+
+</code></pre>
+<p>This ensures that headings in <code>.en</code> and <code>.fr</code> flows begin simultaneously within their respective parallel flow segments.</p>
+<h2 id="flow-configuration-(javascript-integration)" tabindex="-1">Flow Configuration (JavaScript Integration)</h2>
+<p>Browser and similar engines may expose configuration options for managing flow relationships with a javascript API.</p>
+<div class="advisement ">
+<p>This could also be defined using css properties.
+I’d like to have some feedback from the CSSPrint folks, to push a bit the different possibilities: should we have a <code>--flow-definition</code> rule?
+or should we define the type of flow in the main <code>parallel-flow?</code></p>
+</div>
+<pre><code>js
+
+this.flowLocation = &quot;samepage&quot; | &quot;samespread&quot;; 
+this.flowSpreadAddWhite = true | false;
+</code></pre>
+<ul>
+<li>
+<p><code>samepage</code>: Flows share the same physical page.</p>
+</li>
+<li>
+<p><code>samespread</code>: Flows occupy opposite sides of a spread.</p>
+</li>
+<li>
+<p><code>flowSpreadAddWhite</code>: Automatically inserts a blank page to balance uneven flow lengths.</p>
+</li>
+</ul>
+<h3 id="layout-processing-model" tabindex="-1">Layout Processing Model</h3>
+<ol>
+<li>
+<p>The layout engine identifies all flow groups via <code>parallel-flow</code>.</p>
+</li>
+<li>
+<p>For each group:</p>
+<ul>
+<li>
+<p>The longest flow is designated as the <strong>main flow</strong>.</p>
+</li>
+<li>
+<p>Secondary flows are laid out concurrently or on adjacent pages.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>When making pages, the engine will create a new page following the specifications for @page-media. If a parallel flow is found, the main flow will be added on the page before all the other flows.</p>
+</li>
+<li>
+<p>When all the element of the flows that fits on the page are drawn, the layout of the page is considered finished and the engine can move to the next one.</p>
+</li>
+</ol>
+<h2 id="use-cases" tabindex="-1">Use Cases</h2>
+<ul>
+<li>
+<p><strong>Multilingual publications:</strong> Presenting multiple languages side-by-side.</p>
+</li>
+<li>
+<p><strong>Scholarly editions:</strong> Aligning commentary and translation streams.</p>
+</li>
+<li>
+<p><strong>Design prototyping:</strong> Visual comparison of content versions.</p>
+</li>
+<li>
+<p><strong>Parallel narrative layouts:</strong> Storyline comparison or dual-perspective design.</p>
+</li>
+</ul>
+<h2 id="futures-considerations." tabindex="-1">Futures considerations.</h2>
+<ul>
+<li>Those specs define the automatic finding of the main flow, but it would make sense that the author can choose what is the main flow using specific css property. This would also be the location to define the type of flow (<code>same-page</code>, <code>same-spread</code>);</li>
+<li>Could we define the size and locations of the different flows using a <code>@flow</code> at-rule inside a @page declaration? This could work as a <code>@page</code>, using <code>named-flow</code> and it will give us some more control on the page layout from the container and not from the content? (just like css-grid works)</li>
+</ul>
+<h2 id="conformance" tabindex="-1">Conformance</h2>
+<p>User agents that claim conformance to this specification must implement the properties defined herein and ensure correct rendering of parallel flow synchronization and layout relationships.</p>
+<h2 id="acknowledgments" tabindex="-1">Acknowledgments</h2>
+<p>This specification draws inspiration from the discontinued <strong>CSS Regions</strong> module and builds upon experimental work in <strong>Paged.js</strong> by the open-source and typographic communities, including Open Source Publishing and the Ècran Papier Éditer (EPE) project of ESAD Grenoble / Valencia.</p>
+<section id="tof"></section>
+
+
+    </body>
+</html>
