@@ -138,13 +138,14 @@ css
     parallel-impact: all; 
 }  
 
-#alpha #porco-overlap {   
-    width: 350px !important; 
-}
-
-
 
 ```
+
+
+
+![an example using porco rosso](/images/betterapig.jpg)
+
+
 
 > **Note:**  
 > The `parallel-impact` property only applies when the impacting element exists in the main flow. Secondary flows are positioned after the main flow layout is determined.
