@@ -1,6 +1,6 @@
 ::: abstract
 
-This document is a draft specification for the manipulation of multiple flows of content in paged-media, and was written as part of the [Écran Papier Éditer](https://epe.esad-gv.fr) project. This specification and paged.js implemtantion is made by @julientaq and the result can be found on [CSS Print Lab’s github](https://github.com/css-print-lab). Paged.js implentation is show on pagedjs.website: [https://pagedjs.org/posts/en/parallel-flows-within-paged.js]().
+This document is a draft specification for the manipulation of multiple flows of content in paged-media, and was written as part of the [Écran-Papier-Éditer](https://epe.esad-gv.fr) project. This specification and paged.js implemtantion is made by @julientaq and the result can be found on [CSS Print Lab’s github](https://github.com/css-print-lab). Paged.js implentation is show on pagedjs.website: [https://pagedjs.org/posts/en/parallel-flows-within-paged.js]().
 
 
 This specification defines new CSS properties and concepts to enable parallel content flows within paged or multi-column layouts, primarily in the context of paged media. Parallel flows allow multiple independent streams of content (e.g., different languages, versions, or perspectives) to occupy the same or adjacent pages in a synchronized, visually parallel manner.
@@ -257,7 +257,7 @@ User agents that claim conformance to this specification must implement the prop
 
 ## Acknowledgments
 
-This specification draws inspiration from the discontinued **CSS Regions** module and builds upon experimental work in **Paged.js** by the open-source and typographic communities, including Open Source Publishing and the Ècran Papier Éditer (EPE) project of ESAD Grenoble / Valencia.
+This specification draws inspiration from the discontinued **CSS Regions** module and builds upon experimental work in **Paged.js** by the open-source and typographic communities, including Open Source Publishing and the Ècran-Papier-Éditer (EPE) project of ESAD Grenoble-Valence.
 
 ::: tof
 
