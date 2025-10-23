@@ -1,0 +1,16 @@
+slug: "parallel-flows-in-css-print"
+title: "Parallel-flows for CSS print"
+status: unofficial
+version: 0.1
+shortName: "print-parallel-flows"
+latestVersionUrl: "https://css-print-lab.github.io/specs/parallel-flows-in-css-print/"
+authors:
+  - name: Julien Taquet (@julientaq)
+    url:
+    company:
+    mailto:
+    note:
+
+editors:
+  - name: Julien Taquet (@ulientaq)
+    company:
