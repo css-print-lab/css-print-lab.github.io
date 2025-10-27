@@ -11,8 +11,6 @@ These properties are designed for integration with Paged.js and similar layout e
 
 While CSS-grid or flex can offer some of the features needed, having the possibility to go beyond the grid is an important need for paged-media and print.
 
-
-*Originally published here : [https://github.com/w3c/css-print/issues/4](https://github.com/w3c/css-print/issues/4)*
 :::
 
 
