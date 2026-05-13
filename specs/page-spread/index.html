@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Page spread in CSS print</title>
+        
+    <script class="remove">
+      let respecConfig = {
+        editors: [ 
+          {name: "Julie Blanc (@JulieBlanc)", 
+          url: "" }],
+        authors: [ 
+          {name: "Julie Blanc (@JulieBlanc)", 
+          url: "" }],
+        github: "",
+        shortName: "",
+        xref: "web-platform",
+        group: "",
+        specStatus: "unofficial",
+        shortName: "page-spread",
+        latestVersion: "https://css-print-lab.github.io/specs/page-spread/"
+      };
+    </script>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+
+    </head>
+    <body>
+        
+    <h1 id="title">Page spread in CSS print</h1>
+    
+    <h1 id="css-page-spread-module" tabindex="-1">CSS Page Spread Module</h1>
+<section id="abstract"><p>This document is a draft specification for the declaration of spread and full-page elements in paged media. This specification was written as part of the <a href="https://nlnet.nl/project/CSS-Print/"><em>Pushing Forward for CSS Print</em></a> project, funded through the <a href="https://nlnet.nl/commonsfund/">NGI0 Commons Fund</a>, established by <a href="https://nlnet.nl/">NLnet</a>. It's a joint initiative from core contributors of <a href="https://pagedjs.org/">Paged.js</a> (<a href="https://github.com/julientaq">@julientaq</a>, <a href="https://github.com/JulieBlanc">@JulieBlanc</a>) and the <a href="https://weasyprint.org/">WeasyPrint</a> team (<a href="https://github.com/grewn0uille">@grewn0uille</a>, <a href="https://github.com/liZe">@liZe</a>). The result of this work can be found on <a href="https://github.com/css-print-lab">CSS Print Lab's GitHub</a>.</p>
+<p>This draft addresses:</p>
+<ul>
+<li>The concept of a <strong>spread</strong> as a native CSS layout unit in paged media;</li>
+<li>How to declare an element as a <strong>full-page element</strong>, removing it from the normal flow and placing it on its own page (<code>page-placement</code> property);</li>
+<li>How to declare an element as a <strong>full-spread element</strong>, extending it across two facing pages (<code>page-placement: spread</code>);</li>
+<li>How to declare a <strong>spread float</strong>, an element that spans two pages while allowing content to flow before and after it (extension of CSS Page Floats 3);</li>
+<li>The <strong><code>@spread</code></strong> at-rule for spread-level layout declarations (gutter compensation, shared page box properties);</li>
+<li>Interactions with existing CSS paged media specifications.</li>
+</ul>
+</section>
+<h2 id="introduction" tabindex="-1">Introduction</h2>
+<p>In print publishing, a spread is a fundamental unit of design and  refers to two facing pages visible simultaneously when a bound document is open. Publishers place photographs, illustrations, tables, maps, or decorative elements across both pages of a spread, or isolate content on a single dedicated page.</p>
+<p>These layouts are commonplace in:</p>
+<ul>
+<li>Photography books and catalogues</li>
+<li>Magazines and editorial publications</li>
+<li>Scientific journals with large figures or data tables</li>
+<li>Art books and exhibition catalogues</li>
+<li>Maps, plans, and diagrams requiring maximum surface area</li>
+<li>(other example ?)</li>
+</ul>
+<p>Despite how common these layouts are, CSS has no native mechanism to describe them.</p>
+<p>This proposal seeks to fill that gap with a minimal but complete set of CSS mechanisms that integrate cleanly with existing paged media specifications.</p>
+<h2 id="types-of-spread-and-full-page-layouts" tabindex="-1">Types of spread and full-page layouts</h2>
+<p>The following table distinguishes the main layout types this specification addresses:</p>
+<table>
+<thead>
+<tr>
+<th>Layout type</th>
+<th>Flow behavior</th>
+<th>Page sharing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Full-page element</strong></td>
+<td>Removed from flow</td>
+<td>Dedicated page, no other flow content</td>
+</tr>
+<tr>
+<td><strong>Full-spread element</strong></td>
+<td>Removed from flow</td>
+<td>Dedicated spread (two pages), no other flow content</td>
+</tr>
+<tr>
+<td><strong>Spread float</strong></td>
+<td>Stays in flow; content flows before and after</td>
+<td>Shares two-page spread with surrounding content</td>
+</tr>
+<tr>
+<td><strong>Page float</strong> (top/bottom)</td>
+<td>Stays in flow</td>
+<td>Shares single page with surrounding content (already in <a href="https://www.w3.org/TR/css-page-floats-3/">CSS Page Floats 3</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="existing-w3c-specifications" tabindex="-1">Existing W3C Specifications</h2>
+<h3 id="css-paged-media-module-level-3-(css-page-3)" tabindex="-1">CSS Paged Media Module Level 3 (css-page-3)</h3>
+<p><a href="https://www.w3.org/TR/css-page-3/">CSS Paged Media 3</a> defines the <code>@page</code> rule, named pages (via the <code>page</code> property), and the page box model. The <code>page</code> property allows associating an element with a specific named page type:</p>
+<pre class="language-css"><code class="language-css"><span class="token selector">figure</span> <span class="token punctuation">{</span> <span class="token property">page</span><span class="token punctuation">:</span> full-bleed<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token atrule"><span class="token rule">@page</span> full-bleed</span> <span class="token punctuation">{</span> <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span> <span class="token punctuation">}</span></code></pre>
+<p>However, the <code>page</code> property does not remove the element from flow (eventually leaving an unwanted space on the page before the figure), does not isolate it on a dedicated page, and provides no mechanism to span two pages. The concept of a spread is entirely absent from this specification.</p>
+<h3 id="css-generated-content-for-paged-media-module-(css-gcpm-3)" tabindex="-1">CSS Generated Content for Paged Media Module (css-gcpm-3)</h3>
+<p><a href="https://www.w3.org/TR/css-gcpm-3/">css-gcpm-3</a> introduces <code>position: running()</code>, which removes elements from the flow for placement in page margin boxes (running headers, footers, etc.). This mechanism handles repeated content; it has no concept of placed content on a dedicated page or spread.</p>
+<h3 id="css-page-floats-module-level-3-(css-page-floats-3)" tabindex="-1">CSS Page Floats Module Level 3 (css-page-floats-3)</h3>
+<p><a href="https://www.w3.org/TR/css-page-floats-3/">CSS Page Floats 3</a> extends the <code>float</code> property with new values (<code>top</code>, <code>bottom</code>, <code>inline-start</code>, <code>inline-end</code>, etc.) and introduces <code>float-reference</code> (<code>inline | column | region | page</code>). This allows elements to float to the top or bottom of a page while remaining in the flow.</p>
+<p>This specification is the closest existing mechanism to what we need. However, it does not:</p>
+<ul>
+<li>Define a spread as a possible <code>float-reference</code> value;</li>
+<li>Define a full-page float (an element taking over the entire page content area);</li>
+<li>Handle the physical fold and gutter of a bound document.</li>
+</ul>
+<h3 id="gap-in-the-specifications" tabindex="-1">Gap in the specifications</h3>
+<p>No current W3C specification defines:</p>
+<ol>
+<li>The spread as a CSS layout unit;</li>
+<li>A mechanism to place an element on a dedicated full page;</li>
+<li>A mechanism to spread an element across two facing pages;</li>
+<li>Gutter/fold compensation for spread elements.</li>
+</ol>
+<h2 id="terminology" tabindex="-1">Terminology</h2>
+<ul>
+<li><strong>Spread</strong>: Two facing pages (a verso page and a recto page) that are visible simultaneously when a bound document is open. A spread is a two-page layout unit.</li>
+<li><strong>Recto page</strong>: The right-hand page of a spread. Recto pages carry odd page numbers in left-to-right scripts.</li>
+<li><strong>Verso page</strong>: The left-hand page of a spread. Verso pages carry even page numbers in left-to-right scripts.</li>
+<li><strong>Gutter</strong>: The inner margin area on each page adjacent to the binding. When an element spans a spread, the gutter runs through the center of the element.</li>
+<li><strong>Full-page element</strong>: An element that occupies the entire content area of a single page and is removed from the principal flow. No other flow content appears on that page.</li>
+<li><strong>Full-spread element</strong>: An element that occupies the content area of both pages of a spread and is removed from the principal flow. No other flow content appears on either page of that spread.</li>
+<li><strong>Spread float</strong>: An element that spans both pages of a spread while remaining in the flow of the document; surrounding content flows before and after the element across the spread.</li>
+<li><strong>Page content area</strong>: The area of the page box inside the page margin boxes, as defined in <a href="https://www.w3.org/TR/css-page-3/#page-model">css-page-3</a>.</li>
+<li><strong>Spread content area</strong>: The union of the page content areas of the two pages of a spread. Its width is the sum of the two page content area widths. Its height is the height of one page content area (both pages share the same height in a spread).</li>
+</ul>
+<h2 id="the-page-placement-property" tabindex="-1">The <code>page-placement</code> property</h2>
+<p>We propose a new <code>page-placement</code> property to remove an element from the normal flow and place it on a specific page position.</p>
+<p>The choice to introduce a dedicated property (rather than extending <code>float</code>) is deliberate. The <code>float</code> property implies that the element remains in the flow and affects surrounding content. A full-page element is fundamentally different: it leaves the flow entirely and occupies its own page. Overloading <code>float</code> with this behavior would conflate two semantically distinct mechanisms.</p>
+<h3 id="syntax" tabindex="-1">Syntax</h3>
+<pre><code>Name:   page-placement
+Value:  none | page | left | right | spread | &lt;integer&gt;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code></td>
+<td>Default. The element remains in the normal flow.</td>
+</tr>
+<tr>
+<td><code>page</code></td>
+<td>The element is removed from the flow and placed on the next available page. A new page is created for it.</td>
+</tr>
+<tr>
+<td><code>left</code></td>
+<td>The element is placed on the next available left page.</td>
+</tr>
+<tr>
+<td><code>right</code></td>
+<td>The element is placed on the next available right page.</td>
+</tr>
+<tr>
+<td><code>spread</code></td>
+<td>The element is placed across the next available spread. Both pages of the spread are dedicated to this element.</td>
+</tr>
+<tr>
+<td><code>&lt;integer&gt;</code></td>
+<td>The element is placed on the page corresponding to the given integer (1-indexed from the beginning of the document).</td>
+</tr>
+</tbody>
+</table>
+<p>The element is removed from the principal flow at its source position and reinserted into the page box (or spread) of the target page.</p>
+<div class="advisement ">
+<p><strong>ISSUE (recto/verso vs. left/right values)</strong>: The current values <code>left</code> and <code>right</code> use physical directions, while this specification adopts <code>recto</code>/<code>verso</code> as its primary terminology. Should the values be renamed to <code>recto</code> and <code>verso</code>?</p>
+<p><code>recto</code>/<code>verso</code> are logically direction-aware terms: in RTL documents (Arabic, Hebrew), the recto page is physically on the left, which the <code>left</code> value does not capture correctly. Using <code>recto</code>/<code>verso</code> would therefore be more correct across writing systems.</p>
+<p>However, renaming would create an asymmetry with <code>@page :left</code> and <code>@page :right</code> in <a href="https://www.w3.org/TR/css-page-3/">css-page-3</a>, which this specification references throughout. Options:</p>
+<ul>
+<li>Replace <code>left</code>/<code>right</code> with <code>recto</code>/<code>verso</code> and accept the terminological gap with CSS Page 3;</li>
+<li>Add <code>recto</code>/<code>verso</code> as aliases alongside <code>left</code>/<code>right</code>;</li>
+<li>Propose renaming <code>@page :left</code>/<code>:right</code> to <code>@page :verso</code>/<code>:recto</code> as part of a broader alignment effort.</li>
+</ul>
+</div>
+<h3 id="examples" tabindex="-1">Examples</h3>
+<!-- EXAMPLE 1 ---------------------------------------------------- -->
+<aside class="example numbered"><p><strong>Full-page illustration on a left page</strong></p>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span> full-bleed</span> <span class="token punctuation">{</span>
+    <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.illustration</span> <span class="token punctuation">{</span>
+  <span class="token property">page</span><span class="token punctuation">:</span> full-bleed<span class="token punctuation">;</span>
+  <span class="token property">page-placement</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.illustration img</span> <span class="token punctuation">{</span>
+  <span class="token property">object-fit</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The figure is removed from the text flow and placed on the next available left page. A named page is created specifically with no margins; the figure fills the entire page  (The red dot indicates the figure's original location in the HTML code)</p>
+<figure><img src="/images/full-page-left.png" alt=""></figure>
+</aside>
+<!-- EXAMPLE 2 ---------------------------------------------------- -->
+<aside class="example numbered"><p><strong>Figure with an image and a caption on a right page</strong></p>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> 20mm<span class="token punctuation">;</span>
+  <span class="token atrule"><span class="token rule">@bottom-center</span></span><span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>page<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.illustration-with-caption</span> <span class="token punctuation">{</span>
+  <span class="token property">page-placement</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.illustration-width-caption img</span> <span class="token punctuation">{</span>
+  <span class="token property">object-fit</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 90%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.illustration-width-caption figpcation</span> <span class="token punctuation">{</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 10%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The figure is removed from the text flow and placed on the next available right page. The margins and their content are preserved.</p>
+<figure><img src="images/full-page-right.png" alt=""></figure>
+</aside>
+<!-- EXAMPLE 3 ---------------------------------------------------- -->
+<aside class="example numbered"><p><strong>Element placed on a specific page</strong></p>
+<p>Place a figure on a  given page. The element is removed from the flow and placed on page 4.</p>
+<pre class="language-css"><code class="language-css"><span class="token selector">figure#figa</span> <span class="token punctuation">{</span>
+  <span class="token property">page-placement</span><span class="token punctuation">:</span> 4<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+</aside>
+<div class="advisement ">
+<p><strong>ISSUE</strong>: If page 4 already contains flow content, what happens? too complicated to implement ?</p>
+</div>
+<h2 id="interaction-with-the-page-property" tabindex="-1">Interaction with the <code>page</code> property</h2>
+<p><code>page-placement</code> can be combined with the <code>page</code> property from css-page-3 to associate specific <code>@page</code> rules with the target page:</p>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span> full-bleed</span> <span class="token punctuation">{</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.full-bleed</span> <span class="token punctuation">{</span>
+  <span class="token property">page</span><span class="token punctuation">:</span> full-bleed<span class="token punctuation">;</span>
+  <span class="token property">page-placement</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.full-bleed img</span> <span class="token punctuation">{</span>
+  <span class="token property">object-fit</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>When <code>page-placement: spread</code> is used together with a named <code>page</code>, the named page rules apply to both pages of the spread.</p>
+<h3 id="interaction-with-the-bleed-property" tabindex="-1">Interaction with the <code>bleed</code> property</h3>
+<p>CSS Paged Media 3 defines a <code>bleed</code> property on <code>@page</code> that specifies the extent of the bleed area beyond the page box — the region where content can extend past the trim line for print production:</p>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
+  <span class="token property">bleed</span><span class="token punctuation">:</span> 3mm<span class="token punctuation">;</span>
+  <span class="token property">marks</span><span class="token punctuation">:</span> crop cross<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The bleed area is <strong>outside</strong> the page box. An element declared at <code>width: 100%</code> fills the page content area exactly up to the trim line; it does not extend into the bleed area automatically. To make an element bleed, the author must explicitly shift it outside the page box using negative relative position and a compensated width.</p>
+<!-- EXAMPLE 4 ---------------------------------------------------- -->
+<aside class="example numbered"><p><strong>Full-page image with bleed on all four sides</strong></p>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span> full-bleed</span> <span class="token punctuation">{</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+  <span class="token property">bleed</span><span class="token punctuation">:</span> 6mm<span class="token punctuation">;</span>
+  <span class="token property">marks</span><span class="token punctuation">:</span> crop cross<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.full-bleed</span> <span class="token punctuation">{</span>
+  <span class="token property">page</span><span class="token punctuation">:</span> full-bleed<span class="token punctuation">;</span>
+  <span class="token property">page-placement</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> <span class="token function">calc</span><span class="token punctuation">(</span>100% + 6mm<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">calc</span><span class="token punctuation">(</span>100% + 6mm<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span> 
+  <span class="token property">left</span><span class="token punctuation">:</span> -3mm<span class="token punctuation">;</span>
+  <span class="token property">top</span><span class="token punctuation">:</span> -3mm<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.full-bleed img</span> <span class="token punctuation">{</span>
+  <span class="token property">object-fit</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>With <code>margin: 0</code> on <code>@page</code>, the content area equals the trim box. The relative position of <code>−3mm</code> on all sides pushes the figure outside the page box, and <code>calc(100% + 6mm)</code> extends it by <code>2 × 3mm</code> to fill the bleed area on both sides of each axis.</p>
+</aside>
+<div class="advisement ">
+<p>**ISSUE: Est-ce qu’on pourrait se servir de la nouvelle spécification <code>env()</code> pour le bleed ? <a href="https://drafts.csswg.org/css-env-1/">https://drafts.csswg.org/css-env-1/</a> Quelque chose comme <code> width: calc(100% + 2 * env(page-bleed));</code> où <code>env(page-bleed)</code> est par défaut la valeur déclarée dans <code>bleed</code>.</p>
+</div>
+<h3 id="interaction-with-%40page-%3Aleft-and-%40page-%3Aright" tabindex="-1">Interaction with <code>@page :left</code> and <code>@page :right</code></h3>
+<p>In CSS Page 3, <code>@page :left</code> and <code>@page :right</code> allow different styles on verso and recto pages. Spread elements need to be aware of this distinction.</p>
+<p>When <code>page-placement: spread</code> is used:</p>
+<ul>
+<li>The verso half of the spread element is rendered in the context of the <code>@page :left</code> box.</li>
+<li>The recto half is rendered in the context of the <code>@page :right</code> box.</li>
+<li>The <code>@spread</code> at-rule supplements (but does not replace) these individual page rules (including for generated content).</li>
+</ul>
+<p>The spread element's width resolves against the full spread content area: the combined width of both page content areas plus the two inner margins (the right margin of the left page and the left margin of the right page). The outer margins (the left margin of the left page and the right margin of the right page) remain outside the spread content area and continue to host page margin boxes such as page numbers and running headers.</p>
+<p>Page numbers and generated content apply to both pages of the spread when margins are preserved.</p>
+<!-- EXAMPLE 5 ---------------------------------------------------- -->
+<aside class="example numbered"><p><strong>Full-spread panoramic photograph</strong></p>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> 20mm<span class="token punctuation">;</span>
+  <span class="token atrule"><span class="token rule">@bottom-center</span></span><span class="token punctuation">{</span>
+   	<span class="token property">content</span><span class="token punctuation">:</span> <span class="token function">counter</span><span class="token punctuation">(</span>page<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.panorama</span> <span class="token punctuation">{</span>
+  <span class="token property">page-placement</span><span class="token punctuation">:</span> spread<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.panorama img</span> <span class="token punctuation">{</span>
+  <span class="token property">object-fit</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The figure occupies both pages of the next available spread, with margins (and counter pages) and no other flow content.</p>
+<figure><img src="/images/spread-with-margins.png" alt=""></figure>
+</aside>
+<div class="advisement ">
+<p><strong>ISSUE</strong>: If a named <code>@page</code> rule applies to a spread, should the two pages of the spread be able to have different named page types (e.g., <code>@page left</code> and <code>@page right</code> independently), or does the named page type apply uniformly to both? The first option would require a mechanism to declare spread-specific page pairs, and page number placement.</p>
+</div>
+<h3 id="accessibility" tabindex="-1">Accessibility</h3>
+<p>When an element is moved to a different page by <code>page-placement</code>, its logical position in the document (and therefore in the accessibility tree) should remain at its source position. CSS reading-order hints to preserve the correct sequence for screen readers and other assistive technologies.</p>
+<h2 id="the-%40spread-at-rule" tabindex="-1">The <code>@spread</code> at-rule</h2>
+<p>When an element spans two pages of a spread, whether as a full-spread element (<code>page-placement: spread</code>) or as a spread float (<code>float-reference: spread</code>), the physical binding of the document introduces a constraint: content near the fold may be hidden, compressed, or distorted. This is especially critical for photographs, maps, and other continuous visual content.</p>
+<p>Authors need a way to declare a gutter compensation offset: an amount by which content is shifted outward from the fold on each page to preserve readability. We propose to standardize this through a dedicated <code>@spread</code> at-rule.</p>
+<h3 id="the-%40spread-at-rule-1" tabindex="-1">The <code>@spread</code> at-rule</h3>
+<p>The <code>@spread</code> at-rule defines spread-level properties. It can be declared at the stylesheet level or nested within a named <code>@page</code> rule. When nested in <code>@page</code>, it applies only to spreads on pages matching that <code>@page</code> rule.</p>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span></span><span class="token punctuation">{</span>
+  <span class="token atrule"><span class="token rule">@spread</span></span> <span class="token punctuation">{</span>
+  	<span class="token property">gutter</span><span class="token punctuation">:</span> 10mm<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@page</span> chapter</span> <span class="token punctuation">{</span>
+  <span class="token atrule"><span class="token rule">@spread</span></span> <span class="token punctuation">{</span>
+    <span class="token property">gutter</span><span class="token punctuation">:</span> 8mm<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="the-gutter-property" tabindex="-1">The <code>gutter</code> property</h3>
+<pre><code>Name:   gutter
+Value:  &lt;length&gt;
+Initial: 0
+</code></pre>
+<p>The <code>gutter</code> property specifies the additional inward offset applied to the content of spread elements to compensate for the physical binding. A non-zero <code>gutter</code> shifts the visible content area of each page away from the fold by the given amount.</p>
+<p>On a verso page, the element's content is shifted to the left by the <code>gutter</code> value.
+On a recto page, the element's content is shifted to the right by the <code>gutter</code> value.</p>
+<p>The effect is that the central <code>2 × gutter</code> strip of the spread, which corresponds to the fold zone, is free of important content.</p>
+<p>This property applies to all elements with <code>page-placement: spread</code> or <code>float-reference: spread</code> within the scope of the <code>@spread</code> rule.</p>
+<!-- EXAMPLE 6 ---------------------------------------------------- -->
+<aside class="example numbered"><p><strong>Full-spread photograph with fold compensation</strong></p>
+<pre class="language-css"><code class="language-css"><span class="token atrule"><span class="token rule">@spread</span></span> <span class="token punctuation">{</span>
+  <span class="token property">gutter</span><span class="token punctuation">:</span> 10mm<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.panorama</span> <span class="token punctuation">{</span>
+  <span class="token property">page-placement</span><span class="token punctuation">:</span> spread<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.panorama img</span> <span class="token punctuation">{</span>
+  <span class="token property">object-fit</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The <code>gutter: 10mm</code> declaration shifts the image 10mm toward the outer edge on each page, so the 20mm zone at the center of the spread (10mm on each side of the fold) carries no critical visual content.</p>
+</aside>
+<div class="advisement ">
+<p><strong>ISSUE</strong>: The <code>gutter</code> property shifts content, but the element's physical box dimensions remain those of the full spread. Should <code>gutter</code> behave like <code>padding</code> (reducing the content area) or like a rendering offset (keeping the box dimensions unchanged but offsetting what is visible)? For background images and fills, the distinction matters: should the background color fill the full spread width including the fold zone?</p>
+</div>
+<div class="advisement ">
+<p><strong>ISSUE</strong>: Should <code>gutter</code> be a shorthand for <code>gutter-left</code> and <code>gutter-right</code> to allow asymmetric binding compensation? Different binding methods may hide different amounts of content on each side of the fold.</p>
+</div>
+<div class="advisement ">
+<p><strong>ISSUE</strong>: The <code>@spread</code> at-rule implies that the user agent knows, when laying out a document, which pages will form a spread. This is generally known only after pagination. Should <code>@spread</code> declarations be evaluated during a second layout pass? How does this interact with the fragmentation model in CSS Break 4?</p>
+</div>
+<h2 id="%5Bcss-page-floats-3%5D-the-spread-float" tabindex="-1">[CSS Page Floats 3] The spread float</h2>
+<p>Beyond full-page and full-spread elements, there is a common and important layout type where an element spans two pages but does not occupy them entirely. A classic example is a large panoramic photograph in a magazine: text flows above and below the image, which spans both the verso and recto pages of the spread at its position.</p>
+<p>This is a spread float: an element that spans both pages of a spread while remaining in the document flow. Content flows before and after the element, but not beside it.</p>
+<p>This behavior is a natural extension of CSS Page Floats 3: just as <code>float: top</code> with <code>float-reference: page</code> floats an element to the top of a page while content flows below, a spread float should be declarable by extending <code>float-reference</code> with a <code>spread</code> value. We include spread floats here as well, since their interactions with <code>@page</code> overlap with those of the <code>page-placement</code> property.</p>
+<h3 id="extension-of-float-reference" tabindex="-1">Extension of <code>float-reference</code></h3>
+<p>We propose adding <code>spread</code> as a new value of the <code>float-reference</code> property:</p>
+<pre><code>float-reference: inline | column | region | page | spread
+</code></pre>
+<p>When <code>float-reference: spread</code> is used, the element floats relative to the spread it belongs to, rather than a single page. The element spans the full width of the spread content area (i.e., the combined content areas of both pages and their inner margins).</p>
+<p>Combined with the existing <code>float: top</code> or <code>float: bottom</code> values from CSS Page Floats 3:</p>
+<ul>
+<li><code>float: top</code> with <code>float-reference: spread</code> places the element at the top of the spread; content flows below it on both pages.</li>
+<li><code>float: bottom</code> with <code>float-reference: spread</code> places the element at the bottom of the spread; content flows above it on both pages.</li>
+</ul>
+<p>The <code>width</code> property should be interpreted differently when <code>float-reference: spread</code> is used, compared to <code>float-reference: page</code>. A percentage on <code>float-reference: page</code> resolves against one page content area width; on <code>float-reference: spread</code> it should resolve against the spread content area width. When a spread float specifies <code>width: 100%</code>, this width resolves against the full spread content area (the sum of both page content areas and their inner margins). Alternatively, each half of the spread element could be clipped to its respective page content area.</p>
+<div class="advisement ">
+<p>**ISSUE **: Several questions arise:</p>
+<ul>
+<li>Does the overflow portion push content on the facing page, or does it layer above/below it?</li>
+<li>Is overflow allowed in both directions (left → right and right → left)?</li>
+</ul>
+<p>This issue is partially addressed by the <code>width</code> property, but it is unclear whether overflow is possible in both directions. If an image originally on the right page overflows onto the left page, the layout of the left page must be reconsidered. The fragmentation algorithms must account for the spread as a whole. Does this conflict with the fragmentation algorithms defined in the CSS Breaks module?</p>
+</div>
+<h3 id="examples-1" tabindex="-1">Examples</h3>
+<!-- EXAMPLE 7 ---------------------------------------------------- -->
+<aside class="example numbered"><p><strong>Panoramic photograph spanning a spread, with text flowing before and after</strong></p>
+<pre class="language-css"><code class="language-css"><span class="token selector">figure.spread-photo</span> <span class="token punctuation">{</span>
+  <span class="token property">float</span><span class="token punctuation">:</span> top<span class="token punctuation">;</span>
+  <span class="token property">float-reference</span><span class="token punctuation">:</span> spread<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">figure.spread-photo img</span> <span class="token punctuation">{</span>
+  <span class="token property">object-fit</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 120mm<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The photograph is floated to the top of the spread, spanning both pages. Text continues below the photograph on both left and right pages.</p>
+<figure><img src="/images/float-top.png" alt=""></figure>
+</aside>
+<!-- EXAMPLE 8 ---------------------------------------------------- -->
+<aside class="example numbered"><p><strong>Spread float at the bottom of two facing pages, with text flowing to the right</strong></p>
+<pre class="language-css"><code class="language-css"><span class="token selector">figure</span> <span class="token punctuation">{</span>
+  <span class="token property">float</span><span class="token punctuation">:</span> bottom left<span class="token punctuation">;</span>
+  <span class="token property">float-reference</span><span class="token punctuation">:</span> spread<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 80%<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The figure is placed at the bottom of the spread, spanning both pages. Text flows above it and to its right.</p>
+<p>The width of the figure is calculated as follows:</p>
+<p><code>(page content area of verso page + inner margin of verso page + inner margin of recto page + page content area of recto page) × 0.8</code></p>
+<p>The figure starts at the outer edge of the left page.</p>
+<figure><img src="/images/float-bottom.png" alt=""></figure>
+</aside>
+<p>Interaction with the <code>page</code> property → see spread specification</p>
+<p>Gutter → see spread specification</p>
+<h2 id="open-questions" tabindex="-1">Open questions</h2>
+<div class="advisement ">
+<p><strong>ISSUE (Module)</strong>: Should these specifications form a standalone module, or should they be distributed across existing modules?</p>
+<ul>
+<li><a href="https://www.w3.org/TR/css-page-3/">https://www.w3.org/TR/css-page-3/</a> → page placement + @spread</li>
+<li><a href="https://www.w3.org/TR/css-page-floats-3/">https://www.w3.org/TR/css-page-floats-3/</a> → spread float</li>
+</ul>
+<p>Risk of conflict if this is an independent module?</p>
+</div>
+<div class="advisement ">
+<p><strong>ISSUE (Multi-column interaction)</strong>: How does <code>page-placement</code> interact with multi-column layouts? If a <code>figure</code> inside a multi-column container has <code>page-placement: spread</code>, does it leave the column flow entirely and occupy a full spread? Or should <code>page-placement</code> be restricted to elements in the page-level flow? We think it should be the first option.</p>
+</div>
+<div class="advisement ">
+<p><strong>ISSUE (Overflow of placed element)</strong>: What happens when the content of a full-page or full-spread element overflows its target page or spread? Options: (a) the overflow is clipped; (b) the overflow continues onto the next page or spread; (c) a user-agent warning is raised. For photographs, option (a) is usually appropriate; for text-heavy content, option (b) may be preferable. [→trop spécifique ?]</p>
+</div>
+<hr>
+<section id="tof"></section>
+
+
+    </body>
+</html>
