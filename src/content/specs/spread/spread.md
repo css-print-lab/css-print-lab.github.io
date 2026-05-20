@@ -125,7 +125,7 @@ Value:  none | page | left | right | spread | <integer>
 | `left` | The element is placed on the next available left page. |
 | `right` | The element is placed on the next available right page. |
 | `spread` | The element is placed across the next available spread. Both pages of the spread are dedicated to this element. |
-| `<integer>` | The element is placed on the page corresponding to the given integer (1-indexed from the beginning of the document). |
+| `<integer>` | The element is placed on the page corresponding to the given integer (1, indexed from the beginning of the document). |
 
 The element is removed from the principal flow at its source position and reinserted into the page box (or spread) of the target page.
 
@@ -171,7 +171,7 @@ figure.illustration img {
 
 The figure is removed from the text flow and placed on the next available left page. A named page is created specifically with no margins; the figure fills the entire page  (The red dot indicates the figure's original location in the HTML code)
 
-![](/images/full-page-left.png)
+![](images/full-page-left.png)
 
 :::
 
@@ -323,7 +323,7 @@ With `margin: 0` on `@page`, the content area equals the trim box. The relative 
 
 ::: issue
 
-**ISSUE: Est-ce qu’on pourrait se servir de la nouvelle spécification `env()` pour le bleed ? https://drafts.csswg.org/css-env-1/ Quelque chose comme ` width: calc(100% + 2 * env(page-bleed));` où `env(page-bleed)` est par défaut la valeur déclarée dans `bleed`.
+**ISSUE: Could we use the new `env()` specification for bleed ? https://drafts.csswg.org/css-env-1/ Like ` width: calc(100% + 2 * env(page-bleed));` where `env(page-bleed)` is the default value declared in `bleed`.
 
 :::
 
@@ -374,7 +374,7 @@ figure.panorama img {
 
 The figure occupies both pages of the next available spread, with margins (and counter pages) and no other flow content.
 
-![](/images/spread-with-margins.png)
+![](images/spread-with-margins.png)
 
 :::
 
@@ -559,7 +559,7 @@ figure.spread-photo img {
 
 The photograph is floated to the top of the spread, spanning both pages. Text continues below the photograph on both left and right pages.
 
-![](/images/float-top.png)
+![](images/float-top.png)
 
 :::
 
@@ -586,7 +586,7 @@ The width of the figure is calculated as follows:
 
 The figure starts at the outer edge of the left page.
 
- ![](/images/float-bottom.png)
+ ![](images/float-bottom.png)
 
 :::
 
@@ -623,8 +623,6 @@ Risk of conflict if this is an independent module?
 **ISSUE (Overflow of placed element)**: What happens when the content of a full-page or full-spread element overflows its target page or spread? Options: (a) the overflow is clipped; (b) the overflow continues onto the next page or spread; (c) a user-agent warning is raised. For photographs, option (a) is usually appropriate; for text-heavy content, option (b) may be preferable. [→trop spécifique ?]
 
 :::
-
----
 
 ::: tof
 
