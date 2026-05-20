@@ -195,7 +195,7 @@ Value:  none | page | left | right | spread | &lt;integer&gt;
   <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>The figure is removed from the text flow and placed on the next available left page. A named page is created specifically with no margins; the figure fills the entire page  (The red dot indicates the figure's original location in the HTML code)</p>
-<figure><img src="images/full-page-left.png" alt=""></figure>
+<figure><img src="/images/full-page-left.png" alt=""></figure>
 </aside>
 <!-- EXAMPLE 2 ---------------------------------------------------- -->
 <aside class="example numbered"><p><strong>Figure with an image and a caption on a right page</strong></p>
@@ -222,7 +222,7 @@ Value:  none | page | left | right | spread | &lt;integer&gt;
   <span class="token property">height</span><span class="token punctuation">:</span> 10%<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>The figure is removed from the text flow and placed on the next available right page. The margins and their content are preserved.</p>
-<figure><img src="images/full-page-right.png" alt=""></figure>
+<figure><img src="/images/full-page-right.png" alt=""></figure>
 </aside>
 <!-- EXAMPLE 3 ---------------------------------------------------- -->
 <aside class="example numbered"><p><strong>Element placed on a specific page</strong></p>
@@ -318,7 +318,7 @@ Value:  none | page | left | right | spread | &lt;integer&gt;
   <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>The figure occupies both pages of the next available spread, with margins (and counter pages) and no other flow content.</p>
-<figure><img src="images/spread-with-margins.png" alt=""></figure>
+<figure><img src="/images/spread-with-margins.png" alt=""></figure>
 </aside>
 <div class="advisement ">
 <p><strong>ISSUE</strong>: If a named <code>@page</code> rule applies to a spread, should the two pages of the spread be able to have different named page types (e.g., <code>@page left</code> and <code>@page right</code> independently), or does the named page type apply uniformly to both? The first option would require a mechanism to declare spread-specific page pairs, and page number placement.</p>
@@ -416,7 +416,7 @@ On a recto page, the element's content is shifted to the right by the <code>gutt
   <span class="token property">height</span><span class="token punctuation">:</span> 120mm<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
 <p>The photograph is floated to the top of the spread, spanning both pages. Text continues below the photograph on both left and right pages.</p>
-<figure><img src="images/float-top.png" alt=""></figure>
+<figure><img src="/images/float-top.png" alt=""></figure>
 </aside>
 <!-- EXAMPLE 8 ---------------------------------------------------- -->
 <aside class="example numbered"><p><strong>Spread float at the bottom of two facing pages, with text flowing to the right</strong></p>
@@ -429,7 +429,7 @@ On a recto page, the element's content is shifted to the right by the <code>gutt
 <p>The width of the figure is calculated as follows:</p>
 <p><code>(page content area of verso page + inner margin of verso page + inner margin of recto page + page content area of recto page) × 0.8</code></p>
 <p>The figure starts at the outer edge of the left page.</p>
-<figure><img src="images/float-bottom.png" alt=""></figure>
+<figure><img src="/images/float-bottom.png" alt=""></figure>
 </aside>
 <p>Interaction with the <code>page</code> property → see spread specification</p>
 <p>Gutter → see spread specification</p>
