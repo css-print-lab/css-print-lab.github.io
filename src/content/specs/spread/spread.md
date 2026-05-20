@@ -171,7 +171,7 @@ figure.illustration img {
 
 The figure is removed from the text flow and placed on the next available left page. A named page is created specifically with no margins; the figure fills the entire page  (The red dot indicates the figure's original location in the HTML code)
 
-![](images/full-page-left.png)
+![](/images/full-page-left.png)
 
 :::
 
@@ -211,7 +211,7 @@ figure.illustration-width-caption figpcation {
 
 The figure is removed from the text flow and placed on the next available right page. The margins and their content are preserved.
 
-![](images/full-page-right.png)
+![](/images/full-page-right.png)
 
 :::
 
@@ -374,7 +374,7 @@ figure.panorama img {
 
 The figure occupies both pages of the next available spread, with margins (and counter pages) and no other flow content.
 
-![](images/spread-with-margins.png)
+![](/images/spread-with-margins.png)
 
 :::
 
@@ -559,7 +559,7 @@ figure.spread-photo img {
 
 The photograph is floated to the top of the spread, spanning both pages. Text continues below the photograph on both left and right pages.
 
-![](images/float-top.png)
+![](/images/float-top.png)
 
 :::
 
@@ -586,7 +586,7 @@ The width of the figure is calculated as follows:
 
 The figure starts at the outer edge of the left page.
 
- ![](images/float-bottom.png)
+ ![](/images/float-bottom.png)
 
 :::
 
