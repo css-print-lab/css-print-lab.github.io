@@ -90,8 +90,8 @@ No current W3C specification defines:
 ## Terminology
 
 - **Spread**: Two facing pages (a verso page and a recto page) that are visible simultaneously when a bound document is open. A spread is a two-page layout unit.
-- **Recto page**: The right-hand page of a spread. Recto pages carry odd page numbers in left-to-right scripts.
-- **Verso page**: The left-hand page of a spread. Verso pages carry even page numbers in left-to-right scripts.
+- **Verso page**: The first page of a spread. Verso pages usually carry even page numbers.
+- **Recto page**: The second page of a spread. Recto pages usually carry odd page numbers.
 - **Gutter**: The inner margin area on each page adjacent to the binding. When an element spans a spread, the gutter runs through the center of the element.
 - **Full-page element**: An element that occupies the entire content area of a single page and is removed from the principal flow. No other flow content appears on that page.
 - **Full-spread element**: An element that occupies the content area of both pages of a spread and is removed from the principal flow. No other flow content appears on either page of that spread.
@@ -124,6 +124,8 @@ Value:  none | page | left | right | spread | <integer>
 | `page` | The element is removed from the flow and placed on the next available page. A new page is created for it. |
 | `left` | The element is placed on the next available left page. |
 | `right` | The element is placed on the next available right page. |
+| `recto` | The element is placed on the next available recto page. |
+| `verso` | The element is placed on the next available verso page. |
 | `spread` | The element is placed across the next available spread. Both pages of the spread are dedicated to this element. |
 | `<integer>` | The element is placed on the page corresponding to the given integer (1, indexed from the beginning of the document). |
 
@@ -131,14 +133,7 @@ The element is removed from the principal flow at its source position and reinse
 
 ::: issue
 
-**ISSUE (recto/verso vs. left/right values)**: The current values `left` and `right` use physical directions, while this specification adopts `recto`/`verso` as its primary terminology. Should the values be renamed to `recto` and `verso`?
-
-`recto`/`verso` are logically direction-aware terms: in RTL documents (Arabic, Hebrew), the recto page is physically on the left, which the `left` value does not capture correctly. Using `recto`/`verso` would therefore be more correct across writing systems.
-
-However, renaming would create an asymmetry with `@page :left` and `@page :right` in [css-page-3](https://www.w3.org/TR/css-page-3/), which this specification references throughout. Options:
-- Replace `left`/`right` with `recto`/`verso` and accept the terminological gap with CSS Page 3;
-- Add `recto`/`verso` as aliases alongside `left`/`right`;
-- Propose renaming `@page :left`/`:right` to `@page :verso`/`:recto` as part of a broader alignment effort.
+**ISSUE**: For the sake of consistency for other page-related properties such as `break-*`, the `@page` rule should allow the `:recto` and `:verso` pseudo-classes.
 
 :::
 
@@ -333,12 +328,12 @@ With `margin: 0` on `@page`, the content area equals the trim box. The relative 
 
 ### Interaction with `@page :left` and `@page :right`
 
-In CSS Page 3, `@page :left` and `@page :right` allow different styles on verso and recto pages. Spread elements need to be aware of this distinction.
+In CSS Page 3, `@page :left` and `@page :right` allow different styles on left and right pages. Spread elements need to be aware of this distinction.
 
 When `page-placement: spread` is used:
 
-- The verso half of the spread element is rendered in the context of the `@page :left` box.
-- The recto half is rendered in the context of the `@page :right` box.
+- The left half of the spread element is rendered in the context of the `@page :left` box.
+- The right half is rendered in the context of the `@page :right` box.
 - The `@spread` at-rule supplements (but does not replace) these individual page rules (including for generated content).
 
 The spread element's width resolves against the full spread content area: the combined width of both page content areas plus the two inner margins (the right margin of the left page and the left margin of the right page). The outer margins (the left margin of the left page and the right margin of the right page) remain outside the spread content area and continue to host page margin boxes such as page numbers and running headers.
@@ -431,8 +426,8 @@ Initial: 0
 
 The `gutter` property specifies the additional inward offset applied to the content of spread elements to compensate for the physical binding. A non-zero `gutter` shifts the visible content area of each page away from the fold by the given amount.
 
-On a verso page, the element's content is shifted to the left by the `gutter` value.
-On a recto page, the element's content is shifted to the right by the `gutter` value.
+On a left page, the element's content is shifted to the left by the `gutter` value.
+On a right page, the element's content is shifted to the right by the `gutter` value.
 
 The effect is that the central `2 × gutter` strip of the spread, which corresponds to the fold zone, is free of important content.
 
@@ -582,7 +577,7 @@ The figure is placed at the bottom of the spread, spanning both pages. Text flow
 
 The width of the figure is calculated as follows:
 
-`(page content area of verso page + inner margin of verso page + inner margin of recto page + page content area of recto page) × 0.8`
+`(page content area of left page + inner margin of left page + inner margin of right page + page content area of right page) × 0.8`
 
 The figure starts at the outer edge of the left page.
 
