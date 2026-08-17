@@ -107,7 +107,7 @@ In the meantime, there are two most commonly used methods of adding notes:
 - Another way would be to use some `<span>` elements directly in paragraphs to encapsulate note elements in the place where they appear. This is the method used in examples in the [css-gcpm-3 draft](https://www.w3.org/TR/css-gcpm-3/#creating-footnotes).
 
 #### In unofficial specifications
-David MacDonald and Shane McCarron propose specifics `<note> `, `<notegroup>`and `<refnote>` elements in some [unofficial specifications](http://spec-ops.github.io/html-note/index.html). One part of the document presents [uses cases and a lot of requirements](http://spec-ops.github.io/html-note/index.html#UCnR) that are very useful. However, we believe that many of the HTML syntaxes proposed in the document can be best achieved through CSS mechanisms.
+David MacDonald and Shane McCarron propose specifics `<note>`, `<notegroup>` and `<refnote>` elements in some [unofficial specifications](http://spec-ops.github.io/html-note/index.html). One part of the document presents [uses cases and a lot of requirements](http://spec-ops.github.io/html-note/index.html#UCnR) that are very useful. However, we believe that many of the HTML syntaxes proposed in the document can be best achieved through CSS mechanisms.
 
 #### What we’d like to have
 
@@ -148,12 +148,12 @@ Until this element exists in HTML, a `span` element will be used with a class na
 
 A mechanism is needed to move the note element into a specific area of the page or of the document, and leaving a reference indicator in its place. To do this, we add the `note()` value to the position property and the `element()` value to the content property.
 
-### The 'note()' value
+### The `note()` value
 
 The `note()` function removes the element (and associated `::before` and `::after` pseudo-elements) from the principal flow, and makes it available to place in a page margin-box, a page note-area `@note-area` or a `::note-area` pseudo element using `element()`. The element inherits from its original position in the document, but is not rendered there, instead a `::note-call` pseudo-element is created and inserted in the original position of the note. The elements keep their defined styles.
 A custom identifier is required: `note(<custom-ident>)`. If there is no `element()` value corresponding to the custom identifier of the `note()` value, the elements are not removed from the flow and are shown as inline `note` elements.
 
-### The 'element()' value
+### The `element()` value
 
 To place the elements removed from the flow in a specific place on the document or page, we can use the function `element()` already present in the specifications and usable in a `content` property.
 
@@ -181,7 +181,7 @@ The `element()` function can be used  in new page area `@note-area` (see [*Page 
 **Notes in page note area**
 
 ```css
-note.note {
+note {
   position: note(<custom-ident>);
 }
 
@@ -246,20 +246,20 @@ By default, note counters use a predefined [counter](http://dev.w3.org/csswg/css
 In the example below, sidenotes are reset at the beginning of each section.
 
 ```css
-section{
-    counter-reset: sidenote 0;
+section {
+  counter-reset: sidenote 0;
 }
-note.sidenote{
-    position: note(sidenote);
+note.sidenote {
+  position: note(sidenote);
 }
 ```
 
 In the example below, footnotes increment by 2 instead of the default value of 1.
 
 ```css
-note.footnote{
-    position: note(footnote);
-    counter-increment: 2;
+note.footnote {
+  position: note(footnote);
+  counter-increment: 2;
 }
 ```
 
@@ -269,7 +269,6 @@ The note counter, like other counters, may use any [counter style](http://dev.w3
 
 ```css
 ::note-call { content: counter(footnote, symbols('*', '†', '‡', '§')); }
-
 ::note-marker { content: counter(footnote, symbols('*', '†', '‡', '§')) '. '; }
 ```
 
@@ -312,7 +311,7 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 }
 
 ```
-### The ::note-callback pseudo element
+### The `::note-callback` pseudo element
 
 The `::note-callback` pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated `::note-call`. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.
 
@@ -322,7 +321,7 @@ The `::note-callback` pseudo-element represents the note element's call back, e.
 }
 ```
 
-::: issue 
+::: issue
 
 
 **ISSUE** Mostly useful for continuous media. Should we mention that by default it doesn’t show up in paged media? But, paged media isn’t always meant for print… Thoughts?
@@ -337,20 +336,20 @@ Notes call and maker can be used either at the parent element level or at the no
 
 
 ```css
-note.sidenote{
-    position: note(sidenote);
+note.sidenote {
+  position: note(sidenote);
 }
 
-note.footnote{
-    position: note(footnote);
+note.footnote {
+  position: note(footnote);
 }
 
 note.sidenote::note-call {
-    /* will affect all the note with a class `sidenote`*/
+  /* will affect all the note with a class `sidenote` */
 }
 
 note.footnote::note-call {
-    /* will affect all the note with a class `footnote`*/
+  /* will affect all the note with a class `footnote` */
 }
 ```
 
@@ -369,7 +368,7 @@ The properties of a note box are determined by properties declared in the note r
 - positioning scheme of the note box,
 - size of the note box,
 - note policy,
-- General styling of the note box (each note boxes has its own margin, border, padding and content areas.)
+- general styling of the note box (each note boxes has its own margin, border, padding and content areas.)
 
 If the content of a note area overflows from the box, it will go to the next page, in the same note area (see [*Notes policy*](#notes-policy)).
 
@@ -473,7 +472,7 @@ In this example, we use the `inline` value of the `float-reference` property. Th
 
 ```css
 @page {
-  @left-top {
+  @note-area {
     content: element(refs, all-once);
     float: left;
     float-reference: inline;
@@ -688,7 +687,7 @@ We outline three syntactic proposals currently under discussion. All aim to allo
 
 ### Proposal 1: Use `element()` with `::after`
 
-This approach uses the standard `::after` pseudo-element and the `element()` function to insert the content of the note. 
+This approach uses the standard `::after` pseudo-element and the `element()` function to insert the content of the note.
 
 
 ```css
@@ -709,7 +708,7 @@ section::after {
 - The `::after` pseudo-element is inline by default and only supports textual `content` in most current implementations.
 - Only one `::after` declaration is allowed, making it impossible to define multiple note areas.
 
-  
+
 
 ### Proposal 2 : Introduce a new `::note-area` pseudo element
 
@@ -736,7 +735,7 @@ section::note-area {
 - Pseudo-elements default to `inline`, though that can be overridden (`display: block` can be assumed here).
 - Only one `::note-area` pseudo-element is possible per element; multiple note streams require more complex handling or alternative syntax.
 
-### Proposal 3 : Use `@note-area` 
+### Proposal 3 : Use `@note-area`
 
 This approach introduces `@note-area` at-rule nested inside the CSS rule of the parent element. It provides explicit mapping between the element and the note stream.
 
@@ -748,8 +747,8 @@ note {
 
 section {
   @note-area {
-  	content: element(sidenotes);
-	}
+    content: element(sidenotes);
+  }
 }
 ```
 
@@ -760,7 +759,7 @@ section {
 - Is the at-rule model too divergent from traditional CSS syntax?
 - May align well with future CSS features such as container queries or scoped styles.
 
-  
+
 ### Further Examples and Use Cases
 
 In all three proposals, once the note is mapped to its container, authors can use existing CSS layout mechanisms to position and size the note content, such as: float, absolute positioning, grid, exclusion, etc.
