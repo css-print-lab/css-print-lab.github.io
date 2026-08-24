@@ -303,7 +303,7 @@ A `::note-call` pseudo-element is inserted in place of the `note` element when t
 
 ### The `::note-marker` pseudo element
 
-The `::note-marker` pseudo-element represents the note element’s marker, the number or symbol that identifies each note. This pseudo-element behaves like a `::marker` pseudo-element, as defined in [[CSS3LIST\]](https://www.w3.org/TR/css-gcpm-3/#css3list). It is placed at the beginning of the parent’s content, and is inline by default. The `::note-marker` can be styled just as other `::marker` elements can be. The default style should include `list-style-position: inside`, or be set as any other list.
+The `::note-marker` pseudo-element represents the note element’s marker, the number or symbol that identifies each note. This pseudo-element behaves like a `::marker` pseudo-element, as defined in [[CSS-PSEUDO-4\]](https://drafts.csswg.org/css-pseudo/#marker-pseudo). It is placed at the beginning of the parent’s content, and is inline by default. The `::note-marker` can be styled just as other `::marker` elements can be. The default style should include `list-style-position: inside`, or be set as any other list.
 
 ```css
 ::note-marker {
