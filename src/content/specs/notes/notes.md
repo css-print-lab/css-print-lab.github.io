@@ -237,20 +237,55 @@ note.sidenote {
 
 *This section and follows contains some specifications of [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/).*
 
-The note counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) associated with the note element. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.
-
-By default, note counters use a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) with the same name (`<custom-ident>`) as the one used in `note()`. You don’t need to declare `counter-reset` or `counter-increment` unless you want to customize their behavior.
+The `note` counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) associated with the note element. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.
 
 ::: example numbered
 
-In the example below, sidenotes are reset at the beginning of each section.
+```css
+note {
+  position: note(note);
+}
+```
+
+:::
+
+When several notes lists are needed, counters have to be created and incremented manually.
+
+::: example numbered
+
+In the example below, footnotes are reset at the beginning of the document and sidenotes are reset at the beginning of each section.
 
 ```css
-section {
-  counter-reset: sidenote 0;
+body {
+  counter-reset: footnote 0;
 }
+
+section {
+  counter-reset: sidenote 0;
+}
+
 note.sidenote {
+  counter-increment: sidenote;
   position: note(sidenote);
+
+  &::note-marker {
+    content: counter(sidenote) ". ";
+  }
+  &::note-call {
+    content: counter(sidenote);
+  }
+}
+
+note.footnote {
+  counter-increment: footnote;
+  position: note(footnote);
+
+  &::note-marker {
+    content: counter(footnote) ". ";
+  }
+  &::note-call {
+    content: counter(footnote);
+  }
 }
 ```
 
@@ -259,7 +294,7 @@ In the example below, footnotes increment by 2 instead of the default value of 1
 ```css
 note.footnote {
   position: note(footnote);
-  counter-increment: 2;
+  counter-increment: footnote 2;
 }
 ```
 
@@ -313,11 +348,11 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 ```
 ### The `::note-callback` pseudo element
 
-The `::note-callback` pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated `::note-call`. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.
+The `::note-callback` pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated `::note-call`. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the No-break Space (“ ” U+00A0) followed by the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.
 
 ```css
 ::note-callback {
-  content: '↩';
+  content: ' ↩';
 }
 ```
 
