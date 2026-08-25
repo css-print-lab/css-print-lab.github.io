@@ -192,6 +192,15 @@ note {
   }
 }
 ```
+
+The notes with the default name `note` are displayed in the `@note-area`.
+
+```css
+note {
+  position: note();
+}
+```
+
 :::
 
 ### Using in margin boxes
@@ -202,6 +211,7 @@ The [dimensions](https://www.w3.org/TR/css-page-3/#margin-dimension) and (defaul
 
 
 ::: example numbered
+
 **Notes in page margin box**
 
 The following rules result in the placement of the note elements inside the left-top margin box. Margin and text alignment of the note elements are set to the note element itself and padding of the margin box is set in `@left-top` at-rule.
@@ -209,13 +219,16 @@ The following rules result in the placement of the note elements inside the left
 ```css
 @page {
   @left-top {
-    content: element(sidenote, all-once);
+    content: element(note, all-once);
     padding: 5mm;
+  }
+  @note-area {
+    content: none;
   }
 }
 
 note.sidenote {
-  position: note(sidenote);
+  position: note();
   margin-bottom: 10px;
   text-align: left;
 }
@@ -238,64 +251,25 @@ note.sidenote {
 
 *This section and follows contains some specifications of [css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/).*
 
-The `note` counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) associated with the note element. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.
+The `note` counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#counter) associated with the note elements whose name is the default `note` value. Its value is the number or symbol used to identify the note. This value is used in both the note call and the note marker. It should be incremented for each note.
 
 ::: example numbered
 
 ```css
 note {
-  position: note(note);
+  position: note();
 }
 ```
 
 :::
 
-When several notes lists are needed, counters have to be created and incremented manually.
-
 ::: example numbered
-
-In the example below, footnotes are reset at the beginning of the document and sidenotes are reset at the beginning of each section.
-
-```css
-body {
-  counter-reset: footnote 0;
-}
-
-section {
-  counter-reset: sidenote 0;
-}
-
-note.sidenote {
-  counter-increment: sidenote;
-  position: note(sidenote);
-
-  &::note-marker {
-    content: counter(sidenote) ". ";
-  }
-  &::note-call {
-    content: counter(sidenote);
-  }
-}
-
-note.footnote {
-  counter-increment: footnote;
-  position: note(footnote);
-
-  &::note-marker {
-    content: counter(footnote) ". ";
-  }
-  &::note-call {
-    content: counter(footnote);
-  }
-}
-```
 
 In the example below, footnotes increment by 2 instead of the default value of 1.
 
 ```css
-note.footnote {
-  position: note(footnote);
-  counter-increment: footnote 2;
+note {
+  counter-increment: note 2;
 }
 ```
 
@@ -304,8 +278,8 @@ note.footnote {
 The note counter, like other counters, may use any [counter style](http://dev.w3.org/csswg/css-counter-styles-3/#counter-style). Notes often use a sequence of symbols.
 
 ```css
-::note-call { content: counter(footnote, symbols('*', '†', '‡', '§')); }
-::note-marker { content: counter(footnote, symbols('*', '†', '‡', '§')) '. '; }
+::note-call { content: counter(note, symbols('*', '†', '‡', '§')) }
+::note-marker { content: counter(note, symbols('*', '†', '‡', '§')) '. ' }
 ```
 
 The note counter can be reset on each page:
@@ -366,29 +340,39 @@ The `::note-callback` pseudo-element represents the note element's call back, e.
 
 ### Support for multiple note types
 
-Notes call and maker can be used either at the parent element level or at the note element level, allowing different types of notes within the same section.
+Notes call and marker can be used either at the parent element level or at the note element level, allowing different types of notes within the same section.
 
 ::: example numbered
 
+In the example below, footnotes are reset at the beginning of the document and sidenotes are reset at the beginning of each section.
 
 ```css
+body {
+  counter-reset: footnote 0;
+}
 note.sidenote {
+  counter-increment: sidenote;
   position: note(sidenote);
+  &::note-marker { content: counter(sidenote) ". " }
+  &::note-call { content: counter(sidenote) }
+}
+@page {
+  @left-top { content: element(sidenote, all-once) }
 }
 
+section {
+  counter-reset: sidenote 0;
+}
 note.footnote {
+  counter-increment: footnote;
   position: note(footnote);
+  &::note-marker { content: counter(footnote) ". " }
+  &::note-call { content: counter(footnote) }
 }
-
-note.sidenote::note-call {
-  /* will affect all the note with a class `sidenote` */
-}
-
-note.footnote::note-call {
-  /* will affect all the note with a class `footnote` */
+@note-area {
+  content: element(footnote, all-once);
 }
 ```
-
 
 :::
 
@@ -420,7 +404,7 @@ Using float on the page and negative margins can be helpful in creating a note a
 ```css
 @page {
   @note-area {
-    content: element(sidenotes, all-once);
+    content: element(note, all-once);
     float: top right;
     float-reference: page;
     width: 42mm;
@@ -429,7 +413,7 @@ Using float on the page and negative margins can be helpful in creating a note a
 }
 
 note.sidenote {
-  position: note(sidenotes)
+  position: note();
 }
 ```
 
@@ -444,7 +428,7 @@ Since a note area is a box, it’s possible to layout the area itself (with colu
 ```css
 @page {
   @note-area {
-    content: element(notes, all-once)
+    content: element(note, all-once)
     float: bottom right;
     float-reference: page;
     width: 50%;
@@ -453,7 +437,7 @@ Since a note area is a box, it’s possible to layout the area itself (with colu
 }
 
 note.notes {
-  position: note(notes);
+  position: note();
 }
 
 ```
@@ -510,7 +494,7 @@ In this example, we use the `inline` value of the `float-reference` property. Th
 ```css
 @page {
   @note-area {
-    content: element(refs, all-once);
+    content: element(note, all-once);
     float: left;
     float-reference: inline;
     margin-left: -50mm;
@@ -518,7 +502,7 @@ In this example, we use the `inline` value of the `float-reference` property. Th
   }
 }
 note.refs {
-  position: note(refs);
+  position: note();
 }
 
 ```
@@ -574,7 +558,7 @@ We can use this reference to indicate the creation of note areas in the columns 
 ```css
 @page {
   @note-area {
-    content: element(notes, all-once);
+    content: element(note, all-once);
     float: bottom;
     float-reference: column;
   }
@@ -584,8 +568,8 @@ We can use this reference to indicate the creation of note areas in the columns 
   columns: 3;
 }
 
-#content note.notes {
-  position: note(notes);
+#content note {
+  position: note();
 }
 ```
 
@@ -642,7 +626,6 @@ note.refsB {
 
 **Footnotes and marginal notes in the same page**
 
-
 ```css
 @page {
   @note-area {
@@ -675,14 +658,14 @@ note.footnotes {
 
 ### @footnote special at-rule
 
-[css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/) defines a special`@footnote` rule. This rule can be kept in this specification as a specific `@note-area` with predefined positioning scheme. It behaves like a floated bottom page element. No positioning scheme designed by the user is taken into account in this `@footnote` rule, and only one footnote box can be created on a page.
+[css-gcpm-3](https://www.w3.org/TR/css-gcpm-3/) defines a special `@footnote` rule. This rule can be kept in this specification as a specific `@note-area` with predefined positioning scheme. It behaves like a floated bottom page element. No positioning scheme designed by the user is taken into account in this `@footnote` rule, and only one footnote box can be created on a page.
 
 ::: example numbered
 
 ```css
 @page {
   @footnote {
-    content: element(footnotes, all-once);
+    content: element(footnote, all-once);
   }
 }
 
@@ -696,17 +679,8 @@ note.footnote {
 This would have the exact same behavior when using the following declarations:
 
 ```css
-@page {
-  @note-area {
-    content: element(footnotes, all-once);
-    float: bottom;
-    float-reference: page;
-    width: 100%;
-  }
-}
-
 note.footnote {
-  position: note(footnote);
+  position: note();
 }
 ```
 
@@ -779,12 +753,12 @@ This approach introduces `@note-area` at-rule nested inside the CSS rule of the 
 
 ```css
 note {
-  position: note(sidenotes);
+  position: note();
 }
 
 section {
   @note-area {
-    content: element(sidenotes);
+    content: element(note);
   }
 }
 ```
@@ -807,17 +781,15 @@ All three proposals also support inheritance: nested elements can override or in
 
 For example, marginal notes can be achieved in all three models using similar layout logic. Here’s an example using `::note-area`.
 
-
-
 ::: example numbered
 
 ```css
 note {
-  position: note(margin-notes);
+  position: note();
 }
 
 section::note-area {
-  content: element(margin-notes);
+  content: element(note);
   float-reference: inline;
   float: left;
   clear: both;
@@ -835,8 +807,6 @@ This creates margin notes aligned with the note reference, placed in the left of
 **ISSUE** A dedicated issue is open to track these discussions and ensure a clear path forward for note handling in continuous media: https://github.com/css-print-lab/css-print-lab.github.io/issues/10
 
 :::
-
-
 
 ## Notes policy
 
