@@ -141,7 +141,7 @@ screw presses of the period.</p>
 
 This potential new HTML element is easy to use and allows a note to be always attached to the content it adds details to. This proposal is aligned to the way HTML works (a node mechanism) without adding an HTML element that would depend on another one (to create note references for example).
 
-Until this element exists in HTML, a `span` element will be used with a class named “note” for illustrative purposes.
+Until this element exists in HTML, a `div` element will be used with a class named `note` for illustrative purposes.
 
 
 ## Create notes with CSS
@@ -182,7 +182,7 @@ The `element()` function can be used  in new page area `@note-area` (see [*Page 
 **Notes in page note area**
 
 ```css
-note {
+div.note {
   position: note(<custom-ident>);
 }
 
@@ -196,7 +196,7 @@ note {
 The notes with the default name `note` are displayed in the `@note-area`.
 
 ```css
-note {
+div.note {
   position: note();
 }
 ```
@@ -227,7 +227,7 @@ The following rules result in the placement of the note elements inside the left
   }
 }
 
-note.sidenote {
+div.sidenote {
   position: note();
   margin-bottom: 10px;
   text-align: left;
@@ -256,7 +256,7 @@ The `note` counter is a predefined [counter](http://dev.w3.org/csswg/css-lists/#
 ::: example numbered
 
 ```css
-note {
+div.note {
   position: note();
 }
 ```
@@ -268,7 +268,7 @@ note {
 In the example below, footnotes increment by 2 instead of the default value of 1.
 
 ```css
-note {
+div.note {
   counter-increment: note 2;
 }
 ```
@@ -350,7 +350,7 @@ In the example below, footnotes are reset at the beginning of the document and s
 body {
   counter-reset: footnote 0;
 }
-note.sidenote {
+div.sidenote {
   counter-increment: sidenote;
   position: note(sidenote);
   &::note-marker { content: counter(sidenote) ". " }
@@ -363,7 +363,7 @@ note.sidenote {
 section {
   counter-reset: sidenote 0;
 }
-note.footnote {
+div.footnote {
   counter-increment: footnote;
   position: note(footnote);
   &::note-marker { content: counter(footnote) ". " }
@@ -412,7 +412,7 @@ Using float on the page and negative margins can be helpful in creating a note a
   }
 }
 
-note.sidenote {
+div.sidenote {
   position: note();
 }
 ```
@@ -568,7 +568,7 @@ We can use this reference to indicate the creation of note areas in the columns 
   columns: 3;
 }
 
-#content note {
+#content div.note {
   position: note();
 }
 ```
@@ -669,7 +669,7 @@ note.footnotes {
   }
 }
 
-note.footnote {
+div.footnote {
   position: note(footnote);
 }
 ```
@@ -679,7 +679,7 @@ note.footnote {
 This would have the exact same behavior when using the following declarations:
 
 ```css
-note.footnote {
+div.footnote {
   position: note();
 }
 ```
@@ -702,7 +702,7 @@ This approach uses the standard `::after` pseudo-element and the `element()` fun
 
 
 ```css
-note {
+div.note {
   position: note(sidenotes);
 }
 
@@ -731,7 +731,7 @@ The `::note-area` only receives notes originating from its parent, it does not a
 
 
 ```css
-note {
+div.note {
   position: note(sidenotes);
 }
 
@@ -752,7 +752,7 @@ This approach introduces `@note-area` at-rule nested inside the CSS rule of the 
 
 
 ```css
-note {
+div.note {
   position: note();
 }
 
@@ -784,7 +784,7 @@ For example, marginal notes can be achieved in all three models using similar la
 ::: example numbered
 
 ```css
-note {
+div.note {
   position: note();
 }
 
