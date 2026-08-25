@@ -439,83 +439,9 @@ Default values of properties for `@note-area`:
 }
 ```
 
-
-
-### Float notes (`float` and `float-reference`)
-
-[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) adds some values to the `float` property to position elements in a page context, and proposes [ `float-reference` property](https://www.w3.org/TR/css-page-floats-3/#propdef-float-reference) to indicate the “reference container” for a floated element. We will make extensive use of these properties in the following examples.
-
-####  The `float-reference` property
-
-> Name:	`float-reference`
-> Value: inline | column | region | page
-> (...)
->
-> `inline`
-> The float reference is the line box of the float anchor. (...)
->
-> `column`
-> The float reference is the column in a multi column environment in which the float anchor is placed.
->
-> `region`
-> The float reference is the region in a region-chain within which the float anchor is placed. (...)
->
-> `page`
-> The float reference of the float is the page within which the float anchor is placed. (...)
-
-
-::: example numbered
-
-**Marginal notes on the left margin of the page**
-
-In this example, we use the `inline` value of the `float-reference` property. This allows the creation of marginal notes, i.e. notes placed to one side of the text, with the first line of the note body aligned with the line in the main flow that contains the note call.
-
-```css
-@page {
-  @note-area {
-    content: element(refs, all-once);
-    float: left;
-    float-reference: inline;
-    margin-left: -50mm;
-    width: 50mm;
-  }
-}
-note.refs {
-  position: note(refs);
-}
-
-```
-With float, using `clear: left` is a simple solution to avoid collisions of marginal notes.
-
-:::
-
-
-
 ::: issue
 
-**ISSUE**: We need to specify the algorithm that avoids collisions. Also, what if the marginal note overflows the page, how do we indicate that it can be moved up?
-
-:::
-
-#### Extentions of the `float` property
-
-[CSS Page float](https://www.w3.org/TR/css-page-floats-3/) propose some extentions of the `float` property.
-
-> Name:	`float`
->
-> Value: left | right | top | bottom
-
-Values can be added together:
-
-```
-float: top right;
-```
-
-::: issue
-
-**ISSUE**: Further definitions and examples are required to block-start | block-end | inline-start | inline-end | snap-block | snap-inline | none
-
-**ISSUE**: Does the `clear` property can work with this proposal?
+**ISSUE**: This level does not define a way to create marginal notes aligned with their calls. Also, if the marginal note overflows the page, how do we indicate that it can be moved up?
 
 :::
 
@@ -596,44 +522,7 @@ note.refsB {
 
 ![A layout where three different column of notes are wrapped around the content](/images/81831697-f853b300-953d-11ea-8a06-e06abeb3ed0f.png "An example of the possible layout mixing multiple note areas and float")
 
-
 :::
-
-
-
-::: example numbered
-
-**Footnotes and marginal notes in the same page**
-
-
-```css
-@page {
-  @note-area {
-    content: element(refs, all-once);
-    float: left;
-    float-reference: inline;
-    margin-left: -50mm;
-    width: 50mm;
-  }
-  @bottom-left {
-    content: element(footnotes, all-once);
-    width: 100%;
-    vertical-align: bottom;
-  }
-}
-
-note.refs {
-  position: note(refs);
-}
-
-note.footnotes {
-  position: note(footnotes);
-}
-```
-
-![A layout of a page where margin notes and footnotes are together on the page](/images/81831743-04d80b80-953e-11ea-986f-17103694a6ca.png "Mixing margin notes and footnotes for semantics notes")
-:::
-
 
 
 ### @footnote special at-rule
