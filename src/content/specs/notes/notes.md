@@ -152,7 +152,7 @@ A mechanism is needed to move the note element into a specific area of the page 
 
 The `note()` function removes the element (and associated `::before` and `::after` pseudo-elements) from the principal flow, and makes it available to place in a page margin-box, a page note-area `@note-area` or a `::note-area` pseudo element using `element()`. The element inherits from its original position in the document, but is not rendered there, instead a `::note-call` pseudo-element is created and inserted in the original position of the note. The elements keep their defined styles.
 
-A custom identifier is optional: `note(<custom-ident>)`, the default value is `note`. If there is no `element()` value corresponding to the custom identifier of the `note()` value, the elements are not removed from the flow and are shown as inline `note` elements.
+A custom identifier is optional: `note(<custom-ident>)`, the default value is `note`.
 
 ### The `element()` value
 
