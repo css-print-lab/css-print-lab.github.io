@@ -114,8 +114,8 @@
 <h2 id="terminology" tabindex="-1">Terminology</h2>
 <ul>
 <li><strong>Spread</strong>: Two facing pages (a verso page and a recto page) that are visible simultaneously when a bound document is open. A spread is a two-page layout unit.</li>
-<li><strong>Recto page</strong>: The right-hand page of a spread. Recto pages carry odd page numbers in left-to-right scripts.</li>
-<li><strong>Verso page</strong>: The left-hand page of a spread. Verso pages carry even page numbers in left-to-right scripts.</li>
+<li><strong>Verso page</strong>: The first page of a spread. Verso pages usually carry even page numbers.</li>
+<li><strong>Recto page</strong>: The second page of a spread. Recto pages usually carry odd page numbers.</li>
 <li><strong>Gutter</strong>: The inner margin area on each page adjacent to the binding. When an element spans a spread, the gutter runs through the center of the element.</li>
 <li><strong>Full-page element</strong>: An element that occupies the entire content area of a single page and is removed from the principal flow. No other flow content appears on that page.</li>
 <li><strong>Full-spread element</strong>: An element that occupies the content area of both pages of a spread and is removed from the principal flow. No other flow content appears on either page of that spread.</li>
@@ -155,6 +155,14 @@ Value:  none | page | left | right | spread | &lt;integer&gt;
 <td>The element is placed on the next available right page.</td>
 </tr>
 <tr>
+<td><code>recto</code></td>
+<td>The element is placed on the next available recto page.</td>
+</tr>
+<tr>
+<td><code>verso</code></td>
+<td>The element is placed on the next available verso page.</td>
+</tr>
+<tr>
 <td><code>spread</code></td>
 <td>The element is placed across the next available spread. Both pages of the spread are dedicated to this element.</td>
 </tr>
@@ -166,14 +174,7 @@ Value:  none | page | left | right | spread | &lt;integer&gt;
 </table>
 <p>The element is removed from the principal flow at its source position and reinserted into the page box (or spread) of the target page.</p>
 <div class="advisement ">
-<p><strong>ISSUE (recto/verso vs. left/right values)</strong>: The current values <code>left</code> and <code>right</code> use physical directions, while this specification adopts <code>recto</code>/<code>verso</code> as its primary terminology. Should the values be renamed to <code>recto</code> and <code>verso</code>?</p>
-<p><code>recto</code>/<code>verso</code> are logically direction-aware terms: in RTL documents (Arabic, Hebrew), the recto page is physically on the left, which the <code>left</code> value does not capture correctly. Using <code>recto</code>/<code>verso</code> would therefore be more correct across writing systems.</p>
-<p>However, renaming would create an asymmetry with <code>@page :left</code> and <code>@page :right</code> in <a href="https://www.w3.org/TR/css-page-3/">css-page-3</a>, which this specification references throughout. Options:</p>
-<ul>
-<li>Replace <code>left</code>/<code>right</code> with <code>recto</code>/<code>verso</code> and accept the terminological gap with CSS Page 3;</li>
-<li>Add <code>recto</code>/<code>verso</code> as aliases alongside <code>left</code>/<code>right</code>;</li>
-<li>Propose renaming <code>@page :left</code>/<code>:right</code> to <code>@page :verso</code>/<code>:recto</code> as part of a broader alignment effort.</li>
-</ul>
+<p><strong>ISSUE</strong>: For the sake of consistency for other page-related properties such as <code>break-*</code>, the <code>@page</code> rule should allow the <code>:recto</code> and <code>:verso</code> pseudo-classes.</p>
 </div>
 <h3 id="examples" tabindex="-1">Examples</h3>
 <!-- EXAMPLE 1 ---------------------------------------------------- -->
@@ -289,11 +290,11 @@ Value:  none | page | left | right | spread | &lt;integer&gt;
 <p>**ISSUE: Could we use the new <code>env()</code> specification for bleed ? <a href="https://drafts.csswg.org/css-env-1/">https://drafts.csswg.org/css-env-1/</a> Like <code> width: calc(100% + 2 * env(page-bleed));</code> where <code>env(page-bleed)</code> is the default value declared in <code>bleed</code>.</p>
 </div>
 <h3 id="interaction-with-%40page-%3Aleft-and-%40page-%3Aright" tabindex="-1">Interaction with <code>@page :left</code> and <code>@page :right</code></h3>
-<p>In CSS Page 3, <code>@page :left</code> and <code>@page :right</code> allow different styles on verso and recto pages. Spread elements need to be aware of this distinction.</p>
+<p>In CSS Page 3, <code>@page :left</code> and <code>@page :right</code> allow different styles on left and right pages. Spread elements need to be aware of this distinction.</p>
 <p>When <code>page-placement: spread</code> is used:</p>
 <ul>
-<li>The verso half of the spread element is rendered in the context of the <code>@page :left</code> box.</li>
-<li>The recto half is rendered in the context of the <code>@page :right</code> box.</li>
+<li>The left half of the spread element is rendered in the context of the <code>@page :left</code> box.</li>
+<li>The right half is rendered in the context of the <code>@page :right</code> box.</li>
 <li>The <code>@spread</code> at-rule supplements (but does not replace) these individual page rules (including for generated content).</li>
 </ul>
 <p>The spread element's width resolves against the full spread content area: the combined width of both page content areas plus the two inner margins (the right margin of the left page and the left margin of the right page). The outer margins (the left margin of the left page and the right margin of the right page) remain outside the spread content area and continue to host page margin boxes such as page numbers and running headers.</p>
@@ -346,8 +347,8 @@ Value:  &lt;length&gt;
 Initial: 0
 </code></pre>
 <p>The <code>gutter</code> property specifies the additional inward offset applied to the content of spread elements to compensate for the physical binding. A non-zero <code>gutter</code> shifts the visible content area of each page away from the fold by the given amount.</p>
-<p>On a verso page, the element's content is shifted to the left by the <code>gutter</code> value.
-On a recto page, the element's content is shifted to the right by the <code>gutter</code> value.</p>
+<p>On a left page, the element's content is shifted to the left by the <code>gutter</code> value.
+On a right page, the element's content is shifted to the right by the <code>gutter</code> value.</p>
 <p>The effect is that the central <code>2 × gutter</code> strip of the spread, which corresponds to the fold zone, is free of important content.</p>
 <p>This property applies to all elements with <code>page-placement: spread</code> or <code>float-reference: spread</code> within the scope of the <code>@spread</code> rule.</p>
 <!-- EXAMPLE 6 ---------------------------------------------------- -->
@@ -427,7 +428,7 @@ On a recto page, the element's content is shifted to the right by the <code>gutt
 <span class="token punctuation">}</span></code></pre>
 <p>The figure is placed at the bottom of the spread, spanning both pages. Text flows above it and to its right.</p>
 <p>The width of the figure is calculated as follows:</p>
-<p><code>(page content area of verso page + inner margin of verso page + inner margin of recto page + page content area of recto page) × 0.8</code></p>
+<p><code>(page content area of left page + inner margin of left page + inner margin of right page + page content area of right page) × 0.8</code></p>
 <p>The figure starts at the outer edge of the left page.</p>
 <figure><img src="/images/float-bottom.png" alt=""></figure>
 </aside>
