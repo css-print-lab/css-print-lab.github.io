@@ -150,7 +150,7 @@ A mechanism is needed to move the note element into a specific area of the page 
 
 ### The `note()` value
 
-The `note()` function removes the element (and associated `::before` and `::after` pseudo-elements) from the principal flow, and makes it available to place in a page margin-box, a page note-area `@note-area` or a `::note-area` pseudo element using `element()`. The element inherits from its original position in the document, but is not rendered there, instead a `::note-call` pseudo-element is created and inserted in the original position of the note. The elements keep their defined styles.
+The `note()` function removes the element (and associated `::before` and `::after` pseudo-elements) from the principal flow, and makes it available to place in a page margin-box, a page note-area `@note-area` or a `::note-area` pseudo element using `element()`. The element inherits from its original position in the document, but is not rendered there, instead a `::note-call` pseudo-element is created and inserted in the original position of the note. The element keeps its defined styles. The element must act like an anchor.
 A custom identifier is required: `note(<custom-ident>)`. If there is no `element()` value corresponding to the custom identifier of the `note()` value, the elements are not removed from the flow and are shown as inline `note` elements.
 
 ### The `element()` value
@@ -287,7 +287,7 @@ Note that the value of the note counter should depend on the position of the not
 
 ### The `::note-call` pseudo element
 
-A `::note-call` pseudo-element is inserted in place of the `note` element when the latter is removed from the flow. By default, the content of this pseudo-element is the value of the note counter, styled as a superscripted number. It must act like an anchor.
+A `::note-call` pseudo-element is inserted in place of the `note` element when the latter is removed from the flow. By default, the content of this pseudo-element is the value of the note counter, styled as a superscripted number. It must act like an anchor, and a link to the note.
 
 ```css
 ::note-call {
@@ -303,7 +303,7 @@ A `::note-call` pseudo-element is inserted in place of the `note` element when t
 
 ### The `::note-marker` pseudo element
 
-The `::note-marker` pseudo-element represents the note element’s marker, the number or symbol that identifies each note. This pseudo-element behaves like a `::marker` pseudo-element, as defined in [[CSS-PSEUDO-4\]](https://drafts.csswg.org/css-pseudo/#marker-pseudo). It is placed at the beginning of the parent’s content, and is inline by default. The `::note-marker` can be styled just as other `::marker` elements can be. The default style should include `list-style-position: inside`, or be set as any other list.
+The `::note-marker` pseudo-element represents the note element’s marker, the number or symbol that identifies each note. This pseudo-element behaves like a `::marker` pseudo-element, as defined in [[CSS-PSEUDO-4\]](https://drafts.csswg.org/css-pseudo/#marker-pseudo). It is placed immediately before the note’s actual content, and is inline by default. The `::note-marker` can be styled just as other `::marker` elements can be. The default style should include `list-style-position: inside`, or be set as any other list.
 
 ```css
 ::note-marker {
@@ -313,7 +313,7 @@ The `::note-marker` pseudo-element represents the note element’s marker, the n
 ```
 ### The `::note-callback` pseudo element
 
-The `::note-callback` pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated `::note-call`. It is placed at the end of the superior parent’s content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link.
+The `::note-callback` pseudo-element represents the note element's call back, e.g. a navigation back from a note that returns to the correct associated `::note-call`. It is placed immediately after the note’s actual content, and is inline by default. By default, the content of this pseudo-element is the Leftwards Arrow with Hook Unicode Character (“↩” U+21A9). It must act like a link to the `::note-call`.
 
 ```css
 ::note-callback {
