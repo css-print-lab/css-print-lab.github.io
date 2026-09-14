@@ -106,8 +106,8 @@
 <h3 id="regions" tabindex="-1">Regions</h3>
 <p>The <a href="https://drafts.csswg.org/css-regions/">Regions module</a> explains that it &quot;follows the fragmentation rules defined in the CSS Fragmentation Module&quot;. As for columns, &quot;break opportunities in the named flow fragment contained by the CSS Region are determined using the standard fragmentation rules.&quot;</p>
 <p>Specific <code>region</code> and <code>avoid-region</code> values of <code>break-*</code> properties are quickly described, with links to Fragmentation (where they are marked &quot;at-risk&quot;) for more information.</p>
-<h2 id="proposed-improvements" tabindex="-1">Proposed Improvements</h2>
-<h3 id="remarks" tabindex="-1">Remarks</h3>
+<h2 id="remarks" tabindex="-1">Remarks</h2>
+<h3 id="summary" tabindex="-1">Summary</h3>
 <ul>
 <li>We like the way information is currently split between modules.</li>
 <li>A lot of content is already written, waiting for feedback.</li>
@@ -115,7 +115,7 @@
 <li>Breaking problems are the same for the Table and Grid layouts.</li>
 <li>Breaking problems of Flex are different from Table and Grid, and require different solutions for single-line, single-column, multi-line, multi-column.</li>
 </ul>
-<h4 id="details" tabindex="-1">Details</h4>
+<h3 id="details" tabindex="-1">Details</h3>
 <p>Fragmentation is a great module defining global rules, breaking points and concepts. It covers most of the problems we had in WeasyPrint to break single-flow layouts. Parallel flows are discussed a few paragraphs below.</p>
 <p>Paged media, Columns and Regions are more or less specific variants of the generic breaking rules, applied to pages, columns and regions, with their <code>page</code>, <code>column</code> and <code>region</code> values. They don’t introduce extra break points or special cases, they just define what are their specific fragmentainers without changing the generic fragmentation rules.</p>
 <p>In WeasyPrint, in the case of single-flow layouts inside columns, there’s been no real breaking problem. Regions are not supported.</p>
@@ -124,8 +124,8 @@
 <p>The high-level problem for both is to define how we want to break rows (in a vertical main block direction). We have constrains given by <code>break-*</code> rules, fixed min-/max-/heights and min-/max-/widths, break points between rows, etc. The goal is to define which rules are not respected in over-constrained cases, and to give an algorithm that breaks the cells in a way that respect constraints (in a user-friendly way, if possible). This algorithm can then be adapted to Table and to Grid.</p>
 <p>Grid fragmentation has already been implemented in WeasyPrint, using a custom algorithm. The pseudo-algorithm in the specification is not perfect, and WeasyPrint’s implementation didn’t follow all its steps. The implementation is based on global rules of Fragmentation and specificities of Table, with some extra rules that had to be defined to solve real-world, complex cases. The overall idea behind these rules is quite easy to summarize, and most of them add can be adapted for Table. We didn’t write a theoretical algorithm yet.</p>
 <p>The Flex layout is different. The 4 cases lead to different challenges, that’s why the specification offers 4 different algorithms. The lessons we’ll learn from Table and Grid may help to find solutions that are consistent with Grid and Table, respect constraints, and propose user-friendly default breaking results. We have fragmentation in Flex for really simple cases. The current algorithms of the specification are solid, even if they don’t cover all cases and can be improved.</p>
-<h3 id="proposed-improvements-1" tabindex="-1">Proposed Improvements</h3>
-<h4 id="tl%3Bdr" tabindex="-1">TL;DR</h4>
+<h2 id="proposed-improvements" tabindex="-1">Proposed Improvements</h2>
+<h3 id="summary-1" tabindex="-1">Summary</h3>
 <ul>
 <li>Don’t add anything to Fragmentation, Paged Media, Columns, Regions.</li>
 <li>Define high-level goals for Table and Grid.</li>
@@ -134,7 +134,7 @@
 <li>Define high-level goals for Flex.</li>
 <li>Write a breaking algorithm for Flex.</li>
 </ul>
-<h4 id="details-1" tabindex="-1">Details</h4>
+<h3 id="details-1" tabindex="-1">Details</h3>
 <p>Fragmentation is referenced by all modules. Paged Media, Columns and Regions basically say that their problems are covered by Fragmentation, and we fully agree with that.</p>
 <p>We should focus on Table, Flex and Grid, and only change these 3 modules, replacing their current Fragmentation chapters. There’s a lot of draft-quality but really useful content in these chapters, with open issues that we should solve.</p>
 <p>Even if the overall ideas are more or less shared between layouts, the break algorithms are actually really different, and there’s no need to have a common source of information somewhere in the Fragmentation specification to explain these ideas. Of course, informal data could be useful to share ideas, but blog posts are probably better than a specification for this.</p>
