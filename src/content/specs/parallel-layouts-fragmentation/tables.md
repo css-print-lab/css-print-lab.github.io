@@ -107,9 +107,9 @@ The [Regions module](https://drafts.csswg.org/css-regions/) explains that it "fo
 
 Specific `region` and `avoid-region` values of `break-*` properties are quickly described, with links to Fragmentation (where they are marked "at-risk") for more information.
 
-## Proposed Improvements
+## Remarks
 
-### Remarks
+### Summary
 
 - We like the way information is currently split between modules.
 - A lot of content is already written, waiting for feedback.
@@ -117,7 +117,7 @@ Specific `region` and `avoid-region` values of `break-*` properties are quickly 
 - Breaking problems are the same for the Table and Grid layouts.
 - Breaking problems of Flex are different from Table and Grid, and require different solutions for single-line, single-column, multi-line, multi-column.
 
-#### Details
+### Details
 
 Fragmentation is a great module defining global rules, breaking points and concepts. It covers most of the problems we had in WeasyPrint to break single-flow layouts. Parallel flows are discussed a few paragraphs below.
 
@@ -135,9 +135,9 @@ Grid fragmentation has already been implemented in WeasyPrint, using a custom al
 
 The Flex layout is different. The 4 cases lead to different challenges, that’s why the specification offers 4 different algorithms. The lessons we’ll learn from Table and Grid may help to find solutions that are consistent with Grid and Table, respect constraints, and propose user-friendly default breaking results. We have fragmentation in Flex for really simple cases. The current algorithms of the specification are solid, even if they don’t cover all cases and can be improved.
 
-### Proposed Improvements
+## Proposed Improvements
 
-#### TL;DR
+### Summary
 
 - Don’t add anything to Fragmentation, Paged Media, Columns, Regions.
 - Define high-level goals for Table and Grid.
@@ -146,7 +146,7 @@ The Flex layout is different. The 4 cases lead to different challenges, that’s
 - Define high-level goals for Flex.
 - Write a breaking algorithm for Flex.
 
-#### Details
+### Details
 
 Fragmentation is referenced by all modules. Paged Media, Columns and Regions basically say that their problems are covered by Fragmentation, and we fully agree with that.
 
