@@ -1,0 +1,17 @@
+slug: "parallel-layouts-fragmentation"
+title: "Advanced Fragmentation for Parallel Layouts"
+status: unofficial
+version: 0.1
+shortName: "plf"
+latestVersionUrl: "https://css-print-lab.github.io/specs/parallel-layouts-fragmentation/"
+authors:
+  - name: Guillaume Ayoub (@liZe)
+    url: courtbouillon.org
+    company: CourtBouillon
+    mailto: guillaume@courtbouillon.org
+
+editors:
+  - name: Guillaume Ayoub (@liZe)
+    url: courtbouillon.org
+    company: CourtBouillon
+    mailto: guillaume@courtbouillon.org

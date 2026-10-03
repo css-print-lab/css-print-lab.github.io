@@ -13,6 +13,8 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(staticfiles);
   eleventyConfig.addPlugin(yaml);
 
+  eleventyConfig.addWatchTarget("./src/content/specs/**/*.md");
+
   return {
     dir: {
       input: "src",
